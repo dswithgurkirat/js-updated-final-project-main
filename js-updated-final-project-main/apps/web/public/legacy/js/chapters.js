@@ -15,13 +15,13 @@ function renderChapters() {
         </div>
         <div style="display:flex; gap:6px;">
           <label class="btn btn-xs btn-outline" for="chapter-upload-${ch.id}" style="cursor:pointer; margin:0;">Replace</label>
-          <input id="chapter-upload-${ch.id}" class="chapter-upload-native" type="file" accept="application/pdf,.pdf" onchange="handleChapterUpload(event,${ch.id})">
+          <input id="chapter-upload-${ch.id}" class="chapter-upload-native" type="file" accept="application/pdf,.pdf" onchange="handleChapterUpload(event,${ch.id})" style="display:none">
           <button type="button" class="btn btn-xs btn-danger" onclick="deleteChapterFile(${ch.id})">Remove</button>
         </div>
       </div>` : `
       <div style="margin-top:8px;display:flex;gap:8px;align-items:center">
         <label class="btn btn-xs btn-outline" for="chapter-upload-${ch.id}" style="cursor:pointer; margin:0;">Upload Chapter PDF</label>
-        <input id="chapter-upload-${ch.id}" class="chapter-upload-native" type="file" accept="application/pdf,.pdf" onchange="handleChapterUpload(event,${ch.id})">
+        <input id="chapter-upload-${ch.id}" class="chapter-upload-native" type="file" accept="application/pdf,.pdf" onchange="handleChapterUpload(event,${ch.id})" style="display:none">
       </div>`;
     return `
       <div class="chapter-item">
