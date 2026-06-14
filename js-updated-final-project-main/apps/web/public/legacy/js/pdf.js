@@ -145,32 +145,36 @@ function generateFinalPDF() {
     });
   }
   if (S.plates.length) {
-    doc.addPage(); addPageHeader('PLATE SECTION'); y=25;
-    doc.setFont('helvetica','bold'); doc.setFontSize(12); doc.setTextColor(...navyArr);
-    doc.text('PLATE SECTION — MAPS & SITE PHOTOGRAPHS', W/2, y, {align:'center'}); y+=10;
-    S.plates.forEach((p,i)=>{
-      if (y>250){doc.addPage();y=20;addPageHeader('PLATES');}
-      doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(60,60,80);
-      const fileStatus = p.fileName ? `[File: ${p.fileName}]` : '[No file uploaded]';
-      doc.text(`Plate ${i+1}: ${p.name}  ${fileStatus}`, pad, y); y+=7;
-    });
     S.plates.forEach((p, i) => {
-      if (p.pages && p.pages.length) {
-        p.pages.forEach((img, pageIdx) => {
+      doc.addPage(); addPageHeader('PLATE ' + (i + 1));
+      y = 25;
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(13); doc.setTextColor(...navyArr);
+      doc.text(p.name || `Plate ${i + 1}`, pad, y, { maxWidth: W - 2 * pad }); y += 14;
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(60, 60, 80);
+      const lines = doc.splitTextToSize(p.summary || '', W - 2 * pad);
+      doc.text(lines, pad, y); y += lines.length * 6 + 8;
+      const platePages = p.pages;
+      if (platePages && platePages.length) {
+        doc.setFontSize(9); doc.setTextColor(120, 120, 140);
+        doc.text(`[Plate content appended from uploaded file: ${p.fileName || 'document'}]`, pad, y);
+        platePages.forEach((img, pageIdx) => {
           doc.addPage();
-          doc.setFillColor(...navyArr); doc.rect(0, 0, W, 12, 'F');
+          doc.setFillColor(...navyArr); doc.rect(0, 0, W, 14, 'F');
           doc.setFont('helvetica', 'bold'); doc.setFontSize(8); doc.setTextColor(255, 255, 255);
-          doc.text(`PLATE ${i+1}: ${p.name.toUpperCase()} (Page ${pageIdx + 1}/${p.pages.length})`, pad, 8);
+          doc.text(`DISTRICT SURVEY REPORT — ${dist.toUpperCase()} · EMGSM 2020`, W / 2, 8, { align: 'center' });
+          doc.text(`PLATE ${i + 1} — UPLOADED CONTENT (Pg ${pageIdx + 1}/${platePages.length})`, W - pad, 8, { align: 'right' });
+          doc.setDrawColor(224, 123, 0); doc.setLineWidth(0.8); doc.line(pad, 15, W - pad, 15);
+          doc.setDrawColor(200, 200, 200); doc.setLineWidth(0.5);
+          doc.rect(pad, 20, W - 2 * pad, 260);
           try {
-            doc.addImage(img, 'JPEG', 0, 12, W, 285);
-          } catch(e) {
-            try {
-              doc.addImage(img, 'PNG', 0, 12, W, 285);
-            } catch(e2) {
-              console.error(`Failed to add plate ${i+1} page to PDF:`, e2);
-            }
+            doc.addImage(img, 'PNG', pad + 1, 21, W - 2 * pad - 2, 258);
+          } catch (e) {
+            try { doc.addImage(img, 'JPEG', pad + 1, 21, W - 2 * pad - 2, 258); } catch (_) { }
           }
         });
+      } else {
+        doc.setFontSize(9); doc.setTextColor(120, 120, 140);
+        doc.text('[Upload a PDF or image to include plate content]', pad, y);
       }
     });
   }
@@ -667,12 +671,12 @@ async function generateFinalPDF(regenerate = false) {
     };
     const addPlates = () => {
       if (!Array.isArray(S.plates) || !S.plates.length) return false;
-      let y = beginSection('All Plate Sections');
       S.plates.forEach((plate, index) => {
-        if (y > 260) y = beginSection('All Plate Sections Continued');
-        y = writeParagraph(`${index + 1}. ${safe(plate.name, 'Plate')}`, y, { bold: true, size: 10, color: blue, after: 3 });
-        y = writeParagraph(plate.summary || '', y, { size: 9, after: 5 });
-        if (plate.fileName) y = writeParagraph(`Attachment: ${plate.fileName}`, y, { size: 8.5, color: saffron, after: 5 });
+        if (!hasText(plate.name) && !hasText(plate.summary) && !plate.pages?.length) return;
+        let y = beginSection(`Plate ${index + 1}: ${safe(plate.name, 'Plate')}`);
+        y = writeParagraph(plate.name || `Plate ${index + 1}`, y, { bold: true, size: 13, color: navy, after: 8 });
+        y = writeParagraph(plate.summary || 'Plate content will be appended from uploaded project records.', y);
+        if (plate.fileName) y = writeParagraph(`Uploaded source: ${plate.fileName}`, y, { size: 8.5, color: saffron });
         addUploadedPages(plate.pages, `Plate ${index + 1}`);
       });
       addUploadedPages(S.uploadedPDFs?.plates, 'Plate Section');

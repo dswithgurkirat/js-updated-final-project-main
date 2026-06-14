@@ -755,14 +755,25 @@ const pdfPreview = {
   getPlatePages() {
     const pages = [];
     S.plates.forEach((p, i) => {
-      if (p.pages && p.pages.length) {
-        p.pages.forEach((img, idx) => {
+      const uploadedImages = Array.isArray(p.pages)
+        ? p.pages.filter(src => this.isPreviewImageSource(src))
+        : [];
+      if (uploadedImages.length) {
+        uploadedImages.forEach((img, idx) => {
           pages.push({
             src: img,
-            label: p.pages.length > 1
+            label: uploadedImages.length > 1
               ? `Plate ${i + 1} — Page ${idx + 1}`
               : `Plate ${i + 1}: ${p.name}`
           });
+        });
+        return;
+      }
+      if (String(p.name || p.summary || '').trim()) {
+        pages.push({
+          src: this.renderTextPageCanvas(p.name || `PLATE ${i + 1}`, p.summary || 'Upload a PDF or image to preview the plate content here.', `Plate ${i + 1}`),
+          label: `Plate ${i + 1}`,
+          generated: true
         });
       }
     });
@@ -989,6 +1000,36 @@ const pdfPreview = {
         name: ch.fileName,
         sizeLabel: ch.fileSize,
         type: 'application/pdf'
+      });
+      return [basePage, ...uploadedPages];
+    });
+  },
+  getPlatesHtmlPages() {
+    const plates = Array.isArray(S.plates) ? S.plates : [];
+    if (!plates.length) return [];
+    return plates.flatMap((p, i) => {
+      const pageCount = p.pages && p.pages.length ? p.pages.length : 0;
+      const fileName = p.fileName ? this.escapeHtml(p.fileName) : '';
+      const fileMeta = fileName
+        ? `<div class="html-note"><strong>Uploaded File:</strong> ${fileName}${pageCount ? ` (${pageCount} page(s))` : ''}</div>`
+        : '<div class="html-note html-note-muted">No plate file uploaded. Showing plate title and description as HTML.</div>';
+      const name = this.escapeHtml(p.name || `Plate ${i + 1}`);
+      const summary = this.escapeHtml(p.summary || 'Plate description will appear here.').replace(/\n/g, '<br>');
+      const basePage = {
+        label: `Plate ${i + 1}`,
+        html: `
+          <article class="html-chapter-page">
+            <div class="html-kicker">Plate ${i + 1}</div>
+            <h1>${name}</h1>
+            <p>${summary}</p>
+            ${fileMeta}
+          </article>`
+      };
+      const isPdf = p.fileName && String(p.fileName).toLowerCase().endsWith('.pdf');
+      const uploadedPages = this.getUploadedHtmlPages(p.pages, `Plate ${i + 1}: ${p.name || ''}`, {
+        name: p.fileName,
+        sizeLabel: p.fileSize,
+        type: isPdf ? 'application/pdf' : 'image/*'
       });
       return [basePage, ...uploadedPages];
     });
