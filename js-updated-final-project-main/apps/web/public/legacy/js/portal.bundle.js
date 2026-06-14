@@ -1,9 +1,6 @@
 
 /* js/api.js */
-var API_BASE_URL = (() => {
-    if (!window.location || window.location.protocol === 'file:') return 'http://localhost:8081/api';
-    return `${window.location.origin}/api`;
-})();
+var API_BASE_URL = 'http://localhost:8080/api';
 async function apiFetch(endpoint, options = {}) {
     const token = localStorage.getItem('dsr_token');
     const headers = {
@@ -41,6 +38,9 @@ async function apiFetch(endpoint, options = {}) {
         throw error;
     }
 }
+window.apiFetch = apiFetch;
+window.storeProjectPdf = storeProjectPdf;
+window.deleteProjectPdf = deleteProjectPdf;
 async function apiUploadFile(file) {
     const token = localStorage.getItem('dsr_token');
     const headers = {};
@@ -110,22 +110,41 @@ function setStoredProjectPdfUrl(annexureId, fileName) {
 }
 async function storeProjectPdf(annexureId, file) {
     if (!window.S || !S.activeProject || !S.activeProject.id || !file) return;
-    const base64 = await new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(String(reader.result || '').split(',')[1] || '');
-        reader.onerror = () => reject(reader.error || new Error('Could not read file'));
-        reader.readAsDataURL(file);
+    const token = localStorage.getItem('dsr_token');
+    const headers = {};
+    if (token) headers.Authorization = `Bearer ${token}`;
+    const formData = new FormData();
+    formData.append('projectId', S.activeProject.id);
+    formData.append('annexureId', annexureId);
+    formData.append('fileName', file.name);
+    formData.append('file', file);
+    const response = await fetch(`${API_BASE_URL}/upload-pdf`, {
+        method: 'POST',
+        body: formData,
+        credentials: 'same-origin',
+        headers
     });
-    await apiFetch('/upload-pdf', {
+    const bodyText = await response.text().catch(() => '');
+    let data = {};
+    try { data = JSON.parse(bodyText); } catch (e) {}
+    if (!response.ok) {
+        var msg = data.message || data.error || '';
+        if (!msg && bodyText && !bodyText.startsWith('{')) msg = bodyText.slice(0, 200);
+        if (!msg) msg = 'HTTP ' + response.status + ' ' + response.statusText;
+        var prefix = !localStorage.getItem('dsr_token') ? 'Not logged in - ' : '';
+        throw new Error(prefix + msg);
+    }
+    return setStoredProjectPdfUrl(annexureId, file.name);
+}
+async function deleteProjectPdf(annexureId) {
+    if (!window.S || !S.activeProject || !S.activeProject.id) return;
+    return apiFetch('/upload-pdf', {
         method: 'POST',
         body: JSON.stringify({
             projectId: S.activeProject.id,
-            fileName: file.name,
-            pdf: base64,
             annexureId
         })
     });
-    return setStoredProjectPdfUrl(annexureId, file.name);
 }
 async function downloadStoredPdf(annexureId, fileName, fallbackUrl) {
     if (!window.S || !S.activeProject || !S.activeProject.id) {
@@ -3340,7 +3359,7 @@ function trigUp(id) {
 }
 function syncPreview() {}
 async function uploadFrontMatterPdfToBackend(type, file) {
-  if (!file || file.type !== 'application/pdf') return;
+  if (!file || !(file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf'))) return;
   if (!window.S || !S.activeProject || !S.activeProject.id) {
     toast('Please open a project before uploading this PDF.', 'warn');
     return;
@@ -3443,7 +3462,7 @@ function handleFMUpload(e, type) {
         <span class="badge badge-green">✓ Ready</span>
       </div>`;
   }
-  if (f.type === 'application/pdf') {
+  if (f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf')) {
     if (window.pdfPreview) window.pdfPreview.notifyUpdate('front-matter');
     if (window.debouncedSaveState) window.debouncedSaveState();
     uploadFrontMatterPdfToBackend(type, f);
@@ -3748,7 +3767,7 @@ function handleChapterUpload(e, id) {
     return;
   }
   const sizeStr = (f.size / 1024).toFixed(1) + ' KB';
-  if (f.type !== 'application/pdf') {
+  if (!(f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf'))) {
     toast('Please upload a PDF file.', 'error');
     return;
   }
@@ -3780,8 +3799,24 @@ function handleChapterUpload(e, id) {
     if (window.pdfPreview) window.pdfPreview.notifyUpdate('chapters');
     toast(`${f.name} uploaded for chapter`, 'success');
     if (window.debouncedSaveState) window.debouncedSaveState();
+    uploadChapterPdfToBackend(id, f);
   });
 }
+
+async function uploadChapterPdfToBackend(id, file) {
+  if (typeof window.storeProjectPdf !== 'function') {
+    console.warn('Backend PDF upload helper is not available.');
+    return;
+  }
+  try {
+    await window.storeProjectPdf(`chapter_${id}`, file);
+    toast(`${file.name} saved to MinIO.`, 'success');
+  } catch (err) {
+    console.error('Chapter backend PDF upload failed:', err);
+    toast(err.message || 'Chapter preview updated, but server upload failed.', 'error');
+  }
+}
+
 function deleteChapterFile(id) {
   const ch = S.chapters.find(x => x.id === id);
   const idx = S.chapters.findIndex(x => x.id === id);
@@ -3793,6 +3828,9 @@ function deleteChapterFile(id) {
   ch.fileName = null;
   ch.fileSize = null;
   if (S.chapterPDFs) delete S.chapterPDFs[id];
+  if (typeof window.deleteProjectPdf === 'function') {
+    window.deleteProjectPdf(`chapter_${id}`).catch(err => console.error('Backend chapter PDF delete failed:', err));
+  }
   renderChapters();
   if (window.pdfPreview) window.pdfPreview.notifyUpdate('chapters');
   if (window.debouncedSaveState) window.debouncedSaveState();
@@ -3800,6 +3838,7 @@ function deleteChapterFile(id) {
 }
 window.deleteChapterFile = deleteChapterFile;
 window.handleChapterUpload = handleChapterUpload;
+window.uploadChapterPdfToBackend = uploadChapterPdfToBackend;
 window.triggerChapterUpload = triggerChapterUpload;
 window.addChapter = addChapter;
 window.deleteChapter = deleteChapter;
@@ -3877,6 +3916,9 @@ function addPlate() {
 }
 function deletePlateReq(id) {
   customConfirm('Remove this plate completely?', () => {
+    if (typeof window.deleteProjectPdf === 'function') {
+      window.deleteProjectPdf('plate_' + id).catch(function(e) { console.error('Backend delete failed:', e); });
+    }
     S.plates = S.plates.filter(p => p.id !== id);
     renderPlates();
     if (window.pdfPreview) window.pdfPreview.notifyUpdate('plates');
@@ -3896,10 +3938,13 @@ function handlePlateUpload(e, id) {
   const p = S.plates.find(x => x.id === id);
   if (!p) return;
   const sizeStr = (f.size / 1024).toFixed(1) + ' KB';
-  if (f.type === 'application/pdf') {
+  if (f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf')) {
     p.fileName = f.name;
     p.fileSize = 'Processing PDF...';
     renderPlates();
+    const uploadFile = function() {
+      if (typeof window.storeProjectPdf === 'function') window.storeProjectPdf('plate_' + id, f).catch(function(e) { console.error('Backend upload failed:', e); });
+    };
     if (typeof renderPdfToImages === 'function') {
       renderPdfToImages(f, (err, imgs) => {
         if (err) {
@@ -3908,6 +3953,7 @@ function handlePlateUpload(e, id) {
           const url = URL.createObjectURL(f);
           p.pages = [url];
           p.fileSize = sizeStr;
+          uploadFile();
           renderPlates();
           if (window.pdfPreview) window.pdfPreview.notifyUpdate('plates');
           if (window.debouncedSaveState) window.debouncedSaveState();
@@ -3916,6 +3962,7 @@ function handlePlateUpload(e, id) {
         p.pages = imgs;
         p.fileSize = sizeStr;
         toast(`📄 ${f.name} processed and loaded!`, 'success');
+        uploadFile();
         renderPlates();
         if (window.pdfPreview) window.pdfPreview.notifyUpdate('plates');
         if (window.debouncedSaveState) window.debouncedSaveState();
@@ -3924,6 +3971,7 @@ function handlePlateUpload(e, id) {
       const url = URL.createObjectURL(f);
       p.pages = [url];
       p.fileSize = sizeStr;
+      uploadFile();
       renderPlates();
       if (window.pdfPreview) window.pdfPreview.notifyUpdate('plates');
       if (window.debouncedSaveState) window.debouncedSaveState();
@@ -3947,6 +3995,9 @@ function handlePlateUpload(e, id) {
 function deletePlateFile(id) {
   const p = S.plates.find(x => x.id === id);
   if (p) {
+    if (typeof window.deleteProjectPdf === 'function') {
+      window.deleteProjectPdf('plate_' + id).catch(function(e) { console.error('Backend delete failed:', e); });
+    }
     p.fileName = null;
     p.fileSize = null;
     p.pages = null;
@@ -5628,6 +5679,9 @@ async function deletePdfAnx1() {
     S.projects[pIdx].anx1PdfName = null;
     if (S.projects[pIdx].pdfData) S.projects[pIdx].pdfData.anx1 = null;
   }
+  if (typeof window.deleteProjectPdf === 'function') {
+    window.deleteProjectPdf('anx1').catch(err => console.error('Backend PDF delete failed:', err));
+  }
   renderPdfUploadUIAnx1();
   toast("PDF deleted successfully.", "success");
 }
@@ -6280,6 +6334,9 @@ async function deletePdfAnx2() {
     S.projects[pIdx].anx2PdfName = null;
     if (S.projects[pIdx].pdfData) S.projects[pIdx].pdfData.anx2 = null;
   }
+  if (typeof window.deleteProjectPdf === 'function') {
+    window.deleteProjectPdf('anx2').catch(err => console.error('Backend PDF delete failed:', err));
+  }
   renderPdfUploadUIAnx2();
   toast("PDF deleted successfully.", "success");
 }
@@ -6845,6 +6902,9 @@ async function deletePdfAnx3() {
   if (pIdx !== -1) {
     S.projects[pIdx].annexure3PdfName = null;
     if (S.projects[pIdx].pdfData) S.projects[pIdx].pdfData.anx3 = null;
+  }
+  if (typeof window.deleteProjectPdf === 'function') {
+    window.deleteProjectPdf('anx3').catch(err => console.error('Backend PDF delete failed:', err));
   }
   renderPdfUploadUI();
   toast("PDF deleted successfully.", "success");
@@ -7787,6 +7847,9 @@ async function deletePdfAnx4() {
     S.projects[pIdx].anx4PdfName = null;
     if (S.projects[pIdx].pdfData) S.projects[pIdx].pdfData.anx4 = null;
   }
+  if (typeof window.deleteProjectPdf === 'function') {
+    window.deleteProjectPdf('anx4').catch(err => console.error('Backend PDF delete failed:', err));
+  }
   renderPdfUploadUIAnx4();
   toast("PDF deleted successfully.", "success");
 }
@@ -8541,6 +8604,9 @@ function deletePdfAnx5() {
   if (S.activeProject.pdfData) S.activeProject.pdfData.anx5 = null;
   const pi = S.projects.findIndex(p => p.id === S.activeProject.id);
   if (pi >= 0) { S.projects[pi].anx5PdfName = null; if (S.projects[pi].pdfData) S.projects[pi].pdfData.anx5 = null; }
+  if (typeof window.deleteProjectPdf === 'function') {
+    window.deleteProjectPdf('anx5').catch(err => console.error('Backend PDF delete failed:', err));
+  }
   renderPdfUploadUIAnx5();
   toast('PDF deleted.', 'success');
 }
@@ -9136,6 +9202,9 @@ function deletePdfAnx6() {
   if (S.activeProject.pdfData) S.activeProject.pdfData.anx6 = null;
   const pi = S.projects.findIndex(p => p.id === S.activeProject.id);
   if (pi >= 0) { S.projects[pi].anx6PdfName = null; if (S.projects[pi].pdfData) S.projects[pi].pdfData.anx6 = null; }
+  if (typeof window.deleteProjectPdf === 'function') {
+    window.deleteProjectPdf('anx6').catch(err => console.error('Backend PDF delete failed:', err));
+  }
   renderPdfUploadUIAnx6();
   if (window.debouncedSaveState) window.debouncedSaveState();
   toast('PDF deleted.', 'success');
@@ -9887,6 +9956,9 @@ function deletePdfAnx7() {
   if (S.activeProject.pdfData) S.activeProject.pdfData.anx7 = null;
   const pi = S.projects.findIndex(p => p.id === S.activeProject.id);
   if (pi >= 0) { S.projects[pi].anx7PdfName = null; if (S.projects[pi].pdfData) S.projects[pi].pdfData.anx7 = null; }
+  if (typeof window.deleteProjectPdf === 'function') {
+    window.deleteProjectPdf('anx7').catch(err => console.error('Backend PDF delete failed:', err));
+  }
   renderPdfUploadUIAnx7();
   if (window.debouncedSaveState) window.debouncedSaveState();
   toast('PDF deleted.', 'success');
@@ -10020,6 +10092,9 @@ function registerSimpleAnnexure(letter) {
   };
   window[`deleteAnnexure${letter}Req`] = function(id) {
     customConfirm('Remove this annexure entry completely?', () => {
+      if (typeof window.deleteProjectPdf === 'function') {
+        window.deleteProjectPdf('anx' + letter + '_' + id).catch(function(e) { console.error('Backend delete failed:', e); });
+      }
       S[stateKey] = S[stateKey].filter(p => p.id !== id);
       window[renderName]();
       saveAndPreview();
@@ -10041,7 +10116,7 @@ function registerSimpleAnnexure(letter) {
       window[renderName]();
       saveAndPreview();
     };
-    if (f.type === 'application/pdf') {
+    if (f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf')) {
       p.fileName = f.name;
       p.fileSize = 'Processing PDF...';
       window[renderName]();
@@ -10052,6 +10127,7 @@ function registerSimpleAnnexure(letter) {
             toast('âš ï¸ PDF render failed, falling back to basic preview', 'error');
             p.pages = [URL.createObjectURL(f)];
             p.fileSize = sizeStr;
+            if (typeof window.storeProjectPdf === 'function') window.storeProjectPdf('anx' + letter + '_' + id, f).catch(function(e) { console.error('Backend upload failed:', e); });
             finish();
             return;
           }
@@ -10059,11 +10135,13 @@ function registerSimpleAnnexure(letter) {
           p.fileSize = sizeStr;
           toast(`ðŸ“„ ${f.name} processed and loaded!`, 'success');
           finish();
+          if (typeof window.storeProjectPdf === 'function') window.storeProjectPdf('anx' + letter + '_' + id, f).catch(function(e) { console.error('Backend upload failed:', e); });
         });
       } else {
         p.pages = [URL.createObjectURL(f)];
         p.fileSize = sizeStr;
         finish();
+        if (typeof window.storeProjectPdf === 'function') window.storeProjectPdf('anx' + letter + '_' + id, f).catch(function(e) { console.error('Backend upload failed:', e); });
       }
     } else if (f.type.startsWith('image/')) {
       const reader = new FileReader();
@@ -10082,6 +10160,9 @@ function registerSimpleAnnexure(letter) {
   window[`deleteAnnexure${letter}File`] = function(id) {
     const p = S[stateKey].find(x => x.id === id);
     if (!p) return;
+    if (typeof window.deleteProjectPdf === 'function') {
+      window.deleteProjectPdf('anx' + letter + '_' + id).catch(function(e) { console.error('Backend delete failed:', e); });
+    }
     p.fileName = null;
     p.fileSize = null;
     p.pages = null;
@@ -10629,6 +10710,12 @@ function handleAttachmentUploadAnnexureF(event) {
         fileType: 'pdf',
         pages: imgs
       });
+      if (typeof window.storeProjectPdf === 'function') {
+        window.storeProjectPdf('annexure_f_attachment', file).catch(err => {
+          console.error('Annexure F supporting PDF upload failed:', err);
+          toast(err.message || 'Supporting PDF preview updated, but server upload failed.', 'error');
+        });
+      }
       renderAttachmentUploadUIAnnexureF();
       if (window.debouncedSaveState) window.debouncedSaveState();
       toast('Supporting PDF added to Annexure F.', 'success');
@@ -10664,6 +10751,9 @@ function handleAttachmentUploadAnnexureF(event) {
 }
 function deleteAttachmentAnnexureF() {
   setAnnexureFAttachment(null);
+  if (typeof window.deleteProjectPdf === 'function') {
+    window.deleteProjectPdf('annexure_f_attachment').catch(err => console.error('Annexure F supporting PDF delete failed:', err));
+  }
   renderAttachmentUploadUIAnnexureF();
   if (window.debouncedSaveState) window.debouncedSaveState();
   if (window.pdfPreview && window.pdfPreview.currentView === 'annexure-f') {
@@ -11269,6 +11359,12 @@ function handleAttachmentUploadAnnexureK(event) {
         fileType: 'pdf',
         pages: imgs
       });
+      if (typeof window.storeProjectPdf === 'function') {
+        window.storeProjectPdf('annexure_k_attachment', file).catch(err => {
+          console.error('Annexure K supporting PDF upload failed:', err);
+          toast(err.message || 'Supporting PDF preview updated, but server upload failed.', 'error');
+        });
+      }
       renderAttachmentUploadUIAnnexureK();
       if (window.debouncedSaveState) window.debouncedSaveState();
       toast('Supporting PDF added to Annexure K.', 'success');
@@ -11304,6 +11400,9 @@ function handleAttachmentUploadAnnexureK(event) {
 }
 function deleteAttachmentAnnexureK() {
   setAnnexureKAttachment(null);
+  if (typeof window.deleteProjectPdf === 'function') {
+    window.deleteProjectPdf('annexure_k_attachment').catch(err => console.error('Annexure K supporting PDF delete failed:', err));
+  }
   renderAttachmentUploadUIAnnexureK();
   if (window.debouncedSaveState) window.debouncedSaveState();
   if (window.pdfPreview && window.pdfPreview.currentView === 'annexure-k') {

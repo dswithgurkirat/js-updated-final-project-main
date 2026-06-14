@@ -425,6 +425,9 @@ async function deletePdfAnx1() {
     S.projects[pIdx].anx1PdfName = null;
     if (S.projects[pIdx].pdfData) S.projects[pIdx].pdfData.anx1 = null;
   }
+  if (typeof window.deleteProjectPdf === 'function') {
+    window.deleteProjectPdf('anx1').catch(err => console.error('Backend PDF delete failed:', err));
+  }
   renderPdfUploadUIAnx1();
   toast("PDF deleted successfully.", "success");
 }

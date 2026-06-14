@@ -1,4 +1,5 @@
 import { Router } from "express";
+import multer from "multer";
 import { canAdmin, canUpload } from "../lib/auth.js";
 import { prisma } from "../lib/prisma.js";
 import { deletePdf, getPdf, putPdf } from "../lib/storage.js";
@@ -6,16 +7,17 @@ import { boundedString } from "../lib/validation.js";
 
 export const pdfRouter = Router();
 const maxPdfSizeBytes = 200 * 1024 * 1024;
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: maxPdfSizeBytes } });
 
 function objectKey(projectId: bigint | number | string, annexureId: string) {
   return `${annexureId}-${projectId}.pdf`;
 }
 
-pdfRouter.post("/upload-pdf", async (req, res) => {
+pdfRouter.post("/upload-pdf", upload.single("file"), async (req, res) => {
   const projectIdValue = String(req.body?.projectId || "");
   const projectId = /^\d+$/.test(projectIdValue) ? BigInt(projectIdValue) : null;
   const annexureId = boundedString(req.body?.annexureId || "anx3", 32);
-  const fileName = boundedString(req.body?.fileName, 255);
+  const fileName = boundedString(req.file?.originalname || req.body?.fileName, 255);
   const pdf = req.body?.pdf;
 
   if (annexureId === "final" && !canAdmin(req.user!.role)) {
@@ -32,19 +34,24 @@ pdfRouter.post("/upload-pdf", async (req, res) => {
   }
 
   const key = objectKey(projectId, annexureId);
-  if (!fileName || pdf == null) {
+  if (!fileName && pdf == null && !req.file) {
     await deletePdf(key).catch(() => undefined);
     await prisma.dsrFile.deleteMany({ where: { projectId, annexureId } });
     res.json({ success: true });
     return;
   }
 
-  const pdfText = String(pdf);
-  if (!/^[A-Za-z0-9+/=]+$/.test(pdfText)) {
-    res.status(400).json({ success: false, error: "Invalid PDF payload" });
-    return;
+  let bytes: Buffer;
+  if (req.file) {
+    bytes = req.file.buffer;
+  } else {
+    const pdfText = String(pdf || "");
+    if (!/^[A-Za-z0-9+/=]+$/.test(pdfText)) {
+      res.status(400).json({ success: false, error: "Invalid PDF payload" });
+      return;
+    }
+    bytes = Buffer.from(pdfText, "base64");
   }
-  const bytes = Buffer.from(pdfText, "base64");
   if (bytes.byteLength > maxPdfSizeBytes || bytes.subarray(0, 4).toString("utf8") !== "%PDF") {
     res.status(400).json({ success: false, error: "Only PDF files up to 200 MB are allowed" });
     return;

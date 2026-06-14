@@ -20,7 +20,7 @@ function trigUp(id) {
 }
 function syncPreview() {}
 async function uploadFrontMatterPdfToBackend(type, file) {
-  if (!file || file.type !== 'application/pdf') return;
+  if (!file || !(file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf'))) return;
   if (!window.S || !S.activeProject || !S.activeProject.id) {
     toast('Please open a project before uploading this PDF.', 'warn');
     return;
@@ -123,7 +123,7 @@ function handleFMUpload(e, type) {
         <span class="badge badge-green">✓ Ready</span>
       </div>`;
   }
-  if (f.type === 'application/pdf') {
+  if (f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf')) {
     if (window.pdfPreview) window.pdfPreview.notifyUpdate('front-matter');
     if (window.debouncedSaveState) window.debouncedSaveState();
     uploadFrontMatterPdfToBackend(type, f);

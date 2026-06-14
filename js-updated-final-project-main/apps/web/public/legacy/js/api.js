@@ -1,7 +1,4 @@
-var API_BASE_URL = (() => {
-    if (!window.location || window.location.protocol === 'file:') return 'http://localhost:8081/api';
-    return `${window.location.origin}/api`;
-})();
+var API_BASE_URL = 'http://localhost:8080/api';
 async function apiFetch(endpoint, options = {}) {
     const token = localStorage.getItem('dsr_token');
     const headers = {
@@ -39,6 +36,9 @@ async function apiFetch(endpoint, options = {}) {
         throw error;
     }
 }
+window.apiFetch = apiFetch;
+window.storeProjectPdf = storeProjectPdf;
+window.deleteProjectPdf = deleteProjectPdf;
 async function apiUploadFile(file) {
     const token = localStorage.getItem('dsr_token');
     const headers = {};
@@ -108,22 +108,41 @@ function setStoredProjectPdfUrl(annexureId, fileName) {
 }
 async function storeProjectPdf(annexureId, file) {
     if (!window.S || !S.activeProject || !S.activeProject.id || !file) return;
-    const base64 = await new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(String(reader.result || '').split(',')[1] || '');
-        reader.onerror = () => reject(reader.error || new Error('Could not read file'));
-        reader.readAsDataURL(file);
+    const token = localStorage.getItem('dsr_token');
+    const headers = {};
+    if (token) headers.Authorization = `Bearer ${token}`;
+    const formData = new FormData();
+    formData.append('projectId', S.activeProject.id);
+    formData.append('annexureId', annexureId);
+    formData.append('fileName', file.name);
+    formData.append('file', file);
+    const response = await fetch(`${API_BASE_URL}/upload-pdf`, {
+        method: 'POST',
+        body: formData,
+        credentials: 'same-origin',
+        headers
     });
-    await apiFetch('/upload-pdf', {
+    const bodyText = await response.text().catch(() => '');
+    let data = {};
+    try { data = JSON.parse(bodyText); } catch (e) {}
+    if (!response.ok) {
+        var msg = data.message || data.error || '';
+        if (!msg && bodyText && !bodyText.startsWith('{')) msg = bodyText.slice(0, 200);
+        if (!msg) msg = 'HTTP ' + response.status + ' ' + response.statusText;
+        var prefix = !localStorage.getItem('dsr_token') ? 'Not logged in - ' : '';
+        throw new Error(prefix + msg);
+    }
+    return setStoredProjectPdfUrl(annexureId, file.name);
+}
+async function deleteProjectPdf(annexureId) {
+    if (!window.S || !S.activeProject || !S.activeProject.id) return;
+    return apiFetch('/upload-pdf', {
         method: 'POST',
         body: JSON.stringify({
             projectId: S.activeProject.id,
-            fileName: file.name,
-            pdf: base64,
             annexureId
         })
     });
-    return setStoredProjectPdfUrl(annexureId, file.name);
 }
 async function downloadStoredPdf(annexureId, fileName, fallbackUrl) {
     if (!window.S || !S.activeProject || !S.activeProject.id) {

@@ -67,6 +67,9 @@ function addPlate() {
 }
 function deletePlateReq(id) {
   customConfirm('Remove this plate completely?', () => {
+    if (typeof window.deleteProjectPdf === 'function') {
+      window.deleteProjectPdf('plate_' + id).catch(function(e) { console.error('Backend delete failed:', e); });
+    }
     S.plates = S.plates.filter(p => p.id !== id);
     renderPlates();
     if (window.pdfPreview) window.pdfPreview.notifyUpdate('plates');
@@ -86,10 +89,13 @@ function handlePlateUpload(e, id) {
   const p = S.plates.find(x => x.id === id);
   if (!p) return;
   const sizeStr = (f.size / 1024).toFixed(1) + ' KB';
-  if (f.type === 'application/pdf') {
+  if (f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf')) {
     p.fileName = f.name;
     p.fileSize = 'Processing PDF...';
     renderPlates();
+    const uploadFile = function() {
+      if (typeof window.storeProjectPdf === 'function') window.storeProjectPdf('plate_' + id, f).catch(function(e) { console.error('Backend upload failed:', e); });
+    };
     if (typeof renderPdfToImages === 'function') {
       renderPdfToImages(f, (err, imgs) => {
         if (err) {
@@ -98,6 +104,7 @@ function handlePlateUpload(e, id) {
           const url = URL.createObjectURL(f);
           p.pages = [url];
           p.fileSize = sizeStr;
+          uploadFile();
           renderPlates();
           if (window.pdfPreview) window.pdfPreview.notifyUpdate('plates');
           if (window.debouncedSaveState) window.debouncedSaveState();
@@ -106,6 +113,7 @@ function handlePlateUpload(e, id) {
         p.pages = imgs;
         p.fileSize = sizeStr;
         toast(`📄 ${f.name} processed and loaded!`, 'success');
+        uploadFile();
         renderPlates();
         if (window.pdfPreview) window.pdfPreview.notifyUpdate('plates');
         if (window.debouncedSaveState) window.debouncedSaveState();
@@ -114,6 +122,7 @@ function handlePlateUpload(e, id) {
       const url = URL.createObjectURL(f);
       p.pages = [url];
       p.fileSize = sizeStr;
+      uploadFile();
       renderPlates();
       if (window.pdfPreview) window.pdfPreview.notifyUpdate('plates');
       if (window.debouncedSaveState) window.debouncedSaveState();
@@ -137,6 +146,9 @@ function handlePlateUpload(e, id) {
 function deletePlateFile(id) {
   const p = S.plates.find(x => x.id === id);
   if (p) {
+    if (typeof window.deleteProjectPdf === 'function') {
+      window.deleteProjectPdf('plate_' + id).catch(function(e) { console.error('Backend delete failed:', e); });
+    }
     p.fileName = null;
     p.fileSize = null;
     p.pages = null;

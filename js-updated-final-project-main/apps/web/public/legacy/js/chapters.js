@@ -127,7 +127,7 @@ function handleChapterUpload(e, id) {
     return;
   }
   const sizeStr = (f.size / 1024).toFixed(1) + ' KB';
-  if (f.type !== 'application/pdf') {
+  if (!(f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf'))) {
     toast('Please upload a PDF file.', 'error');
     return;
   }
@@ -159,8 +159,24 @@ function handleChapterUpload(e, id) {
     if (window.pdfPreview) window.pdfPreview.notifyUpdate('chapters');
     toast(`${f.name} uploaded for chapter`, 'success');
     if (window.debouncedSaveState) window.debouncedSaveState();
+    uploadChapterPdfToBackend(id, f);
   });
 }
+
+async function uploadChapterPdfToBackend(id, file) {
+  if (typeof window.storeProjectPdf !== 'function') {
+    console.warn('Backend PDF upload helper is not available.');
+    return;
+  }
+  try {
+    await window.storeProjectPdf(`chapter_${id}`, file);
+    toast(`${file.name} saved to MinIO.`, 'success');
+  } catch (err) {
+    console.error('Chapter backend PDF upload failed:', err);
+    toast(err.message || 'Chapter preview updated, but server upload failed.', 'error');
+  }
+}
+
 function deleteChapterFile(id) {
   const ch = S.chapters.find(x => x.id === id);
   const idx = S.chapters.findIndex(x => x.id === id);
@@ -172,6 +188,9 @@ function deleteChapterFile(id) {
   ch.fileName = null;
   ch.fileSize = null;
   if (S.chapterPDFs) delete S.chapterPDFs[id];
+  if (typeof window.deleteProjectPdf === 'function') {
+    window.deleteProjectPdf(`chapter_${id}`).catch(err => console.error('Backend chapter PDF delete failed:', err));
+  }
   renderChapters();
   if (window.pdfPreview) window.pdfPreview.notifyUpdate('chapters');
   if (window.debouncedSaveState) window.debouncedSaveState();
@@ -179,6 +198,7 @@ function deleteChapterFile(id) {
 }
 window.deleteChapterFile = deleteChapterFile;
 window.handleChapterUpload = handleChapterUpload;
+window.uploadChapterPdfToBackend = uploadChapterPdfToBackend;
 window.triggerChapterUpload = triggerChapterUpload;
 window.addChapter = addChapter;
 window.deleteChapter = deleteChapter;

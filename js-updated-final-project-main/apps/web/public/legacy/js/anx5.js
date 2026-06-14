@@ -704,6 +704,9 @@ function deletePdfAnx5() {
   if (S.activeProject.pdfData) S.activeProject.pdfData.anx5 = null;
   const pi = S.projects.findIndex(p => p.id === S.activeProject.id);
   if (pi >= 0) { S.projects[pi].anx5PdfName = null; if (S.projects[pi].pdfData) S.projects[pi].pdfData.anx5 = null; }
+  if (typeof window.deleteProjectPdf === 'function') {
+    window.deleteProjectPdf('anx5').catch(err => console.error('Backend PDF delete failed:', err));
+  }
   renderPdfUploadUIAnx5();
   toast('PDF deleted.', 'success');
 }

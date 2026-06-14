@@ -1,4 +1,4 @@
-import { DeleteObjectCommand, GetObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { CreateBucketCommand, DeleteObjectCommand, GetObjectCommand, HeadBucketCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { Readable } from "node:stream";
@@ -11,6 +11,7 @@ const s3 = new S3Client({
   endpoint: config.s3Endpoint || undefined,
   forcePathStyle: config.s3ForcePathStyle
 });
+let bucketReady: Promise<void> | null = null;
 
 async function streamToBuffer(stream: Readable): Promise<Buffer> {
   const chunks: Buffer[] = [];
@@ -25,6 +26,7 @@ export async function putPdf(objectKey: string, bytes: Buffer) {
     return;
   }
 
+  await ensureBucket();
   await s3.send(
     new PutObjectCommand({
       Bucket: config.s3Bucket,
@@ -51,5 +53,17 @@ export async function deletePdf(objectKey: string) {
     return;
   }
 
+  await ensureBucket();
   await s3.send(new DeleteObjectCommand({ Bucket: config.s3Bucket, Key: objectKey }));
+}
+
+async function ensureBucket() {
+  bucketReady ??= (async () => {
+    try {
+      await s3.send(new HeadBucketCommand({ Bucket: config.s3Bucket }));
+    } catch {
+      await s3.send(new CreateBucketCommand({ Bucket: config.s3Bucket }));
+    }
+  })();
+  return bucketReady;
 }

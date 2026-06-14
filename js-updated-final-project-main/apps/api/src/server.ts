@@ -33,7 +33,22 @@ app.use(
     crossOriginResourcePolicy: { policy: "same-site" }
   })
 );
-app.use(cors({ origin: config.webOrigin, credentials: true }));
+app.use(cors({
+  origin: function (origin, callback) {
+    const allowed = [
+      config.webOrigin,
+      "http://localhost:3000", "http://127.0.0.1:3000",
+      "http://localhost:8081", "http://127.0.0.1:8081",
+      "http://localhost:8080"
+    ].filter(Boolean);
+    if (!origin || allowed.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(null, false);
+    }
+  },
+  credentials: true
+}));
 app.use(apiLimiter);
 app.use(cookieParser());
 app.use(express.json({ limit: "300mb" }));

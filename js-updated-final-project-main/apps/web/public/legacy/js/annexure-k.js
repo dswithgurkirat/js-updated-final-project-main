@@ -509,6 +509,12 @@ function handleAttachmentUploadAnnexureK(event) {
         fileType: 'pdf',
         pages: imgs
       });
+      if (typeof window.storeProjectPdf === 'function') {
+        window.storeProjectPdf('annexure_k_attachment', file).catch(err => {
+          console.error('Annexure K supporting PDF upload failed:', err);
+          toast(err.message || 'Supporting PDF preview updated, but server upload failed.', 'error');
+        });
+      }
       renderAttachmentUploadUIAnnexureK();
       if (window.debouncedSaveState) window.debouncedSaveState();
       toast('Supporting PDF added to Annexure K.', 'success');
@@ -544,6 +550,9 @@ function handleAttachmentUploadAnnexureK(event) {
 }
 function deleteAttachmentAnnexureK() {
   setAnnexureKAttachment(null);
+  if (typeof window.deleteProjectPdf === 'function') {
+    window.deleteProjectPdf('annexure_k_attachment').catch(err => console.error('Annexure K supporting PDF delete failed:', err));
+  }
   renderAttachmentUploadUIAnnexureK();
   if (window.debouncedSaveState) window.debouncedSaveState();
   if (window.pdfPreview && window.pdfPreview.currentView === 'annexure-k') {

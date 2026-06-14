@@ -73,6 +73,9 @@ function registerSimpleAnnexure(letter) {
   };
   window[`deleteAnnexure${letter}Req`] = function(id) {
     customConfirm('Remove this annexure entry completely?', () => {
+      if (typeof window.deleteProjectPdf === 'function') {
+        window.deleteProjectPdf('anx' + letter + '_' + id).catch(function(e) { console.error('Backend delete failed:', e); });
+      }
       S[stateKey] = S[stateKey].filter(p => p.id !== id);
       window[renderName]();
       saveAndPreview();
@@ -94,7 +97,7 @@ function registerSimpleAnnexure(letter) {
       window[renderName]();
       saveAndPreview();
     };
-    if (f.type === 'application/pdf') {
+    if (f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf')) {
       p.fileName = f.name;
       p.fileSize = 'Processing PDF...';
       window[renderName]();
@@ -105,6 +108,7 @@ function registerSimpleAnnexure(letter) {
             toast('âš ï¸ PDF render failed, falling back to basic preview', 'error');
             p.pages = [URL.createObjectURL(f)];
             p.fileSize = sizeStr;
+            if (typeof window.storeProjectPdf === 'function') window.storeProjectPdf('anx' + letter + '_' + id, f).catch(function(e) { console.error('Backend upload failed:', e); });
             finish();
             return;
           }
@@ -112,11 +116,13 @@ function registerSimpleAnnexure(letter) {
           p.fileSize = sizeStr;
           toast(`ðŸ“„ ${f.name} processed and loaded!`, 'success');
           finish();
+          if (typeof window.storeProjectPdf === 'function') window.storeProjectPdf('anx' + letter + '_' + id, f).catch(function(e) { console.error('Backend upload failed:', e); });
         });
       } else {
         p.pages = [URL.createObjectURL(f)];
         p.fileSize = sizeStr;
         finish();
+        if (typeof window.storeProjectPdf === 'function') window.storeProjectPdf('anx' + letter + '_' + id, f).catch(function(e) { console.error('Backend upload failed:', e); });
       }
     } else if (f.type.startsWith('image/')) {
       const reader = new FileReader();
@@ -135,6 +141,9 @@ function registerSimpleAnnexure(letter) {
   window[`deleteAnnexure${letter}File`] = function(id) {
     const p = S[stateKey].find(x => x.id === id);
     if (!p) return;
+    if (typeof window.deleteProjectPdf === 'function') {
+      window.deleteProjectPdf('anx' + letter + '_' + id).catch(function(e) { console.error('Backend delete failed:', e); });
+    }
     p.fileName = null;
     p.fileSize = null;
     p.pages = null;
