@@ -178,11 +178,12 @@ function generateFinalPDF() {
       }
     });
   }
+  function anx1TitleFromState(key){var t=S.anx1Titles&&S.anx1Titles[key];return t?'ANNEXURE I('+key+') — '+t.replace(/^[a-d]\)\s*/,''):'';}
   const allTablesData = [
-    { title: 'ANNEXURE I(a) — RIVERS', id: '#anx1-rivers' },
-    { title: 'ANNEXURE I(b) — DE-SILTATION', id: '#anx1-desilt' },
-    { title: 'ANNEXURE I(c) — PATTA LANDS', id: '#anx1-patta' },
-    { title: 'ANNEXURE I(d) — M-SAND PLANTS', id: '#anx1-msand' },
+    { title: anx1TitleFromState('a')||'ANNEXURE I(a) — RIVERS', id: '#anx1-rivers' },
+    { title: anx1TitleFromState('b')||'ANNEXURE I(b) — DE-SILTATION', id: '#anx1-desilt' },
+    { title: anx1TitleFromState('c')||'ANNEXURE I(c) — PATTA LANDS', id: '#anx1-patta' },
+    { title: anx1TitleFromState('d')||'ANNEXURE I(d) — M-SAND PLANTS', id: '#anx1-msand' },
     { title: 'ANNEXURE II(a) — MINING LEASES', id: '#anx2-leases' },
     { title: 'ANNEXURE II(b) — PATTA LANDS', id: '#anx2-patta' },
     { title: 'ANNEXURE II(c) — DE-SILTATION', id: '#anx2-desilt' },
@@ -795,10 +796,10 @@ async function generateFinalPDF(regenerate = false) {
       if (!pages.length) {
         const fallbackTables = {
           anx1: [
-            { title: 'Annexure I(a) - Rivers', selector: '#anx1-rivers' },
-            { title: 'Annexure I(b) - De-siltation', selector: '#anx1-desilt' },
-            { title: 'Annexure I(c) - Patta Lands', selector: '#anx1-patta' },
-            { title: 'Annexure I(d) - M-Sand Plants', selector: '#anx1-msand' }
+            { title: 'Annexure I(a) - ' + (typeof getAnx1Title === 'function' ? getAnx1Title('a').replace(/^[a-d]\)\s*/,'') : 'Rivers'), selector: '#anx1-rivers' },
+            { title: 'Annexure I(b) - ' + (typeof getAnx1Title === 'function' ? getAnx1Title('b').replace(/^[a-d]\)\s*/,'') : 'De-siltation'), selector: '#anx1-desilt' },
+            { title: 'Annexure I(c) - ' + (typeof getAnx1Title === 'function' ? getAnx1Title('c').replace(/^[a-d]\)\s*/,'') : 'Patta Lands'), selector: '#anx1-patta' },
+            { title: 'Annexure I(d) - ' + (typeof getAnx1Title === 'function' ? getAnx1Title('d').replace(/^[a-d]\)\s*/,'') : 'M-Sand Plants'), selector: '#anx1-msand' }
           ],
           anx2: [
             { title: 'Annexure II(a) - Mining Leases', selector: 'table[id^="anx2-leases"]', all: true },

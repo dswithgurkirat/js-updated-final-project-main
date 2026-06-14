@@ -82,6 +82,12 @@ const S = {
   annexureH: [],
   annexureI: [],
   annexureJ: [],
+  anx1Titles: {
+    a: 'a) Rivers:',
+    b: 'b) De-Siltation Location (Lakes/Ponds/Dams etc.):',
+    c: 'c) Patta lands/Khatedari land:',
+    d: 'd) M-Sand Plants:'
+  },
   uploadedPDFs: {},
   frontMatterFiles: {},
   frontMatter: {
@@ -116,7 +122,7 @@ const PROJECT_WORKING_STATE_KEYS = [
   'phaseMetadata', 'phaseChangeLog', 'chapters', 'plates', 'graphs', 'graphCharts',
   'signatures', 'demandDistricts', 'summarySources', 'auctionData',
   'annexureB', 'annexureC', 'annexureD', 'annexureE', 'annexureG', 'annexureH',
-  'annexureI', 'annexureJ', 'uploadedPDFs', 'frontMatterFiles', 'frontMatter'
+  'annexureI', 'annexureJ', 'uploadedPDFs', 'frontMatterFiles', 'frontMatter', 'anx1Titles'
 ];
 function resetProjectWorkingState(activeProject) {
   const defaults = JSON.parse(JSON.stringify(DEFAULT_STATE));

@@ -270,6 +270,12 @@ const S = {
   annexureH: [],
   annexureI: [],
   annexureJ: [],
+  anx1Titles: {
+    a: 'a) Rivers:',
+    b: 'b) De-Siltation Location (Lakes/Ponds/Dams etc.):',
+    c: 'c) Patta lands/Khatedari land:',
+    d: 'd) M-Sand Plants:'
+  },
   uploadedPDFs: {},
   frontMatterFiles: {},
   frontMatter: {
@@ -304,7 +310,7 @@ const PROJECT_WORKING_STATE_KEYS = [
   'phaseMetadata', 'phaseChangeLog', 'chapters', 'plates', 'graphs', 'graphCharts',
   'signatures', 'demandDistricts', 'summarySources', 'auctionData',
   'annexureB', 'annexureC', 'annexureD', 'annexureE', 'annexureG', 'annexureH',
-  'annexureI', 'annexureJ', 'uploadedPDFs', 'frontMatterFiles', 'frontMatter'
+  'annexureI', 'annexureJ', 'uploadedPDFs', 'frontMatterFiles', 'frontMatter', 'anx1Titles'
 ];
 function resetProjectWorkingState(activeProject) {
   const defaults = JSON.parse(JSON.stringify(DEFAULT_STATE));
@@ -1667,7 +1673,7 @@ function showView(id, btn, push = true) {
     window.loadAuditLogs();
   }
   if (id === 'benchmark-table' && typeof mountBenchmarkPanel === 'function') mountBenchmarkPanel('benchmark-table-content');
-  if (id === 'anx1' && typeof renderPdfUploadUIAnx1 === 'function') renderPdfUploadUIAnx1();
+  if (id === 'anx1' && typeof renderPdfUploadUIAnx1 === 'function') { renderPdfUploadUIAnx1(); if (typeof loadAnx1Titles === 'function') loadAnx1Titles(); }
   if (id === 'anx2' && typeof renderPdfUploadUIAnx2 === 'function') renderPdfUploadUIAnx2();
   if (id === 'anx3' && typeof renderPdfUploadUI === 'function') {
     renderPdfUploadUI();
@@ -5255,6 +5261,12 @@ function exportAuctionPDF() { toast('📄 Auctioned sites PDF exported','success
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    ANNEXURE I â€” SAND SOURCES
    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+var ANX1_DEFAULT_TITLES = {a:'a) Rivers:',b:'b) De-Siltation Location (Lakes/Ponds/Dams etc.):',c:'c) Patta lands/Khatedari land:',d:'d) M-Sand Plants:'};
+function getAnx1Title(key){if(S.anx1Titles&&S.anx1Titles[key])return S.anx1Titles[key];return ANX1_DEFAULT_TITLES[key]||''}
+function loadAnx1Titles(){['a','b','c','d'].forEach(function(k){var el=document.getElementById('anx1-title-'+k);if(el)el.textContent=getAnx1Title(k)})}
+function saveAnx1Title(key){var el=document.getElementById('anx1-title-'+key);if(!el)return;if(!S.anx1Titles)S.anx1Titles={};S.anx1Titles[key]=el.textContent;if(window.debouncedSaveState)window.debouncedSaveState();scheduleAnx1LivePreview(300)}
+document.addEventListener('DOMContentLoaded',loadAnx1Titles);
+document.addEventListener('input',function(e){var te=e.target.closest('[id^="anx1-title-"]');if(te)saveAnx1Title(te.id.replace('anx1-title-',''))});
 function downloadSectionTemplate(sectionType) {
   let csvContent = "";
   let filename = "";
@@ -5413,28 +5425,17 @@ function getAnx1TableRows(tableId) {
   ));
 }
 function buildAnx1PreviewMarkup() {
-  const sections = [
-    {
-      id: 'anx1-rivers',
-      title: 'a) Rivers:',
-      headers: ['River Name/M-Sand Plant', 'Total Stretch of River (in KM)', 'Type of River (Perennial or Non Perennial)']
-    },
-    {
-      id: 'anx1-desilt',
-      title: 'b) De-Siltation Location (Lakes/Ponds/Dams etc.):',
-      headers: ['Name of Reservoir/Dams', 'Maintain/Controlled by State Govt./PSU etc.', 'Latitude', 'Longitude', 'District', 'Tehsil', 'Village', 'Size (Ha)']
-    },
-    {
-      id: 'anx1-patta',
-      title: 'c) Patta lands/Khatedari land:',
-      headers: ['Owner', 'SL. No', 'Area (Ha)', 'District', 'Tehsil', 'Village', 'Agricultural Land (Yes/No)']
-    },
-    {
-      id: 'anx1-msand',
-      title: 'd) M-Sand Plants:',
-      headers: ['Plant Name', 'Owner', 'District', 'Tehsil', 'Village', 'Geo-location', 'Quantity Tonnes/Annum']
-    }
-  ];
+  var keys = ['a','b','c','d'];
+  var sectionMeta = {
+    a:{id:'anx1-rivers',headers:['River Name/M-Sand Plant','Total Stretch of River (in KM)','Type of River (Perennial or Non Perennial)']},
+    b:{id:'anx1-desilt',headers:['Name of Reservoir/Dams','Maintain/Controlled by State Govt./PSU etc.','Latitude','Longitude','District','Tehsil','Village','Size (Ha)']},
+    c:{id:'anx1-patta',headers:['Owner','SL. No','Area (Ha)','District','Tehsil','Village','Agricultural Land (Yes/No)']},
+    d:{id:'anx1-msand',headers:['Plant Name','Owner','District','Tehsil','Village','Geo-location','Quantity Tonnes/Annum']}
+  };
+  const sections = keys.map(function(k){
+    var m=sectionMeta[k];
+    return {id:m.id,title:getAnx1Title(k),headers:m.headers};
+  });
   const sectionHtml = sections.map(section => {
     const rows = getAnx1TableRows(section.id);
     const body = rows.length
@@ -11849,11 +11850,12 @@ function generateFinalPDF() {
       }
     });
   }
+  function anx1TitleFromState(key){var t=S.anx1Titles&&S.anx1Titles[key];return t?'ANNEXURE I('+key+') — '+t.replace(/^[a-d]\)\s*/,''):'';}
   const allTablesData = [
-    { title: 'ANNEXURE I(a) — RIVERS', id: '#anx1-rivers' },
-    { title: 'ANNEXURE I(b) — DE-SILTATION', id: '#anx1-desilt' },
-    { title: 'ANNEXURE I(c) — PATTA LANDS', id: '#anx1-patta' },
-    { title: 'ANNEXURE I(d) — M-SAND PLANTS', id: '#anx1-msand' },
+    { title: anx1TitleFromState('a')||'ANNEXURE I(a) — RIVERS', id: '#anx1-rivers' },
+    { title: anx1TitleFromState('b')||'ANNEXURE I(b) — DE-SILTATION', id: '#anx1-desilt' },
+    { title: anx1TitleFromState('c')||'ANNEXURE I(c) — PATTA LANDS', id: '#anx1-patta' },
+    { title: anx1TitleFromState('d')||'ANNEXURE I(d) — M-SAND PLANTS', id: '#anx1-msand' },
     { title: 'ANNEXURE II(a) — MINING LEASES', id: '#anx2-leases' },
     { title: 'ANNEXURE II(b) — PATTA LANDS', id: '#anx2-patta' },
     { title: 'ANNEXURE II(c) — DE-SILTATION', id: '#anx2-desilt' },
@@ -12466,10 +12468,10 @@ async function generateFinalPDF(regenerate = false) {
       if (!pages.length) {
         const fallbackTables = {
           anx1: [
-            { title: 'Annexure I(a) - Rivers', selector: '#anx1-rivers' },
-            { title: 'Annexure I(b) - De-siltation', selector: '#anx1-desilt' },
-            { title: 'Annexure I(c) - Patta Lands', selector: '#anx1-patta' },
-            { title: 'Annexure I(d) - M-Sand Plants', selector: '#anx1-msand' }
+            { title: 'Annexure I(a) - ' + (typeof getAnx1Title === 'function' ? getAnx1Title('a').replace(/^[a-d]\)\s*/,'') : 'Rivers'), selector: '#anx1-rivers' },
+            { title: 'Annexure I(b) - ' + (typeof getAnx1Title === 'function' ? getAnx1Title('b').replace(/^[a-d]\)\s*/,'') : 'De-siltation'), selector: '#anx1-desilt' },
+            { title: 'Annexure I(c) - ' + (typeof getAnx1Title === 'function' ? getAnx1Title('c').replace(/^[a-d]\)\s*/,'') : 'Patta Lands'), selector: '#anx1-patta' },
+            { title: 'Annexure I(d) - ' + (typeof getAnx1Title === 'function' ? getAnx1Title('d').replace(/^[a-d]\)\s*/,'') : 'M-Sand Plants'), selector: '#anx1-msand' }
           ],
           anx2: [
             { title: 'Annexure II(a) - Mining Leases', selector: 'table[id^="anx2-leases"]', all: true },

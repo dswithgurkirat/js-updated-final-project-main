@@ -1,6 +1,12 @@
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    ANNEXURE I â€” SAND SOURCES
    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+var ANX1_DEFAULT_TITLES = {a:'a) Rivers:',b:'b) De-Siltation Location (Lakes/Ponds/Dams etc.):',c:'c) Patta lands/Khatedari land:',d:'d) M-Sand Plants:'};
+function getAnx1Title(key){if(S.anx1Titles&&S.anx1Titles[key])return S.anx1Titles[key];return ANX1_DEFAULT_TITLES[key]||''}
+function loadAnx1Titles(){['a','b','c','d'].forEach(function(k){var el=document.getElementById('anx1-title-'+k);if(el)el.textContent=getAnx1Title(k)})}
+function saveAnx1Title(key){var el=document.getElementById('anx1-title-'+key);if(!el)return;if(!S.anx1Titles)S.anx1Titles={};S.anx1Titles[key]=el.textContent;if(window.debouncedSaveState)window.debouncedSaveState();scheduleAnx1LivePreview(300)}
+document.addEventListener('DOMContentLoaded',loadAnx1Titles);
+document.addEventListener('input',function(e){var te=e.target.closest('[id^="anx1-title-"]');if(te)saveAnx1Title(te.id.replace('anx1-title-',''))});
 function downloadSectionTemplate(sectionType) {
   let csvContent = "";
   let filename = "";
@@ -159,28 +165,17 @@ function getAnx1TableRows(tableId) {
   ));
 }
 function buildAnx1PreviewMarkup() {
-  const sections = [
-    {
-      id: 'anx1-rivers',
-      title: 'a) Rivers:',
-      headers: ['River Name/M-Sand Plant', 'Total Stretch of River (in KM)', 'Type of River (Perennial or Non Perennial)']
-    },
-    {
-      id: 'anx1-desilt',
-      title: 'b) De-Siltation Location (Lakes/Ponds/Dams etc.):',
-      headers: ['Name of Reservoir/Dams', 'Maintain/Controlled by State Govt./PSU etc.', 'Latitude', 'Longitude', 'District', 'Tehsil', 'Village', 'Size (Ha)']
-    },
-    {
-      id: 'anx1-patta',
-      title: 'c) Patta lands/Khatedari land:',
-      headers: ['Owner', 'SL. No', 'Area (Ha)', 'District', 'Tehsil', 'Village', 'Agricultural Land (Yes/No)']
-    },
-    {
-      id: 'anx1-msand',
-      title: 'd) M-Sand Plants:',
-      headers: ['Plant Name', 'Owner', 'District', 'Tehsil', 'Village', 'Geo-location', 'Quantity Tonnes/Annum']
-    }
-  ];
+  var keys = ['a','b','c','d'];
+  var sectionMeta = {
+    a:{id:'anx1-rivers',headers:['River Name/M-Sand Plant','Total Stretch of River (in KM)','Type of River (Perennial or Non Perennial)']},
+    b:{id:'anx1-desilt',headers:['Name of Reservoir/Dams','Maintain/Controlled by State Govt./PSU etc.','Latitude','Longitude','District','Tehsil','Village','Size (Ha)']},
+    c:{id:'anx1-patta',headers:['Owner','SL. No','Area (Ha)','District','Tehsil','Village','Agricultural Land (Yes/No)']},
+    d:{id:'anx1-msand',headers:['Plant Name','Owner','District','Tehsil','Village','Geo-location','Quantity Tonnes/Annum']}
+  };
+  const sections = keys.map(function(k){
+    var m=sectionMeta[k];
+    return {id:m.id,title:getAnx1Title(k),headers:m.headers};
+  });
   const sectionHtml = sections.map(section => {
     const rows = getAnx1TableRows(section.id);
     const body = rows.length

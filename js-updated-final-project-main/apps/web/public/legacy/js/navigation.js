@@ -452,7 +452,7 @@ function showView(id, btn, push = true) {
     window.loadAuditLogs();
   }
   if (id === 'benchmark-table' && typeof mountBenchmarkPanel === 'function') mountBenchmarkPanel('benchmark-table-content');
-  if (id === 'anx1' && typeof renderPdfUploadUIAnx1 === 'function') renderPdfUploadUIAnx1();
+  if (id === 'anx1' && typeof renderPdfUploadUIAnx1 === 'function') { renderPdfUploadUIAnx1(); if (typeof loadAnx1Titles === 'function') loadAnx1Titles(); }
   if (id === 'anx2' && typeof renderPdfUploadUIAnx2 === 'function') renderPdfUploadUIAnx2();
   if (id === 'anx3' && typeof renderPdfUploadUI === 'function') {
     renderPdfUploadUI();
