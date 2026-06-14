@@ -1,0 +1,1537 @@
+<div id="view-dashboard" class="view active" style="position: relative; z-index: 1; padding: 0 !important; margin: 0 !important; background: var(--dash-page-bg, #ffffff);">
+  <style>
+    /* Scoped Dashboard styles mimicking the mockup exactly */
+    .dash-portal-wrapper {
+      width: 100%;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #1E293B;
+      background-color: #ffffff;
+      line-height: 1.5;
+      font-size: 15px;
+    }
+    /* Switcher bar inside app header */
+    .dash-switcher-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0F1C2A;
+      padding: 6px 24px;
+      height: 38px;
+      font-size: 12px;
+      color: #ffffff;
+      box-sizing: border-box;
+    }
+    .dash-portal-wrapper > .dash-switcher-bar {
+      display: none;
+    }
+    .dash-switcher-tabs {
+      display: flex;
+      gap: 8px;
+    }
+    .dash-switcher-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 14px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 11px;
+      transition: all 0.2s;
+    }
+    .dash-switcher-tab.active {
+      background: #F2A123;
+      color: #17324D;
+      cursor: default;
+    }
+    .dash-switcher-tab.inactive {
+      background: #233549;
+      color: #ffffff;
+      cursor: pointer;
+    }
+    .dash-switcher-tab.inactive:hover {
+      background: #2d425b;
+    }
+    .dash-switcher-info {
+      color: #a0aec0;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    /* Row 1: Official Gov Bar */
+    .dash-gov-utility-strip {
+      background: linear-gradient(90deg, #0B2B52 0%, #071B33 100%);
+      color: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 24px;
+      font-size: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .dash-gov-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .dash-badge-in {
+      background: #F2A123;
+      color: #0F1C2A;
+      font-weight: 800;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 10px;
+    }
+    .dash-gov-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .dash-gov-right button, .dash-gov-right a {
+      color: #CBD5E1;
+      text-decoration: none;
+      background: transparent;
+      border: none;
+      font-size: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+    .dash-gov-right button:hover, .dash-gov-right a:hover {
+      color: #ffffff;
+    }
+    .dash-font-btns {
+      display: flex;
+      gap: 6px;
+    }
+    .dash-font-btn {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      cursor: pointer;
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .dash-font-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    /* Row 2: Brand Header Row */
+    .dash-gov-brand-row {
+      background: #ffffff;
+      padding: 24px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #E2E8F0;
+    }
+    .dash-brand-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .dash-brand-texts {
+      display: flex;
+      flex-direction: column;
+    }
+    .dash-brand-bilingual {
+      color: #F2A123;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+    .dash-brand-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 32px;
+      font-weight: 900;
+      color: #17324D;
+      line-height: 1.15;
+    }
+    .dash-brand-subtitle {
+      font-size: 15px;
+      color: #0f172a;
+      font-weight: 500;
+    }
+    .dash-brand-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .dash-gov-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .dash-badge-emgsm {
+      background: #EBFDF5;
+      color: #047857;
+      border: 1px solid #A7F3D0;
+    }
+    .dash-badge-support {
+      background: #EFF6FF;
+      color: #1D4ED8;
+      border: 1px solid #BFDBFE;
+    }
+    .dash-action-icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      border: 1px solid #E2E8F0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #64748B;
+      cursor: pointer;
+      background: #ffffff;
+      transition: all 0.2s;
+    }
+    .dash-action-icon-btn:hover {
+      background: #F8FAFC;
+      color: #17324D;
+    }
+    .dash-theme-toggle {
+      color: #17324D;
+      border-color: #C49A58;
+      background: #fffaf0;
+    }
+    .dash-theme-toggle:hover {
+      background: #C49A58;
+      color: #17324D;
+    }
+    html.dark .dash-theme-toggle {
+      background: #0B1E33;
+      color: #F8FAFC;
+      border-color: #C49A58;
+    }
+    html.dark .dash-theme-toggle:hover {
+      background: #17324D;
+      color: #F2A123;
+    }
+    .dash-btn-logout {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 6px;
+      border: 1px solid #E2E8F0;
+      background: #ffffff;
+      color: #64748B;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .dash-btn-logout:hover {
+      border-color: #ef4444;
+      color: #ef4444;
+      background: #FEF2F2;
+    }
+    /* Row 3: Menu Bar */
+    .dash-gov-menu-bar {
+      background: #05264a;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 24px;
+      border-bottom: 3px solid #C49A58;
+    }
+    .dash-menu-links {
+      display: flex;
+      list-style: none;
+    }
+    .dash-menu-link-item button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255, 255, 255, 0.85);
+      padding: 14px 18px;
+      font-size: 13.5px;
+      font-weight: 700;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .dash-menu-link-item.active button {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      border-bottom: 3px solid #C49A58;
+      margin-bottom: -3px;
+    }
+    .dash-menu-link-item button:hover {
+      background: rgba(255, 255, 255, 0.06);
+      color: #ffffff;
+    }
+    .dash-menu-search {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .dash-menu-search input {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      padding: 6px 12px 6px 32px;
+      color: #ffffff;
+      font-size: 13px;
+      outline: none;
+      transition: all 0.2s;
+      width: 180px;
+    }
+    .dash-menu-search input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+    .dash-menu-search input:focus {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: #C49A58;
+      width: 220px;
+    }
+    .dash-menu-search i {
+      position: absolute;
+      left: 10px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+    /* Row 4: Notice Ticker */
+    .dash-gov-notice-ticker {
+      background: #fff8ec;
+      border-bottom: 1px solid rgba(196, 154, 88, 0.18);
+      display: flex;
+      align-items: center;
+      padding: 6px 24px;
+      overflow: hidden;
+      height: 34px;
+    }
+    .dash-notice-label {
+      background: #F2A123;
+      color: #0F1C2A;
+      font-weight: 800;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+      margin-right: 16px;
+      z-index: 10;
+      position: relative;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+    }
+    .dash-notice-marquee-container {
+      overflow: hidden;
+      white-space: nowrap;
+      flex: 1;
+      position: relative;
+    }
+    .dash-notice-marquee-text {
+      display: inline-block;
+      padding-left: 100%;
+      animation: dashMarquee 24s linear infinite;
+      will-change: transform;
+      font-size: 15px;
+      font-weight: 600;
+      color: #111827;
+    }
+    .dash-notice-marquee-text:hover {
+      animation-play-state: paused;
+    }
+    @keyframes dashMarquee {
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(-100%, 0, 0); }
+    }
+    /* District context and map-backed hero */
+    .dash-district-context-card {
+      margin: 16px 30px 14px;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+    }
+    .dash-district-context-left,
+    .dash-district-highlight {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+    .dash-context-label {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #475569;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+    .dash-district-select {
+      min-width: 210px;
+      padding: 8px 34px 8px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      background: #ffffff;
+      color: #1e293b;
+      font-size: 13.5px;
+      font-weight: 800;
+      outline: none;
+      cursor: pointer;
+      box-shadow: 0 1px 0 rgba(15, 23, 42, 0.03);
+    }
+    .dash-district-highlight {
+      color: #64748b;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .dash-gov-hero-section {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      min-height: 450px;
+      background: #17324d;
+      color: #ffffff;
+      padding: 0 30px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .dash-gov-hero-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background: url('assets/punjab-reference-map.png') center center / 100% 100% no-repeat;
+      opacity: 1;
+      transform: scale(1.01);
+      transform-origin: center;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.02) 22%, rgba(0, 0, 0, 0.18) 34%, rgba(0, 0, 0, 0.58) 47%, #000000 64%, #000000 100%);
+      mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.02) 22%, rgba(0, 0, 0, 0.18) 34%, rgba(0, 0, 0, 0.58) 47%, #000000 64%, #000000 100%);
+    }
+    .dash-gov-hero-section::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        linear-gradient(90deg, #17324d 0%, #17324d 26%, rgba(23, 50, 77, 0.96) 35%, rgba(23, 50, 77, 0.78) 45%, rgba(23, 50, 77, 0.42) 56%, rgba(23, 50, 77, 0.12) 70%, rgba(255, 255, 255, 0.0) 88%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.0) 22%, rgba(15, 23, 42, 0.0) 76%, rgba(15, 23, 42, 0.07) 100%);
+      pointer-events: none;
+    }
+    .dash-hero-container {
+      max-width: none;
+      min-height: 450px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(560px, 0.82fr) minmax(620px, 1.18fr);
+      gap: 18px;
+      align-items: center;
+    }
+    .dash-hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      max-width: 700px;
+      padding-left: clamp(24px, 4.8vw, 88px);
+    }
+    .dash-hero-eyebrow {
+      color: #f6df45;
+      font-weight: 800;
+      font-size: 15px;
+      letter-spacing: 0.04em;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+    }
+    .dash-hero-heading {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(42px, 3.6vw, 56px);
+      font-weight: 900;
+      line-height: 1.08;
+      margin-bottom: 18px;
+      color: #ffffff;
+      letter-spacing: 0;
+      text-shadow: 0 3px 14px rgba(2, 8, 23, 0.18);
+    }
+    .dash-hero-desc {
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 17px;
+      line-height: 1.58;
+      margin-bottom: 24px;
+      max-width: 620px;
+    }
+    .dash-hero-desc span {
+      display: block;
+      margin-top: 3px;
+    }
+    .dash-hero-btn-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .dash-btn-hero-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 48px;
+      padding: 11px 22px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.36);
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      backdrop-filter: blur(8px);
+    }
+    .dash-btn-hero-outline:hover {
+      background: #ffffff;
+      color: #17324D;
+      border-color: #ffffff;
+      transform: translateY(-2px);
+    }
+    .dash-hero-stats-stack {
+      display: none;
+      align-self: stretch;
+      width: 100%;
+      min-height: 100%;
+      justify-self: stretch;
+      position: relative;
+      pointer-events: none;
+    }
+    .dash-hero-stat-card {
+      position: absolute;
+      min-width: 142px;
+      background: rgba(255, 255, 255, 0.90);
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      border-radius: 6px;
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      transition: all 0.2s;
+      box-shadow: 0 14px 28px rgba(15, 23, 42, 0.12);
+      color: #17324d;
+      pointer-events: auto;
+      backdrop-filter: blur(10px);
+    }
+    .dash-hero-stat-card:hover {
+      background: #ffffff;
+      border-color: #C49A58;
+      transform: translateY(-2px);
+    }
+    .dash-hero-stat-card:nth-child(1) {
+      right: 13%;
+      top: 20%;
+    }
+    .dash-hero-stat-card:nth-child(2) {
+      right: 34%;
+      top: 48%;
+    }
+    .dash-hero-stat-card:nth-child(3) {
+      right: 8%;
+      bottom: 18%;
+    }
+    .dash-stat-card-left {
+      display: flex;
+      flex-direction: column;
+    }
+    .dash-stat-val {
+      font-family: 'Outfit', sans-serif;
+      font-size: 26px;
+      font-weight: 800;
+      color: #C49A58;
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+    .dash-stat-lbl {
+      font-size: 11px;
+      color: #475569;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    /* Info Bar */
+    .dash-gov-info-bar {
+      background: #ffffff;
+      border-bottom: 1px solid #E2E8F0;
+      padding: 12px 24px;
+    }
+    .dash-info-bar-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #64748B;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .dash-info-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      line-height: 1.4;
+      max-width: 80%;
+    }
+    .dash-info-bar-left strong {
+      color: #17324D;
+    }
+    .dash-info-bar-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+    }
+    /* Bottom Grid (Updates & Quick Access) */
+    .dash-bottom-layout-grid {
+      width: min(98%, 1560px);
+      max-width: 1560px;
+      margin: 16px auto 24px;
+      padding: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(390px, 1fr);
+      gap: 16px;
+    }
+    .dash-panel-card {
+      background: #ffffff;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 8px;
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+    }
+    .dash-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1.5px solid #E2E8F0;
+      padding-bottom: 15px;
+      margin-bottom: 20px;
+    }
+    .dash-panel-title {
+      font-size: clamp(20px, 1.25vw, 22px);
+      font-weight: 600;
+      color: #17324D;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      line-height: 1.2;
+    }
+    .dash-panel-link-all {
+      font-size: 13px;
+      font-weight: 700;
+      color: #17324D;
+      cursor: pointer;
+    }
+    .dash-panel-link-all:hover {
+      text-decoration: underline;
+    }
+    .dash-updates-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      list-style: none;
+    }
+    .dash-update-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .dash-update-dot {
+      width: 8px;
+      height: 8px;
+      background: #F2A123;
+      border-radius: 50%;
+      margin-top: 9px;
+      flex-shrink: 0;
+    }
+    .dash-update-content {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .dash-update-text {
+      font-size: clamp(15px, 0.98vw, 17px);
+      font-weight: 600;
+      line-height: 1.55;
+      color: #1E293B;
+    }
+    .dash-update-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: clamp(13px, 0.82vw, 14px);
+      color: #64748B;
+      font-weight: 600;
+    }
+    .dash-badge-new {
+      background: #EBFDF5;
+      color: #10B981;
+      padding: 3px 7px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+    /* Quick Access Grid */
+    .dash-quick-access-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .dash-quick-access-btn {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 6px;
+      padding: 15px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .dash-quick-access-btn:hover {
+      background: #ffffff;
+      border-color: #17324D;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(23, 50, 77, 0.05);
+    }
+    .dash-quick-icon-box {
+      width: 42px;
+      height: 42px;
+      border-radius: 6px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #E2E8F0;
+    }
+    .dash-quick-text-box {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      line-height: 1.28;
+    }
+    .dash-quick-title {
+      font-size: clamp(16px, 1vw, 17px);
+      font-weight: 600;
+      color: #17324D;
+    }
+    .dash-quick-subtitle {
+      font-size: clamp(12px, 0.8vw, 13px);
+      color: #64748B;
+      font-weight: 600;
+    }
+    /* Reliable dashboard layout fixes */
+    .dash-switcher-tabs,
+    .dash-gov-utility-strip,
+    .dash-gov-right,
+    .dash-gov-brand-row,
+    .dash-brand-right,
+    .dash-gov-menu-bar,
+    .dash-menu-links {
+      flex-wrap: wrap;
+    }
+    .dash-gov-utility-strip,
+    .dash-gov-brand-row,
+    .dash-gov-menu-bar {
+      gap: 14px;
+    }
+    .dash-brand-left {
+      min-width: 280px;
+      flex: 1 1 420px;
+    }
+    .dash-brand-right {
+      justify-content: flex-end;
+      flex: 1 1 320px;
+    }
+    .dash-menu-links {
+      padding: 0;
+      margin: 0;
+    }
+    .dash-menu-link-item button {
+      padding: 14px 14px;
+    }
+    .dash-gov-notice-ticker {
+      height: auto;
+      min-height: 34px;
+    }
+    .dash-gov-hero-section {
+      padding: 0 24px;
+    }
+    .dash-hero-heading {
+      font-size: clamp(40px, 3.4vw, 54px);
+    }
+    .dash-panel-card {
+      min-width: 0;
+      padding: 26px;
+    }
+    .dash-update-content,
+    .dash-quick-text-box {
+      min-width: 0;
+    }
+    .dash-quick-access-btn {
+      min-height: 74px;
+    }
+    /* Dashboard dark mode: scoped to this page so other portal screens keep their own theme */
+    html.dark #view-dashboard {
+      --dash-page-bg: #07111f;
+    }
+    html.dark #view-dashboard,
+    html.dark #view-dashboard .dash-portal-wrapper {
+      background: #07111f;
+      color: #e5edf6;
+    }
+    html.dark #view-dashboard .dash-switcher-bar,
+    html.dark #view-dashboard .dash-gov-utility-strip {
+      background: #020817;
+      color: #e5edf6;
+      border-color: rgba(148, 163, 184, 0.18);
+    }
+    html.dark #view-dashboard .dash-switcher-tab.inactive {
+      background: #142237;
+      color: #dbeafe;
+    }
+    html.dark #view-dashboard .dash-switcher-info,
+    html.dark #view-dashboard .dash-gov-right button,
+    html.dark #view-dashboard .dash-gov-right a {
+      color: #b6c4d6;
+    }
+    html.dark #view-dashboard .dash-gov-right button:hover,
+    html.dark #view-dashboard .dash-gov-right a:hover {
+      color: #ffffff;
+    }
+    html.dark #view-dashboard .dash-font-btn {
+      color: #e5edf6;
+      border-color: rgba(226, 232, 240, 0.22);
+      background: rgba(255, 255, 255, 0.04);
+    }
+    html.dark #view-dashboard .dash-gov-brand-row,
+    html.dark #view-dashboard .dash-gov-info-bar,
+    html.dark #view-dashboard .dash-bottom-layout-grid {
+      background: #07111f;
+    }
+    html.dark #view-dashboard .dash-gov-brand-row,
+    html.dark #view-dashboard .dash-gov-info-bar {
+      border-color: rgba(148, 163, 184, 0.16);
+    }
+    html.dark #view-dashboard .dash-brand-title,
+    html.dark #view-dashboard .dash-info-bar-left strong,
+    html.dark #view-dashboard .dash-panel-title,
+    html.dark #view-dashboard .dash-panel-link-all,
+    html.dark #view-dashboard .dash-quick-title {
+      color: #f8fafc;
+    }
+    html.dark #view-dashboard .dash-brand-subtitle,
+    html.dark #view-dashboard .dash-info-bar-container,
+    html.dark #view-dashboard .dash-update-meta,
+    html.dark #view-dashboard .dash-quick-subtitle {
+      color: #a9b8ca;
+    }
+    html.dark #view-dashboard .dash-gov-menu-bar {
+      background: #0f2338;
+      border-bottom-color: #d0a35d;
+    }
+    html.dark #view-dashboard .dash-menu-link-item button {
+      color: #dbe7f5;
+    }
+    html.dark #view-dashboard .dash-menu-link-item.active button,
+    html.dark #view-dashboard .dash-menu-link-item button:hover {
+      background: rgba(255, 255, 255, 0.10);
+      color: #ffffff;
+    }
+    html.dark #view-dashboard .dash-menu-search input {
+      background: rgba(15, 23, 42, 0.7);
+      border-color: rgba(226, 232, 240, 0.20);
+      color: #ffffff;
+    }
+    html.dark #view-dashboard .dash-gov-notice-ticker {
+      background: #21190b;
+      border-bottom-color: rgba(208, 163, 93, 0.28);
+    }
+    html.dark #view-dashboard .dash-notice-marquee-text {
+      color: #f6d79e;
+    }
+    html.dark #view-dashboard .dash-district-context-card {
+      background: #0d1a2b;
+      border-color: rgba(148, 163, 184, 0.22);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+    }
+    html.dark #view-dashboard .dash-context-label,
+    html.dark #view-dashboard .dash-district-highlight {
+      color: #b6c4d6;
+    }
+    html.dark #view-dashboard .dash-district-select {
+      background: #07111f;
+      color: #f8fafc;
+      border-color: rgba(148, 163, 184, 0.30);
+    }
+    html.dark #view-dashboard .dash-gov-hero-section {
+      background: #07111f;
+      border-bottom-color: rgba(148, 163, 184, 0.20);
+    }
+    html.dark #view-dashboard .dash-gov-hero-section::before {
+      opacity: 0.9;
+      filter: saturate(0.92) brightness(0.92) contrast(1.04);
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.02) 22%, rgba(0, 0, 0, 0.16) 34%, rgba(0, 0, 0, 0.54) 49%, #000000 67%, #000000 100%);
+      mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.02) 22%, rgba(0, 0, 0, 0.16) 34%, rgba(0, 0, 0, 0.54) 49%, #000000 67%, #000000 100%);
+    }
+    html.dark #view-dashboard .dash-gov-hero-section::after {
+      background:
+        linear-gradient(90deg, #07111f 0%, #07111f 27%, rgba(7, 17, 31, 0.96) 37%, rgba(7, 17, 31, 0.74) 49%, rgba(7, 17, 31, 0.34) 64%, rgba(7, 17, 31, 0.12) 82%, rgba(7, 17, 31, 0.02) 100%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.0) 20%, rgba(2, 8, 23, 0.04) 100%);
+    }
+    html.dark #view-dashboard .dash-hero-desc,
+    html.dark #view-dashboard .dash-stat-lbl {
+      color: #b6c4d6;
+    }
+    html.dark #view-dashboard .dash-hero-stat-card {
+      background: rgba(255, 255, 255, 0.055);
+      border-color: rgba(226, 232, 240, 0.14);
+    }
+    html.dark #view-dashboard .dash-panel-card,
+    html.dark #view-dashboard .dash-quick-access-btn {
+      background: #0d1a2b;
+      border-color: rgba(148, 163, 184, 0.22);
+      box-shadow: none;
+    }
+    html.dark #view-dashboard .dash-quick-access-btn:hover {
+      background: #122238;
+      border-color: #d0a35d;
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.28);
+    }
+    html.dark #view-dashboard .dash-quick-icon-box {
+      background: #07111f;
+      border-color: rgba(148, 163, 184, 0.22);
+      color: #d0a35d;
+    }
+    html.dark #view-dashboard .dash-panel-header {
+      border-bottom-color: rgba(148, 163, 184, 0.18);
+    }
+    html.dark #view-dashboard .dash-update-text {
+      color: #e5edf6;
+    }
+    html.dark #view-dashboard .dash-badge-emgsm,
+    html.dark #view-dashboard .dash-badge-new {
+      background: rgba(16, 185, 129, 0.14);
+      color: #7dd3aa;
+      border-color: rgba(16, 185, 129, 0.28);
+    }
+    html.dark #view-dashboard .dash-badge-support {
+      background: rgba(59, 130, 246, 0.14);
+      color: #93c5fd;
+      border-color: rgba(59, 130, 246, 0.28);
+    }
+    html.dark #view-dashboard .dash-action-icon-btn,
+    html.dark #view-dashboard .dash-btn-logout {
+      background: #0d1a2b;
+      color: #cbd5e1;
+      border-color: rgba(148, 163, 184, 0.22);
+    }
+    html.dark #view-dashboard .dash-action-icon-btn:hover {
+      background: #142237;
+      color: #ffffff;
+      border-color: #d0a35d;
+    }
+    html.dark #view-dashboard .dash-btn-logout:hover {
+      background: rgba(239, 68, 68, 0.12);
+      border-color: #ef4444;
+      color: #fca5a5;
+    }
+    html.dark #view-dashboard #dash-review-banner {
+      background: #241707 !important;
+      border-color: #b7791f !important;
+    }
+    html.dark #view-dashboard #dash-review-banner strong,
+    html.dark #view-dashboard #dash-review-banner-text {
+      color: #f6d79e !important;
+    }
+    @media (max-width: 1100px) {
+      .dash-hero-container,
+      .dash-bottom-layout-grid {
+        grid-template-columns: 1fr;
+        width: min(96%, 1040px);
+      }
+      .dash-hero-stats-stack {
+        max-width: none;
+        justify-self: stretch;
+        display: none;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 760px) {
+      .dash-switcher-bar,
+      .dash-gov-utility-strip,
+      .dash-gov-brand-row,
+      .dash-gov-menu-bar,
+      .dash-gov-notice-ticker,
+      .dash-gov-info-bar {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+      .dash-switcher-bar {
+        height: auto;
+        gap: 8px;
+      }
+      .dash-switcher-info,
+      .dash-brand-subtitle {
+        display: none;
+      }
+      .dash-gov-right,
+      .dash-brand-right {
+        justify-content: flex-start;
+      }
+      .dash-brand-left {
+        min-width: 0;
+        align-items: flex-start;
+      }
+      .dash-brand-title {
+        font-size: 20px;
+      }
+      .dash-menu-links,
+      .dash-menu-search {
+        width: 100%;
+      }
+      .dash-menu-link-item button {
+        padding: 11px 10px;
+        font-size: 12px;
+      }
+      .dash-menu-search {
+        margin-bottom: 10px;
+      }
+      .dash-menu-search input,
+      .dash-menu-search input:focus {
+        width: 100%;
+      }
+      .dash-gov-hero-section {
+        min-height: 520px;
+        padding: 0 16px;
+      }
+      .dash-gov-hero-section::before {
+        background-position: center bottom;
+        background-size: 120% 60%;
+        -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.02) 34%, rgba(0, 0, 0, 0.32) 54%, #000000 82%, #000000 100%);
+        mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.02) 34%, rgba(0, 0, 0, 0.32) 54%, #000000 82%, #000000 100%);
+      }
+      .dash-gov-hero-section::after {
+        background:
+          linear-gradient(180deg, rgba(15, 32, 49, 0.98) 0%, rgba(23, 50, 77, 0.94) 47%, rgba(23, 50, 77, 0.48) 70%, rgba(23, 50, 77, 0.08) 100%);
+      }
+      .dash-hero-heading {
+        font-size: 36px;
+      }
+      .dash-hero-desc {
+        margin-bottom: 22px;
+        font-size: 16px;
+      }
+      .dash-quick-access-grid {
+        grid-template-columns: 1fr;
+      }
+      .dash-panel-card {
+        padding: 18px;
+      }
+      .dash-panel-header {
+        align-items: flex-start;
+        gap: 12px;
+        flex-wrap: wrap;
+        padding-bottom: 14px;
+        margin-bottom: 18px;
+      }
+      .dash-panel-title {
+        font-size: 20px;
+      }
+      .dash-panel-link-all {
+        font-size: 14px;
+      }
+      .dash-updates-list {
+        gap: 15px;
+      }
+      .dash-update-text {
+        font-size: 15px;
+        line-height: 1.5;
+      }
+      .dash-update-meta {
+        font-size: 12.5px;
+      }
+      .dash-quick-access-btn {
+        min-height: 70px;
+        padding: 14px 15px;
+      }
+      .dash-quick-icon-box {
+        width: 40px;
+        height: 40px;
+      }
+      .dash-quick-title {
+        font-size: 16px;
+      }
+      .dash-quick-subtitle {
+        font-size: 12.5px;
+      }
+      html.dark #view-dashboard .dash-gov-hero-section {
+        background: #07111f;
+      }
+      html.dark #view-dashboard .dash-gov-hero-section::after {
+        background:
+          linear-gradient(180deg, rgba(2, 8, 23, 0.99) 0%, rgba(9, 24, 43, 0.96) 52%, rgba(8, 17, 31, 0.68) 78%, rgba(8, 17, 31, 0.22) 100%);
+      }
+      .dash-bottom-layout-grid {
+        margin: 16px auto;
+        width: calc(100% - 32px);
+      }
+    }
+  </style>
+  <div id="dash-review-banner" class="notif notif-warn" style="display:none; margin: 20px 24px; align-items: start; gap: 12px; border: 1px solid #f59e0b; background: #fffbeb; border-radius: 8px; padding: 16px;">
+    <i data-lucide="alert-triangle" style="color: #f59e0b; flex-shrink:0;"></i>
+    <div style="flex:1;">
+      <strong style="color: #b45309; font-size: 14px; display:block; margin-bottom:4px;">Report Returned for Review</strong>
+      <div id="dash-review-banner-text" style="color: #92400e; font-size: 13px; white-space: pre-wrap;"></div>
+    </div>
+  </div>
+  <div class="dash-portal-wrapper">
+    <div class="dash-switcher-bar">
+      <div class="dash-switcher-tabs">
+        <a href="home.html" class="dash-switcher-tab inactive">
+          <i data-lucide="home" style="width: 12px; height: 12px; stroke-width: 2.5;"></i> Home Page
+        </a>
+        <a href="#" class="dash-switcher-tab active" onclick="return false;">
+          <i data-lucide="lock" style="width: 12px; height: 12px; stroke-width: 2.5;"></i> Login Page
+        </a>
+      </div>
+      <div class="dash-switcher-info">
+        <i data-lucide="info" style="width: 12px; height: 12px;"></i> Click tabs to switch...
+      </div>
+    </div>
+    <div class="dash-gov-utility-strip">
+      <div class="dash-gov-left">
+        <span class="dash-badge-in">IN</span>
+        <span style="font-weight: 700; color: #E2E8F0;">Government of Punjab | W375-61487</span>
+      </div>
+      <div class="dash-gov-right">
+        <button class="dash-lang-btn" data-lang="en" onclick="applyPortalLanguage('en')">English</button>
+        <span style="color: rgba(255,255,255,0.2);">|</span>
+        <button class="dash-lang-btn" data-lang="hi" onclick="applyPortalLanguage('hi')">Hindi</button>
+        <span style="color: rgba(255,255,255,0.2);">|</span>
+        <button class="dash-lang-btn" data-lang="pa" onclick="applyPortalLanguage('pa')">Punjabi</button>
+        <span style="color: rgba(255,255,255,0.2);">|</span>
+        <button onclick="dashPortalToast('Screen reader mode is ready. Use browser accessibility tools to continue.')" style="display: inline-flex; align-items: center; gap: 4px;"><i data-lucide="eye" style="width:13px; height:13px;"></i> <span data-i18n="screenReader">Screen Reader</span></button>
+        <span style="color: rgba(255,255,255,0.2);">|</span>
+        <div class="dash-font-btns">
+          <button class="dash-font-btn" onclick="changeFontSize(-1)">A-</button>
+          <button class="dash-font-btn" onclick="changeFontSize(0)">A</button>
+          <button class="dash-font-btn" onclick="changeFontSize(1)">A+</button>
+        </div>
+        <span style="color: rgba(255,255,255,0.2);">|</span>
+        <button onclick="document.getElementById('dash-main-content')?.scrollIntoView({behavior:'smooth', block:'start'})" data-i18n="skipContent">Skip to Content</button>
+      </div>
+    </div>
+    <div class="dash-gov-brand-row">
+      <div class="dash-brand-left">
+        <svg viewBox="0 0 100 100" width="54" height="54" style="flex-shrink:0;">
+          <circle cx="50" cy="50" r="46" fill="#17324D" stroke="#C49A58" stroke-width="3"/>
+          <path d="M50 20 L25 40 L75 40 Z" fill="#ffffff"/>
+          <rect x="30" y="40" width="40" height="35" fill="#ffffff"/>
+          <rect x="44" y="52" width="12" height="23" fill="#17324D"/>
+          <line x1="35" y1="45" x2="65" y2="45" stroke="#17324D" stroke-width="2"/>
+          <line x1="35" y1="50" x2="65" y2="50" stroke="#17324D" stroke-width="2"/>
+        </svg>
+        <div class="dash-brand-texts">
+          <span class="dash-brand-bilingual" data-i18n="brandBilingual">Government of Punjab - IIT Ropar Research Cell - EMGSM 2020</span>
+          <h1 class="dash-brand-title" data-i18n="brandTitle">District Survey Report Automation Portal</h1>
+          <span class="dash-brand-subtitle" data-i18n="brandSubtitle">DSR Automation for Sand Mining</span>
+        </div>
+      </div>
+      <div class="dash-brand-right">
+        <button class="dash-gov-badge dash-badge-emgsm" onclick="showView('workflow', null)">
+          <i data-lucide="leaf" style="width:13px; height:13px;"></i> EMGSM 2020
+        </button>
+        <button class="dash-action-icon-btn" onclick="dashFocusSearch()" title="Search portal"><i data-lucide="search" style="width:16px; height:16px;"></i></button>
+        <button class="dash-action-icon-btn" onclick="showView('sdlc-portal', null)"><i data-lucide="help-circle" style="width:16px; height:16px;"></i></button>
+        <button class="dash-action-icon-btn" onclick="dashSharePortal()" title="Copy portal link"><i data-lucide="share-2" style="width:16px; height:16px;"></i></button>
+        <button class="dash-action-icon-btn dash-theme-toggle" onclick="toggleDarkMode()" title="Toggle dark mode" aria-label="Toggle dark mode" data-theme-toggle><i data-lucide="moon" style="width:16px; height:16px;"></i></button>
+        <button onclick="doLogout()" class="dash-btn-logout">
+          <i data-lucide="log-out" style="width:15px; height:15px; stroke-width: 2.5;"></i> Logout
+        </button>
+      </div>
+    </div>
+    <div class="dash-gov-menu-bar">
+      <ul class="dash-menu-links">
+        <li class="dash-menu-link-item active">
+          <button onclick="clearActiveProject(); showView('dashboard', null)"><i data-lucide="home" style="width:15px; height:15px; color: #C49A58;"></i> <span data-i18n="navHome">Home</span></button>
+        </li>
+        <li class="dash-menu-link-item">
+          <button onclick="openAboutDsr(null)"><i data-lucide="info" style="width:15px; height:15px; opacity:0.8;"></i> <span data-i18n="navAbout">About DSR</span></button>
+        </li>
+        <li class="dash-menu-link-item">
+          <button onclick="showView('projects', null)"><i data-lucide="folder" style="width:15px; height:15px; opacity:0.8;"></i> <span data-i18n="navProjects">Projects</span></button>
+        </li>
+        <li class="dash-menu-link-item">
+          <button onclick="showView('workflow', null)"><i data-lucide="activity" style="width:15px; height:15px; opacity:0.8;"></i> <span data-i18n="navWorkflow">Workflow</span></button>
+        </li>
+        <li class="dash-menu-link-item" id="dash-menu-audit-logs" style="display: none;">
+          <button onclick="showView('audit-logs', null)"><i data-lucide="clipboard-list" style="width:15px; height:15px; opacity:0.8;"></i> <span data-i18n="navAudit">Audit Logs</span></button>
+        </li>
+        <li class="dash-menu-link-item" id="dash-menu-users" style="display: none;">
+          <button onclick="showView('users', null)"><i data-lucide="users" style="width:15px; height:15px; opacity:0.8;"></i> <span>User Management</span></button>
+        </li>
+        <li class="dash-menu-link-item">
+          <button onclick="openDistrictMap(null)"><i data-lucide="map-pin" style="width:15px; height:15px; opacity:0.8;"></i> <span data-i18n="navDistricts">Districts</span></button>
+        </li>
+        <li class="dash-menu-link-item">
+          <button onclick="document.getElementById('dash-contact-section')?.scrollIntoView({behavior:'smooth', block:'start'})"><i data-lucide="phone" style="width:15px; height:15px; opacity:0.8;"></i> <span data-i18n="navContact">Contact</span></button>
+        </li>
+      </ul>
+      <div class="dash-menu-search">
+        <i data-lucide="search" style="width: 14px; height: 14px;"></i>
+        <input id="dash-portal-search" type="text" placeholder="Search portal..." data-i18n-placeholder="searchPlaceholder" onkeydown="dashRunSearch(event)" aria-label="Search portal">
+      </div>
+    </div>
+    <div class="dash-gov-notice-ticker">
+      <div class="dash-notice-label">
+          <i data-lucide="megaphone" style="width:12px; height:12px; stroke-width: 2.5;"></i> <span data-i18n="noticeLabel">Notice</span>
+      </div>
+      <div class="dash-notice-marquee-container">
+        <div class="dash-notice-marquee-text">
+          <span data-i18n="noticeText">DSR submissions for Punjab districts 2025-26 are now open - Deadline: 30 September 2026 - New: Digital E-Sign integration live for all districts - EMGSM 2020 compliance mandatory</span>
+        </div>
+      </div>
+    </div>
+    <div class="dash-district-context-card">
+      <div class="dash-district-context-left">
+        <i data-lucide="filter" style="width:16px; height:16px; color:#17324D;"></i>
+        <span class="dash-context-label">District Context:</span>
+        <select id="dash-district-filter" class="dash-district-select" onchange="filterDashboardByDistrict(this.value)">
+          <option value="ALL">All Districts (Punjab)</option>
+          <option>Amritsar</option>
+          <option>Barnala</option>
+          <option>Bathinda</option>
+          <option>Faridkot</option>
+          <option>Fatehgarh Sahib</option>
+          <option>Fazilka</option>
+          <option>Ferozepur</option>
+          <option>Gurdaspur</option>
+          <option>Hoshiarpur</option>
+          <option>Jalandhar</option>
+          <option>Kapurthala</option>
+          <option>Ludhiana</option>
+          <option>Malerkotla</option>
+          <option>Mansa</option>
+          <option>Moga</option>
+          <option>Pathankot</option>
+          <option>Patiala</option>
+          <option>Rupnagar</option>
+          <option>Sahibzada Ajit Singh Nagar</option>
+          <option>Sangrur</option>
+          <option>Shaheed Bhagat Singh Nagar</option>
+          <option>Sri Muktsar Sahib</option>
+          <option>Tarn Taran</option>
+        </select>
+      </div>
+      <div class="dash-district-highlight">
+        Active District Highlight: <span id="dash-active-district-badge" class="badge" style="background:#e2e8f0; color:#475569; padding: 4px 10px; border-radius: 4px; font-weight: 800;">None</span>
+      </div>
+    </div>
+    <section class="dash-gov-hero-section">
+      <div class="dash-hero-container">
+        <div class="dash-hero-content">
+          <span class="dash-hero-eyebrow">DSR Automation Portal — Punjab</span>
+          <h2 class="dash-hero-heading">District Survey Report<br>Automation Portal</h2>
+          <p class="dash-hero-desc">
+            <span>Prepare, review, and digitally sign District Survey Reports for sand mining across all Punjab districts.</span>
+            <span>Fully aligned with EMGSM 2020 guidelines and official review workflows.</span>
+            <span>Developed by IIT Ropar.</span>
+          </p>
+          <div class="dash-hero-btn-row">
+            <button onclick="showView('generate', null)" class="dash-btn-hero-outline">
+              <i data-lucide="file-text" style="width: 15px; height: 15px;"></i> View Guidelines
+            </button>
+            <button onclick="showView('sdlc-portal', null)" class="dash-btn-hero-outline">
+              <i data-lucide="help-circle" style="width: 15px; height: 15px;"></i> Help & Support
+            </button>
+          </div>
+        </div>
+        <div class="dash-hero-stats-stack">
+          <div class="dash-hero-stat-card">
+            <div class="dash-stat-card-left">
+              <span class="dash-stat-val" id="d-districts-dummy">23</span>
+              <span class="dash-stat-lbl">Districts</span>
+            </div>
+            <i data-lucide="map" style="width: 24px; height: 24px; color: #C49A58; opacity: 0.8;"></i>
+          </div>
+          <div class="dash-hero-stat-card">
+            <div class="dash-stat-card-left">
+              <span class="dash-stat-val" id="d-total">3</span>
+              <span class="dash-stat-lbl">Active Projects</span>
+            </div>
+            <i data-lucide="folder-git" style="width: 24px; height: 24px; color: #C49A58; opacity: 0.8;"></i>
+          </div>
+          <div class="dash-hero-stat-card">
+            <div class="dash-stat-card-left">
+              <span class="dash-stat-val" id="d-pdfs">0</span>
+              <span class="dash-stat-lbl">PDFs Generated</span>
+            </div>
+            <i data-lucide="file-down" style="width: 24px; height: 24px; color: #C49A58; opacity: 0.8;"></i>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div id="dash-about-section" class="dash-gov-info-bar">
+      <div class="dash-info-bar-container">
+        <div class="dash-info-bar-left">
+          <i data-lucide="info" style="width: 15px; height: 15px; color: #17324D; flex-shrink: 0; margin-top: 1px;"></i>
+          <span><strong>About this Portal:</strong> This portal is developed under the <strong>EMGSM 2020</strong> framework by IIT Ropar Research Cell for the <strong>Government of Punjab</strong>. It enables field officers and district authorities to prepare, review, and submit DSRs digitally.</span>
+        </div>
+        <div class="dash-info-bar-right">
+          <i data-lucide="calendar" style="width: 14px; height: 14px; color: #C49A58;"></i>
+          <span>Last Updated: 08 Jun 2026</span>
+        </div>
+      </div>
+    </div>
+    <section id="dash-about-dsr-section" class="dash-about-dsr-section">
+      <div class="dash-about-dsr-copy">
+        <span class="dash-map-kicker">About DSR</span>
+        <h3>District Survey Report for Sustainable Sand Mining</h3>
+        <p>
+          A District Survey Report is the official district-level document used to assess mineral availability, river morphology,
+          replenishment, environmental safeguards, transport routes, and compliance requirements before sand mining activities are reviewed.
+        </p>
+        <div class="dash-about-dsr-actions">
+          <button class="dash-map-action" onclick="showView('generate', null)">
+            <i data-lucide="file-text" style="width:15px;height:15px;"></i> Guidelines
+          </button>
+          <button class="dash-map-action dash-map-action-light" onclick="showView('workflow', null)">
+            <i data-lucide="activity" style="width:15px;height:15px;"></i> Workflow
+          </button>
+        </div>
+      </div>
+      <div class="dash-about-dsr-text">
+        <p>
+          The DSR workflow covers district profile, river systems, mining lease context, cross-section studies, mineral estimation,
+          replenishment assessment, transport routes, environmental safeguards, authority review, e-sign approval, and final report generation.
+        </p>
+        <p>
+          This portal keeps the complete process in one place so district teams can upload chapter PDFs, maintain annexures, preview the
+          live report, track progress, and submit a compliant final DSR under the EMGSM 2020 framework.
+        </p>
+      </div>
+    </section>
+    <section id="dash-district-map-section" class="dash-district-map-section">
+      <div class="dash-district-map-header">
+        <div>
+          <span class="dash-map-kicker">Punjab District Map</span>
+          <h3>Colored District Coverage</h3>
+          <p>All 23 Punjab districts are shown with DSR workflow context.</p>
+        </div>
+        <button class="dash-map-action" onclick="document.getElementById('dash-district-filter')?.focus()">
+          <i data-lucide="map-pin" style="width:15px;height:15px;"></i> Select District
+        </button>
+      </div>
+      <div class="dash-punjab-map-layout">
+        <div class="dash-punjab-map-stage" aria-label="Colored Punjab district map">
+          <img src="assets/punjab-reference-map.png" alt="Punjab district reference map">
+          <span class="map-district-chip c1" style="--x:51%;--y:19%;">Gurdaspur</span>
+          <span class="map-district-chip c2" style="--x:66%;--y:23%;">Pathankot</span>
+          <span class="map-district-chip c3" style="--x:75%;--y:27%;">Hoshiarpur</span>
+          <span class="map-district-chip c4" style="--x:58%;--y:38%;">Kapurthala</span>
+          <span class="map-district-chip c5" style="--x:63%;--y:43%;">Jalandhar</span>
+          <span class="map-district-chip c6" style="--x:50%;--y:45%;">Tarn Taran</span>
+          <span class="map-district-chip c7" style="--x:42%;--y:50%;">Amritsar</span>
+          <span class="map-district-chip c8" style="--x:51%;--y:58%;">Ferozepur</span>
+          <span class="map-district-chip c9" style="--x:60%;--y:60%;">Moga</span>
+          <span class="map-district-chip c10" style="--x:70%;--y:56%;">Ludhiana</span>
+          <span class="map-district-chip c11" style="--x:82%;--y:52%;">Rupnagar</span>
+          <span class="map-district-chip c12" style="--x:86%;--y:61%;">SAS Nagar</span>
+          <span class="map-district-chip c13" style="--x:78%;--y:69%;">Fatehgarh Sahib</span>
+          <span class="map-district-chip c14" style="--x:70%;--y:73%;">Malerkotla</span>
+          <span class="map-district-chip c15" style="--x:76%;--y:80%;">Patiala</span>
+          <span class="map-district-chip c16" style="--x:60%;--y:77%;">Sangrur</span>
+          <span class="map-district-chip c17" style="--x:51%;--y:80%;">Barnala</span>
+          <span class="map-district-chip c18" style="--x:45%;--y:72%;">Bathinda</span>
+          <span class="map-district-chip c19" style="--x:35%;--y:68%;">Faridkot</span>
+          <span class="map-district-chip c20" style="--x:30%;--y:78%;">Sri Muktsar Sahib</span>
+          <span class="map-district-chip c21" style="--x:22%;--y:71%;">Fazilka</span>
+          <span class="map-district-chip c22" style="--x:53%;--y:89%;">Mansa</span>
+          <span class="map-district-chip c23" style="--x:73%;--y:39%;">SBS Nagar</span>
+        </div>
+        <div class="dash-district-legend">
+          <h4>All Districts</h4>
+          <div class="district-color-grid">
+            <span>Amritsar</span><span>Barnala</span><span>Bathinda</span><span>Faridkot</span>
+            <span>Fatehgarh Sahib</span><span>Fazilka</span><span>Ferozepur</span><span>Gurdaspur</span>
+            <span>Hoshiarpur</span><span>Jalandhar</span><span>Kapurthala</span><span>Ludhiana</span>
+            <span>Malerkotla</span><span>Mansa</span><span>Moga</span><span>Pathankot</span>
+            <span>Patiala</span><span>Rupnagar</span><span>SAS Nagar</span><span>Sangrur</span>
+            <span>SBS Nagar</span><span>Sri Muktsar Sahib</span><span>Tarn Taran</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="dash-bottom-layout-grid">
+      <div class="dash-panel-card">
+        <div class="dash-panel-header">
+          <span class="dash-panel-title">
+            <i data-lucide="bell" style="width: 20px; height: 20px; color: #F2A123;"></i> Latest Updates
+          </span>
+          <span onclick="showView('history', null)" class="dash-panel-link-all">View All</span>
+        </div>
+        <ul class="dash-updates-list">
+          <li class="dash-update-item">
+            <div class="dash-update-dot"></div>
+            <div class="dash-update-content">
+              <span class="dash-update-text">DSR submissions for 2025–26 cycle are now open for all Punjab districts</span>
+              <div class="dash-update-meta">
+                <span>08 Jun 2026</span>
+                <span class="dash-badge-new">NEW</span>
+              </div>
+            </div>
+          </li>
+          <li class="dash-update-item">
+            <div class="dash-update-dot"></div>
+            <div class="dash-update-content">
+              <span class="dash-update-text">Digital E-Sign integration completed — now live for all enrolled officers</span>
+              <div class="dash-update-meta">
+                <span>05 Jun 2026</span>
+                <span class="dash-badge-new">NEW</span>
+              </div>
+            </div>
+          </li>
+          <li class="dash-update-item">
+            <div class="dash-update-dot"></div>
+            <div class="dash-update-content">
+              <span class="dash-update-text">EMGSM 2020 compliance checklist updated — download revised format</span>
+              <div class="dash-update-meta">
+                <span>01 Jun 2026</span>
+              </div>
+            </div>
+          </li>
+          <li class="dash-update-item">
+            <div class="dash-update-dot"></div>
+            <div class="dash-update-content">
+              <span class="dash-update-text">Hoshiarpur district survey moved to review stage — pending authority sign-off</span>
+              <div class="dash-update-meta">
+                <span>28 May 2026</span>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="dash-panel-card">
+        <div class="dash-panel-header">
+          <span class="dash-panel-title">
+            <i data-lucide="grid" style="width: 20px; height: 20px; color: #C49A58;"></i> Quick Access
+          </span>
+        </div>
+        <div class="dash-quick-access-grid">
+          <div onclick="newProjectModal()" class="dash-quick-access-btn">
+            <div class="dash-quick-icon-box" style="color: #3B82F6;"><i data-lucide="plus" style="width: 20px; height: 20px;"></i></div>
+            <div class="dash-quick-text-box">
+              <span class="dash-quick-title">New Project</span>
+              <span class="dash-quick-subtitle">Start a DSR</span>
+            </div>
+          </div>
+          <div onclick="showView('projects', null)" class="dash-quick-access-btn">
+            <div class="dash-quick-icon-box" style="color: #10B981;"><i data-lucide="folder" style="width: 20px; height: 20px;"></i></div>
+            <div class="dash-quick-text-box">
+              <span class="dash-quick-title">My Projects</span>
+              <span class="dash-quick-subtitle">View & edit</span>
+            </div>
+          </div>
+          <div onclick="showView('esign', null)" class="dash-quick-access-btn">
+            <div class="dash-quick-icon-box" style="color: #F2A123;"><i data-lucide="clock" style="width: 20px; height: 20px;"></i></div>
+            <div class="dash-quick-text-box">
+              <span class="dash-quick-title">Pending Signs</span>
+              <span class="dash-quick-subtitle">Awaiting auth</span>
+            </div>
+          </div>
+          <div onclick="showView('generate', null)" class="dash-quick-access-btn">
+            <div class="dash-quick-icon-box" style="color: #3B82F6;"><i data-lucide="file-text" style="width: 20px; height: 20px;"></i></div>
+            <div class="dash-quick-text-box">
+              <span class="dash-quick-title">Generated PDFs</span>
+              <span class="dash-quick-subtitle">Preview final reports</span>
+            </div>
+          </div>
+          <div onclick="clearActiveProject(); showView('dashboard', null)" class="dash-quick-access-btn">
+            <div class="dash-quick-icon-box" style="color: #3B82F6;"><i data-lucide="map-pin" style="width: 20px; height: 20px;"></i></div>
+            <div class="dash-quick-text-box">
+              <span class="dash-quick-title">District Data</span>
+              <span class="dash-quick-subtitle">All 23 districts</span>
+            </div>
+          </div>
+          <div onclick="showView('sdlc-portal', null)" class="dash-quick-access-btn">
+            <div class="dash-quick-icon-box" style="color: #10B981;"><i data-lucide="help-circle" style="width: 20px; height: 20px;"></i></div>
+            <div class="dash-quick-text-box">
+              <span class="dash-quick-title">Help & FAQ</span>
+              <span class="dash-quick-subtitle">User manual</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <section id="dash-contact-section" class="dash-bottom-layout-grid" style="grid-template-columns: minmax(0, 1fr); margin-top: 0;">
+      <div class="dash-panel-card">
+        <div class="dash-panel-header">
+          <span class="dash-panel-title">
+            <i data-lucide="phone" style="width: 20px; height: 20px; color: #C49A58;"></i> Contact & Demo Support
+          </span>
+          <span class="dash-panel-link-all" onclick="showView('sdlc-portal', null)">Open Help Desk</span>
+        </div>
+        <div class="dash-quick-access-grid" style="grid-template-columns: repeat(4, minmax(0, 1fr));">
+          <div class="dash-quick-access-btn">
+            <div class="dash-quick-icon-box" style="color:#3B82F6;"><i data-lucide="building-2" style="width:20px;height:20px;"></i></div>
+            <div class="dash-quick-text-box">
+              <span class="dash-quick-title">Nodal Office</span>
+              <span class="dash-quick-subtitle">Punjab DSR Cell, Chandigarh</span>
+            </div>
+          </div>
+          <div class="dash-quick-access-btn">
+            <div class="dash-quick-icon-box" style="color:#10B981;"><i data-lucide="mail" style="width:20px;height:20px;"></i></div>
+            <div class="dash-quick-text-box">
+              <span class="dash-quick-title">Email</span>
+              <span class="dash-quick-subtitle">support.dsr@punjab.gov.in</span>
+            </div>
+          </div>
+          <div class="dash-quick-access-btn">
+            <div class="dash-quick-icon-box" style="color:#F2A123;"><i data-lucide="phone-call" style="width:20px;height:20px;"></i></div>
+            <div class="dash-quick-text-box">
+              <span class="dash-quick-title">Helpline</span>
+              <span class="dash-quick-subtitle">0172-274-Demo</span>
+            </div>
+          </div>
+          <div class="dash-quick-access-btn">
+            <div class="dash-quick-icon-box" style="color:#3B82F6;"><i data-lucide="clock-3" style="width:20px;height:20px;"></i></div>
+            <div class="dash-quick-text-box">
+              <span class="dash-quick-title">Demo Hours</span>
+              <span class="dash-quick-subtitle">Mon-Fri, 10:00 AM-5:00 PM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div style="display:none;">
+      <span id="d-done">0</span>
+      <span id="d-sigs">0</span>
+      <div id="d-total-fill"></div>
+      <div id="d-done-fill"></div>
+      <div id="d-sigs-fill"></div>
+      <div id="d-pdfs-fill"></div>
+      <span id="d-total-pct">0%</span>
+      <span id="d-done-pct">0%</span>
+      <span id="d-sigs-pct">0%</span>
+      <span id="d-pdfs-pct">0%</span>
+    </div>
+  </div>
+</div>

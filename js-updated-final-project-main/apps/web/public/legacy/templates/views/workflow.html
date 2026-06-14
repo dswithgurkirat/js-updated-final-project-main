@@ -1,0 +1,123 @@
+        <div id="view-workflow" class="view">
+          <div class="header-row">
+            <div>
+              <div class="page-title">Report Workflow</div>
+              <div class="page-sub">Serial-locked workflow — each stage must be completed before unlocking the next
+              </div>
+            </div>
+          </div>
+          <div id="workflow-active-district-header" style="margin-bottom: 20px; display:none;"></div>
+          <div class="card workflow-project-panel" style="margin-bottom:20px;">
+            <div class="card-hd" style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+              <div class="card-title">Project Selection & Live Status</div>
+              <span class="badge badge-blue" id="workflow-live-status-badge">No project selected</span>
+            </div>
+            <div class="card-bd">
+              <div style="display:grid; grid-template-columns:minmax(260px, .9fr) minmax(0, 1.1fr); gap:16px; align-items:start;">
+                <div class="field" style="margin:0;">
+                  <label>Select DSR Project</label>
+                  <select id="workflow-project-select" onchange="selectWorkflowProject(this.value)" style="width:100%;">
+                    <option value="">-- Select Project --</option>
+                  </select>
+                </div>
+                <div id="workflow-project-live-card" style="border:1px solid var(--border-2); border-radius:8px; background:var(--off); padding:14px;">
+                  <div style="font-size:13px; color:var(--text-soft);">Choose a project to see live completion progress.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="step-bar">
+            <div class="step done">
+              <div class="step-dot">✓</div>
+              <div class="step-lbl">Project Setup</div>
+            </div>
+            <div class="step active">
+              <div class="step-dot">2</div>
+              <div class="step-lbl">Front Matter</div>
+            </div>
+            <div class="step">
+              <div class="step-dot">3</div>
+              <div class="step-lbl">Chapters</div>
+            </div>
+            <div class="step">
+              <div class="step-dot">4</div>
+              <div class="step-lbl">Plates</div>
+            </div>
+            <div class="step">
+              <div class="step-dot">5</div>
+              <div class="step-lbl">Annexures</div>
+            </div>
+            <div class="step">
+              <div class="step-dot">6</div>
+              <div class="step-lbl">Tables</div>
+            </div>
+            <div class="step">
+              <div class="step-dot">7</div>
+              <div class="step-lbl">PDF</div>
+            </div>
+            <div class="step">
+              <div class="step-dot">8</div>
+              <div class="step-lbl">E-Sign</div>
+            </div>
+          </div>
+          <div class="g2">
+            <div class="card">
+              <div class="card-hd">
+                <div class="card-title">Section Completion Status</div>
+              </div>
+              <div class="card-bd" id="workflow-checklist"></div>
+            </div>
+            <div class="card">
+              <div class="card-hd">
+                <div class="card-title">E-Signature Hierarchy</div>
+              </div>
+              <div class="card-bd">
+                <div class="notif notif-warn" style="margin-bottom:14px; display:flex; align-items:center; gap:8px;">
+                  <i data-lucide="alert-triangle" style="width:16px; height:16px; flex-shrink:0;"></i>
+                  <span>Signatures must be completed in strict sequential order.</span>
+                </div>
+                <div class="timeline">
+                  <div class="tl-item">
+                    <div class="tl-line"></div>
+                    <div class="tl-dot done">1</div>
+                    <div class="tl-content">
+                      <div class="tl-title">Sub-Divisional Officer</div>
+                      <div class="tl-sub">First signatory · Data verification</div>
+                    </div>
+                  </div>
+                  <div class="tl-item">
+                    <div class="tl-line"></div>
+                    <div class="tl-dot active">2</div>
+                    <div class="tl-content">
+                      <div class="tl-title">District Mining Officer</div>
+                      <div class="tl-sub">Technical review & approval</div>
+                    </div>
+                  </div>
+                  <div class="tl-item">
+                    <div class="tl-line"></div>
+                    <div class="tl-dot">3</div>
+                    <div class="tl-content">
+                      <div class="tl-title">Deputy Commissioner</div>
+                      <div class="tl-sub">Administrative sanction</div>
+                    </div>
+                  </div>
+                  <div class="tl-item">
+                    <div class="tl-line"></div>
+                    <div class="tl-dot">4</div>
+                    <div class="tl-content">
+                      <div class="tl-title">Director, Mining</div>
+                      <div class="tl-sub">State-level final approval</div>
+                    </div>
+                  </div>
+                  <div class="tl-item">
+                    <div class="tl-dot">5</div>
+                    <div class="tl-content">
+                      <div class="tl-title">Principal Secretary</div>
+                      <div class="tl-sub">Final submission clearance</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>

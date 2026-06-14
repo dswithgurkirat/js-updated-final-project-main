@@ -1,0 +1,21 @@
+{
+  "name": "dsr-modern",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Modern Smart DSR portal stack: Next.js, Express, PostgreSQL, S3, JWT auth",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev:web",
+    "dev:api": "npm run dev --workspace @dsr/api",
+    "dev:worker": "npm run dev:worker --workspace @dsr/api",
+    "dev:web": "npm run dev --workspace @dsr/web",
+    "build": "npm run build --workspace @dsr/api && npm run build --workspace @dsr/web",
+    "start": "npm run start --workspace @dsr/api",
+    "prisma:generate": "npm run prisma:generate --workspace @dsr/api",
+    "prisma:migrate": "npm run prisma:migrate --workspace @dsr/api",
+    "seed": "npm run seed --workspace @dsr/api"
+  }
+}

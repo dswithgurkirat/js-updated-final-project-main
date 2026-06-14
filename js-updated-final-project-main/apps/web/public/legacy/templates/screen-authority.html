@@ -1,0 +1,44 @@
+<!-- ═══════════════════════════════════════════════════════════════
+     SCREEN 3 — AUTHORITY DASHBOARD
+═══════════════════════════════════════════════════════════════ -->
+<div id="screen-authority" class="screen">
+  <div class="authority-topbar">
+    <h1>DSR Authority Dashboard — IIT Ropar / Punjab Mining</h1>
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="font-size:11px;color:rgba(255,255,255,.5)" id="auth-user-label">Authority User</span>
+      <button type="button" class="tb-action-btn" id="authority-theme-toggle" data-theme-toggle onclick="toggleDarkMode()" title="Toggle light/dark theme" aria-label="Toggle theme">
+        <i data-lucide="moon"></i>
+      </button>
+      <button class="btn btn-saffron btn-sm" onclick="doLogout()">Logout</button>
+    </div>
+  </div>
+  <div class="authority-body">
+    <div class="g4" style="margin-bottom:20px">
+      <div class="stat-card" style="--accent:var(--saffron);--icon-bg:rgba(224,123,0,.1)"><div class="stat-accent"></div><div class="stat-icon"><i data-lucide="clock"></i></div><div class="stat-lbl">Awaiting Signature</div><div class="stat-val">2</div><div class="stat-info">Reports pending your sign</div></div>
+      <div class="stat-card" style="--accent:var(--green);--icon-bg:rgba(21,128,61,.1)"><div class="stat-accent"></div><div class="stat-icon"><i data-lucide="check-circle-2"></i></div><div class="stat-lbl">Signed</div><div class="stat-val">4</div><div class="stat-info">Reports signed by you</div></div>
+      <div class="stat-card" style="--accent:var(--teal);--icon-bg:rgba(12,122,114,.1)"><div class="stat-accent"></div><div class="stat-icon"><i data-lucide="file-text"></i></div><div class="stat-lbl">Under Review</div><div class="stat-val">1</div><div class="stat-info">Being reviewed</div></div>
+      <div class="stat-card" style="--accent:var(--red);--icon-bg:rgba(185,28,28,.1)"><div class="stat-accent"></div><div class="stat-icon"><i data-lucide="x-circle"></i></div><div class="stat-lbl">Rejected</div><div class="stat-val">0</div><div class="stat-info">Returned for corrections</div></div>
+    </div>
+    <div class="page-title" style="margin-bottom:16px">Reports Pending Review</div>
+    <div id="authority-reports"></div>
+    <div class="page-title" style="margin-top: 32px; margin-bottom:16px; font-size: 20px;">System Audit Logs</div>
+    <div class="card">
+      <div class="card-bd">
+        <table class="table" style="width: 100%; border-collapse: collapse;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--border); text-align: left;">
+              <th style="padding: 12px; color: var(--text-soft);">Date & Time</th>
+              <th style="padding: 12px; color: var(--text-soft);">Project Name</th>
+              <th style="padding: 12px; color: var(--text-soft);">User</th>
+              <th style="padding: 12px; color: var(--text-soft);">Action</th>
+              <th style="padding: 12px; color: var(--text-soft);">Remarks</th>
+            </tr>
+          </thead>
+          <tbody id="auth-audit-logs-tbody">
+            <tr><td colspan="5" style="text-align: center; padding: 20px;">Loading audit logs...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

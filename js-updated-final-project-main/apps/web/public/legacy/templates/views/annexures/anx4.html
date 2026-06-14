@@ -1,0 +1,57 @@
+        <div id="view-anx4" class="view">
+          <div class="header-row">
+            <div>
+              <div class="page-title">Annexure IV — Transportation Routes</div>
+              <div class="page-sub">Transportation routes for individual leases and leases in clusters</div>
+            </div>
+            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+              <span id="anx4-uploaded-filename"
+                style="font-size:12px; color:var(--text-soft); font-weight:600; display:none; padding:4px 8px; background:var(--off); border-radius:var(--r-xs); border:1px solid var(--border);"></span>
+              <button id="anx4-preview-btn" class="btn btn-outline btn-sm"
+                style="display:none; align-items:center; gap:6px;" onclick="togglePDFPreviewAnx4()"><i data-lucide="eye"
+                  style="width:14px; height:14px;"></i> Preview PDF</button>
+              <button id="anx4-download-btn" class="btn btn-pdf-download btn-sm" style="display:none;"
+                onclick="downloadPdfAnx4()"><i data-lucide="download" style="width:14px; height:14px;"></i> Download
+                PDF</button>
+              <button id="anx4-delete-btn" class="btn btn-danger btn-sm"
+                style="display:none; align-items:center; gap:6px;" onclick="deletePdfAnx4()"><i data-lucide="trash-2"
+                  style="width:14px; height:14px;"></i> Delete PDF</button>
+              <label class="btn btn-pdf-upload btn-sm"
+                style="cursor:pointer; margin-bottom:0; display:inline-flex; align-items:center; gap:6px;">
+                <i data-lucide="upload" style="width:14px; height:14px;"></i>
+                <span>Upload PDF</span>
+                <input type="file" accept="application/pdf" id="anx4-pdf-input" hidden
+                  onchange="handlePDFUploadAnx4(event)">
+              </label>
+            </div>
+          </div>
+          <div style="font-weight:bold; font-size:15px; color:var(--text-mid); margin-bottom:12px;">Individual Lease
+            Routes:</div>
+          <div id="individual-routes-container">
+          </div>
+          <div style="margin-bottom:30px; margin-top:12px;">
+            <button class="btn btn-sm btn-pdf-upload" onclick="addRouteTableBlock()"
+              style="display:inline-flex; align-items:center; gap:6px;">
+              <i data-lucide="plus-circle" style="width:14px; height:14px;"></i>
+              <span>Add Another Table / Section</span>
+            </button>
+          </div>
+          <div style="font-weight:bold; font-size:15px; color:var(--text-mid); margin-bottom:12px; margin-top:32px;">
+            Cluster Transportation Routes:</div>
+          <div id="cluster-routes-container">
+          </div>
+          <div style="margin-bottom:30px; margin-top:12px;">
+            <button class="btn btn-sm btn-pdf-upload" onclick="addClusterTableBlock()"
+              style="display:inline-flex; align-items:center; gap:6px;">
+              <i data-lucide="plus-circle" style="width:14px; height:14px;"></i>
+              <span>Add Another Table / Section</span>
+            </button>
+          </div>
+          <div class="final-actions" style="margin-top:32px; display:flex; justify-content:center;">
+            <button class="btn btn-pdf-upload btn-lg" onclick="exportAnx4PDF()"
+              style="display:inline-flex; align-items:center; gap:8px;">
+              <i data-lucide="file-text" style="width:18px; height:18px;"></i>
+              <span>Download Final Annexure 4 PDF</span>
+            </button>
+          </div>
+        </div>

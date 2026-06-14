@@ -1,0 +1,137 @@
+        <div id="view-anx3" class="view">
+          <div class="header-row">
+            <div>
+              <div class="page-title">Annexure III â€” Cluster Details</div>
+              <div class="page-sub">Cluster &amp; Contiguous Cluster Details Â· EMGSM 2020</div>
+            </div>
+            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+              <span id="anx3-uploaded-filename"
+                style="font-size:12px; color:var(--text-soft); font-weight:600; display:none; padding:4px 8px; background:var(--off); border-radius:var(--r-xs); border:1px solid var(--border);"></span>
+              <button id="anx3-preview-btn" class="btn btn-outline btn-sm"
+                style="display:none; align-items:center; gap:6px;" onclick="togglePDFPreviewAnx3()"><i data-lucide="eye"
+                  style="width:14px; height:14px;"></i> Preview PDF</button>
+              <button id="anx3-download-btn" class="btn btn-pdf-download btn-sm" style="display:none;"
+                onclick="downloadPdf()"><i data-lucide="download" style="width:14px; height:14px;"></i> Download
+                PDF</button>
+              <button id="anx3-delete-btn" class="btn btn-danger btn-sm"
+                style="display:none; align-items:center; gap:6px;" onclick="deletePdfAnx3()"><i data-lucide="trash-2"
+                  style="width:14px; height:14px;"></i> Delete PDF</button>
+              <label class="btn btn-pdf-upload btn-sm"
+                style="cursor:pointer; margin-bottom:0; display:inline-flex; align-items:center; gap:6px;">
+                <i data-lucide="upload" style="width:14px; height:14px;"></i>
+                <span>Upload PDF</span>
+                <input type="file" accept="application/pdf" id="anx3-pdf-input" hidden
+                  onchange="handlePdfUpload(event)">
+              </label>
+            </div>
+          </div>
+          <div class="notif notif-info" style="margin-bottom:16px">
+            Download the Excel templates â†’ Fill values locally â†’ Upload below. You can also edit cell content inline.
+          </div>
+          <div class="card">
+            <div class="card-bd">
+              <div class="anx-section">
+                <div class="anx-section-header"
+                  style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+                  <div class="anx-section-title" style="font-weight:bold; font-size:14px;">a) Cluster Details:</div>
+                  <div style="display:flex; gap:8px;">
+                    <button class="btn btn-excel-template btn-xs" onclick="exportClusterXlsx()"
+                      style="display:inline-flex; align-items:center; gap:6px;">
+                      <i data-lucide="download" style="width:12px; height:12px;"></i>
+                      <span>Export to Excel</span>
+                    </button>
+                    <label class="btn btn-excel-upload btn-xs"
+                      style="cursor:pointer; display:inline-flex; align-items:center; gap:6px; margin-bottom:0;">
+                      <i data-lucide="upload" style="width:12px; height:12px;"></i>
+                      <span>Upload Cluster Excel</span>
+                      <input type="file" accept=".xlsx,.xls" hidden onchange="uploadExcel(event,'cluster')">
+                    </label>
+                  </div>
+                </div>
+                <div class="tbl-wrap">
+                  <table class="anx-tbl" id="anx3-clusters">
+                    <thead>
+                      <tr>
+                        <th>River Name</th>
+                        <th>Cluster No.</th>
+                        <th>Lease No.</th>
+                        <th>Location (Riverbed / Patta Land)</th>
+                        <th>Village</th>
+                        <th>Area (in Ha.)</th>
+                        <th>Total Excavation (MT)</th>
+                        <th>Total Mineral Excavation (MT) (Considering 60% as per EMGSM, 2020)</th>
+                        <th style="width: 50px;" class="no-print">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="clusterBody">
+                    </tbody>
+                    <tfoot id="clusterFoot">
+                    </tfoot>
+                  </table>
+                </div>
+                <div class="section-footer" style="margin-top:12px;">
+                  <button class="btn btn-xs btn-outline" onclick="addClusterRow()"
+                    style="display:inline-flex; align-items:center; gap:6px;">
+                    <i data-lucide="plus" style="width:12px; height:12px;"></i>
+                    <span>Add Cluster Row</span>
+                  </button>
+                </div>
+              </div>
+              <div class="anx-section" style="margin-top: 32px;">
+                <div class="anx-section-header"
+                  style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+                  <div class="anx-section-title" style="font-weight:bold; font-size:14px;">b) Contiguous Clusters:</div>
+                  <div style="display:flex; gap:8px;">
+                    <button class="btn btn-excel-template btn-xs" onclick="exportContXlsx()"
+                      style="display:inline-flex; align-items:center; gap:6px;">
+                      <i data-lucide="download" style="width:12px; height:12px;"></i>
+                      <span>Export to Excel</span>
+                    </button>
+                    <label class="btn btn-excel-upload btn-xs"
+                      style="cursor:pointer; display:inline-flex; align-items:center; gap:6px; margin-bottom:0;">
+                      <i data-lucide="upload" style="width:12px; height:12px;"></i>
+                      <span>Upload Contiguous Excel</span>
+                      <input type="file" accept=".xlsx,.xls" hidden onchange="uploadExcel(event,'contiguous')">
+                    </label>
+                  </div>
+                </div>
+                <div class="tbl-wrap">
+                  <table class="anx-tbl" id="anx3-contiguous">
+                    <thead>
+                      <tr>
+                        <th>River Name</th>
+                        <th>Contiguous Cluster No.</th>
+                        <th>Cluster No.</th>
+                        <th>Number of leases in the cluster</th>
+                        <th>Location (Riverbed / Patta Land)</th>
+                        <th>Distance between clusters</th>
+                        <th>Village</th>
+                        <th>Area Of Cluster (Ha)</th>
+                        <th>Total Mineral Excavation (MT) (Considering 60% as per EMGSM, 2020)</th>
+                        <th style="width: 50px;" class="no-print">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="contBody">
+                    </tbody>
+                    <tfoot id="contFoot">
+                    </tfoot>
+                  </table>
+                </div>
+                <div class="section-footer" style="margin-top:12px;">
+                  <button class="btn btn-xs btn-outline" onclick="addContRow()"
+                    style="display:inline-flex; align-items:center; gap:6px;">
+                    <i data-lucide="plus" style="width:12px; height:12px;"></i>
+                    <span>Add Contiguous Row</span>
+                  </button>
+                </div>
+              </div>
+              <div class="final-actions" style="margin-top: 32px; display: flex; justify-content: center;">
+                <button class="btn btn-pdf-upload btn-lg" onclick="exportAnx3PDF(this)"
+                  style="display:inline-flex; align-items:center; gap:8px;">
+                  <i data-lucide="file-text" style="width:18px; height:18px;"></i>
+                  <span>Download Final Annexure 3 PDF</span>
+                </button>
+              </div>
+                      </div>
+          </div>
+        </div>

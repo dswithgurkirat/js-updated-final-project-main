@@ -1,0 +1,52 @@
+<!-- ═══════════════════════════════════════════════════════════════
+     SCREEN 2 — MAIN APP
+═══════════════════════════════════════════════════════════════ -->
+<div id="screen-app" class="screen">
+  {{templates/sidebar.html}}
+  {{templates/topbar.html}}
+  <div id="pdf-preview-mobile-tabs" class="pdf-preview-mobile-tabs" aria-hidden="true">
+    <button type="button" class="pdf-preview-mobile-tab active" data-tab="editor">Editor</button>
+    <button type="button" class="pdf-preview-mobile-tab" data-tab="preview">PDF Preview</button>
+  </div>
+  <div class="app-workspace">
+    <div class="main-content">
+      <div class="page-body">
+      {{templates/views/dashboard.html}}
+      {{templates/views/projects.html}}
+      {{templates/views/workflow.html}}
+      {{templates/views/front-matter.html}}
+      {{templates/views/chapters.html}}
+      {{templates/views/plates.html}}
+      {{templates/views/graphs.html}}
+      {{templates/views/annexures/anx1.html}}
+      {{templates/views/annexures/anx2.html}}
+      {{templates/views/annexures/anx3.html}}
+      {{templates/views/annexures/anx4.html}}
+      {{templates/views/annexures/anx5.html}}
+      {{templates/views/annexures/anx6.html}}
+      {{templates/views/annexures/anx7.html}}
+      {{templates/views/more-annexures/annexure-b.html}}
+      {{templates/views/more-annexures/annexure-c.html}}
+      {{templates/views/more-annexures/annexure-d.html}}
+      {{templates/views/more-annexures/annexure-e.html}}
+      {{templates/views/more-annexures/annexure-f.html}}
+      {{templates/views/more-annexures/annexure-g.html}}
+      {{templates/views/more-annexures/annexure-h.html}}
+      {{templates/views/more-annexures/annexure-i.html}}
+      {{templates/views/more-annexures/annexure-j.html}}
+      {{templates/views/more-annexures/annexure-k.html}}
+      {{templates/views/demand-table.html}}
+      {{templates/views/auction-table.html}}
+      {{templates/views/summary-table.html}}
+      {{templates/views/benchmark-table.html}}
+      {{templates/views/esign.html}}
+      {{templates/views/generate.html}}
+      {{templates/views/history.html}}
+      {{templates/views/users.html}}
+      {{templates/views/audit-logs.html}}
+      {{templates/views/sdlc-portal.html}}
+      </div>
+    </div>
+    {{templates/pdf-preview-panel.html}}
+  </div>
+</div>

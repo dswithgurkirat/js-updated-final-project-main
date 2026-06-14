@@ -1,0 +1,102 @@
+        <div id="view-generate" class="view">
+          <div class="header-row">
+            <div>
+              <div class="page-title">Generate Final DSR PDF</div>
+              <div class="page-sub">Professional government-format report with all sections, annexures, and digital
+                signatures</div>
+            </div>
+          </div>
+          <div class="g2">
+            <div>
+              <div class="card" style="margin-bottom:16px">
+                <div class="card-hd">
+                  <div class="card-title">Completion Checklist</div>
+                </div>
+                <div class="card-bd" id="final-checklist"></div>
+              </div>
+              <div class="card">
+                <div class="card-hd">
+                  <div class="card-title">PDF Options</div>
+                </div>
+                <div class="card-bd">
+                  <div id="final-pdf-admin-lock" style="display:none;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--off);padding:14px;margin-bottom:14px;color:var(--text-soft);font-size:12.5px;font-weight:600;">
+                    Access Denied - Only Administrators can download or email the Final DSR PDF.
+                  </div>
+                  <div class="field-group">
+                    <div class="field-row">
+                      <div class="field"><label>District</label><select id="pdf-district">
+                          <option>Jalandhar</option>
+                          <option>Ludhiana</option>
+                          <option>Amritsar</option>
+                        </select></div>
+                      <div class="field"><label>Year</label><input id="pdf-year" value="2025-26"></div>
+                    </div>
+                    <div class="field"><label>Report Version</label><input id="pdf-version" value="Final · Approved Draft"></div>
+                  </div>
+                  <div class="divider"></div>
+                  <div style="display:flex;gap:9px;flex-wrap:wrap">
+                    <button id="final-pdf-generate-btn" class="btn btn-navy final-pdf-admin-action" style="display:inline-flex;align-items:center;gap:4px;"
+                      onclick="generateFinalPDF()"><i data-lucide="download"
+                        style="width:14px;height:14px;"></i>Generate Final PDF</button>
+                    <button class="btn btn-teal" style="display:inline-flex;align-items:center;gap:4px;"
+                      onclick="submitForReview()"><i data-lucide="send" style="width:14px;height:14px;"></i>Submit to
+                      Authority</button>
+                  </div>
+                  <div id="final-pdf-progress" style="display:none;margin-top:14px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--off);padding:12px;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px;">
+                      <strong id="final-pdf-progress-label" style="font-size:12.5px;color:var(--text)">Collecting Data...</strong>
+                      <span id="final-pdf-progress-pct" style="font-size:11px;color:var(--text-soft);font-weight:700">0%</span>
+                    </div>
+                    <div style="height:7px;border-radius:999px;background:var(--border);overflow:hidden;">
+                      <div id="final-pdf-progress-bar" style="height:100%;width:0%;background:var(--saffron);transition:width .22s ease;"></div>
+                    </div>
+                    <div id="final-pdf-warnings" style="display:none;margin-top:10px;font-size:11px;color:var(--amber);line-height:1.45;"></div>
+                  </div>
+                  <div id="final-pdf-result" style="display:none;margin-top:14px;border:1px solid var(--green);background:var(--green-lt);border-radius:var(--r-sm);padding:12px;">
+                    <div style="font-size:12.5px;font-weight:700;color:var(--green);margin-bottom:8px;">Final DSR PDF generated successfully.</div>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                      <button class="btn btn-outline btn-sm final-pdf-admin-action" onclick="previewFinalPDF()"><i data-lucide="eye" style="width:13px;height:13px;"></i> Preview PDF</button>
+                      <button class="btn btn-navy btn-sm final-pdf-admin-action" onclick="downloadFinalPDF()"><i data-lucide="download" style="width:13px;height:13px;"></i> Download PDF</button>
+                      <button class="btn btn-teal btn-sm final-pdf-admin-action" onclick="emailFinalPDF()"><i data-lucide="mail" style="width:13px;height:13px;"></i> Email PDF</button>
+                      <button class="btn btn-saffron btn-sm final-pdf-admin-action" onclick="generateFinalPDF(true)"><i data-lucide="refresh-cw" style="width:13px;height:13px;"></i> Regenerate PDF</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="card">
+                <div class="card-hd">
+                  <div class="card-title">PDF Preview</div>
+                </div>
+                <div class="card-bd">
+                  <div class="pdf-preview">
+                    <div style="font-size:11px;color:rgba(255,255,255,.6);margin-bottom:10px">Preview — Final DSR Report
+                    </div>
+                    <div class="pdf-page-thumb">
+                      <div class="pdf-page-hd"><span>DISTRICT SURVEY REPORT</span></div>
+                      <div class="pdf-page-bd">
+                        <div class="pdf-line header"></div>
+                        <div class="pdf-line" style="height:8px;background:#e8eaf6;margin:6px 0"></div>
+                        <div class="pdf-line medium"></div>
+                        <div class="pdf-line short"></div>
+                        <div class="pdf-line"></div>
+                        <div class="pdf-line medium"></div>
+                        <div class="pdf-line short"></div>
+                        <div class="pdf-line"></div>
+                        <div class="pdf-line medium"></div>
+                        <div class="pdf-line" style="height:30px;background:#f5f5f5;margin:6px 0"></div>
+                        <div class="pdf-line short"></div>
+                        <div class="pdf-line medium"></div>
+                        <div class="pdf-line"></div>
+                      </div>
+                    </div>
+                    <div style="font-size:10px;color:rgba(255,255,255,.4);text-align:center">
+                      <span id="pdf-page-count">0</span> pages · Ready to generate
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>

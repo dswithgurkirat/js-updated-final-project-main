@@ -1,0 +1,19 @@
+{
+  "name": "smart-dsr-portal",
+  "version": "1.0.0",
+  "description": "District Survey Report Automation System - IIT Ropar",
+  "scripts": {
+    "build": "node build.js",
+    "watch": "node build.js --watch",
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "dsr",
+    "portal",
+    "mining",
+    "iit-ropar"
+  ],
+  "author": "IIT Ropar Research Cell",
+  "license": "ISC"
+}

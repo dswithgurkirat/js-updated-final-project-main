@@ -1,0 +1,154 @@
+<div class="view" id="view-sdlc-portal">
+  <div class="card" style="margin-bottom: 24px; border:1px solid var(--border);">
+    <div class="card-hd" style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border);">
+      <div>
+        <h3 class="card-title" style="margin-bottom: 4px; display:flex; align-items:center; gap:8px; color:var(--text);">
+          <i data-lucide="shield-check" style="color:var(--primary); width:20px; height:20px;"></i>
+          SDLC Reconciliation Portal
+        </h3>
+        <p style="font-size:12.5px; color:var(--text-soft); margin:0;">
+          Sub-Divisional Level Committee Survey Upload & Reconciliation Panel (EMGSM 2020 Compliance)
+        </p>
+      </div>
+      <span class="badge badge-amber" style="font-size:11px; padding:5px 10px;" id="sdlc-portal-status">Awaiting Upload</span>
+    </div>
+    <div class="card-bd" style="padding: 24px;">
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px; margin-bottom:28px;">
+        <div style="background:var(--bg); padding:16px 20px; border-radius:var(--r-md); border:1px solid var(--border-2);">
+          <h4 style="font-size:13px; font-weight:700; color:var(--text); margin-bottom:12px; text-transform:uppercase; letter-spacing:0.04em;">
+            1. Select Target DSR Project
+          </h4>
+          <div class="field">
+            <label style="font-size:11.5px; margin-bottom:6px;">Choose Active District Project</label>
+            <select id="sdlc-project-select" style="width:100%; padding:10px; border:1px solid var(--border-2); border-radius:8px; background:var(--card); color:var(--text);" onchange="onSdlcProjectChanged()">
+              <option value="">-- Select Project --</option>
+            </select>
+          </div>
+          <p style="font-size:11.5px; color:var(--text-soft); margin-top:8px;">
+            The uploaded SDLC survey data will be compared against the selected DSR project's official entries.
+          </p>
+        </div>
+        <div style="background:var(--bg); padding:16px 20px; border-radius:var(--r-md); border:1px solid var(--border-2);">
+          <h4 style="font-size:13px; font-weight:700; color:var(--text); margin-bottom:12px; text-transform:uppercase; letter-spacing:0.04em;">
+            2. Upload SDLC Survey Report
+          </h4>
+          <div style="display:flex; gap:10px; align-items:center;">
+            <div style="flex:1;">
+              <input type="file" id="sdlc-file-input" style="display:none;" onchange="handleSdlcFileUpload(event)">
+              <button class="btn btn-outline" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px; height:40px; font-size:13px;" onclick="document.getElementById('sdlc-file-input').click()">
+                <i data-lucide="upload-cloud" style="width:16px; height:16px;"></i> Choose File (.xlsx, .csv)
+              </button>
+            </div>
+            <button class="btn btn-saffron" style="height:40px; font-size:13px;" onclick="loadDemoSdlcReport()">
+              Load Demo Report
+            </button>
+          </div>
+          <p style="font-size:11.5px; color:var(--text-soft); margin-top:8px;" id="sdlc-upload-filename">
+            Supports official SDLC joint physical verification templates (Annexures IV, V, VI & VII).
+          </p>
+        </div>
+      </div>
+      <div id="sdlc-comparison-container" style="display:none; border-top:1px dashed var(--border); padding-top:24px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <h4 style="font-size:14px; font-weight:700; color:var(--text); margin:0;">
+            3. Side-by-Side Data Verification & Discrepancies
+          </h4>
+          <div style="display:flex; gap:8px;" id="sdlc-discrepancy-summary-badges">
+          </div>
+        </div>
+        <div class="auth-tabs" style="margin-bottom:16px; background:var(--bg); border:1px solid var(--border-2); border-radius:8px; padding:4px;">
+          <div class="auth-tab active" id="tab-sdlc-anx4" onclick="switchSdlcTab('anx4')" style="padding:10px 14px; font-size:12.5px;">
+            Annexure IV (Carrying Capacity)
+          </div>
+          <div class="auth-tab" id="tab-sdlc-anx5" onclick="switchSdlcTab('anx5')" style="padding:10px 14px; font-size:12.5px;">
+            Annexure V (Elevation Bench Marks)
+          </div>
+          <div class="auth-tab" id="tab-sdlc-anx6" onclick="switchSdlcTab('anx6')" style="padding:10px 14px; font-size:12.5px;">
+            Annexure VI (Quarry Cluster Area)
+          </div>
+          <div class="auth-tab" id="tab-sdlc-anx7" onclick="switchSdlcTab('anx7')" style="padding:10px 14px; font-size:12.5px;">
+            Annexure VII (Traffic Density)
+          </div>
+        </div>
+        <div id="sdlc-tab-content-anx4" class="sdlc-tab-content">
+          <table class="table" style="width:100%; border-collapse:collapse; font-size:13px;">
+            <thead>
+              <tr style="border-bottom:2px solid var(--border); text-align:left; background:var(--bg);">
+                <th style="padding:10px; color:var(--text-soft);">Route / Source Name</th>
+                <th style="padding:10px; color:var(--text-soft);">DSR Value (Project)</th>
+                <th style="padding:10px; color:var(--text-soft);">SDLC Value (Report)</th>
+                <th style="padding:10px; color:var(--text-soft);">Variance</th>
+                <th style="padding:10px; color:var(--text-soft);">Status</th>
+              </tr>
+            </thead>
+            <tbody id="sdlc-tbody-anx4"></tbody>
+          </table>
+        </div>
+        <div id="sdlc-tab-content-anx5" class="sdlc-tab-content" style="display:none;">
+          <table class="table" style="width:100%; border-collapse:collapse; font-size:13px;">
+            <thead>
+              <tr style="border-bottom:2px solid var(--border); text-align:left; background:var(--bg);">
+                <th style="padding:10px; color:var(--text-soft);">BM Station ID</th>
+                <th style="padding:10px; color:var(--text-soft);">Coordinates (Project)</th>
+                <th style="padding:10px; color:var(--text-soft);">Coordinates (SDLC)</th>
+                <th style="padding:10px; color:var(--text-soft);">Elevation (Proj vs SDLC)</th>
+                <th style="padding:10px; color:var(--text-soft);">Status</th>
+              </tr>
+            </thead>
+            <tbody id="sdlc-tbody-anx5"></tbody>
+          </table>
+        </div>
+        <div id="sdlc-tab-content-anx6" class="sdlc-tab-content" style="display:none;">
+          <table class="table" style="width:100%; border-collapse:collapse; font-size:13px;">
+            <thead>
+              <tr style="border-bottom:2px solid var(--border); text-align:left; background:var(--bg);">
+                <th style="padding:10px; color:var(--text-soft);">Cluster ID</th>
+                <th style="padding:10px; color:var(--text-soft);">DSR Area (Ha)</th>
+                <th style="padding:10px; color:var(--text-soft);">SDLC Area (Ha)</th>
+                <th style="padding:10px; color:var(--text-soft);">variance (Ha)</th>
+                <th style="padding:10px; color:var(--text-soft);">Status</th>
+              </tr>
+            </thead>
+            <tbody id="sdlc-tbody-anx6"></tbody>
+          </table>
+        </div>
+        <div id="sdlc-tab-content-anx7" class="sdlc-tab-content" style="display:none;">
+          <table class="table" style="width:100%; border-collapse:collapse; font-size:13px;">
+            <thead>
+              <tr style="border-bottom:2px solid var(--border); text-align:left; background:var(--bg);">
+                <th style="padding:10px; color:var(--text-soft);">Route / Corridor</th>
+                <th style="padding:10px; color:var(--text-soft);">DSR Traffic Density (PCU/hr)</th>
+                <th style="padding:10px; color:var(--text-soft);">SDLC Traffic Density (PCU/hr)</th>
+                <th style="padding:10px; color:var(--text-soft);">Variance</th>
+                <th style="padding:10px; color:var(--text-soft);">Status</th>
+              </tr>
+            </thead>
+            <tbody id="sdlc-tbody-anx7"></tbody>
+          </table>
+        </div>
+        <div style="background:rgba(224,123,0,0.06); border:1px solid rgba(224,123,0,0.2); border-radius:12px; padding:20px; margin-top:24px;">
+          <h4 style="color:var(--text); font-size:13.5px; font-weight:700; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+            <i data-lucide="info" style="color:var(--saffron); width:16px; height:16px;"></i>
+            Committee Verification & Project Reconciliation
+          </h4>
+          <p style="font-size:12.5px; color:var(--text-mid); margin-bottom:14px; line-height:1.5;">
+            By verifying this report, the differences highlighted in red/saffron will be marked as reconciled. The comparative table will be appended to the final DSR Report under <strong>Reconciliation Annexure (SDLC)</strong>, which is required prior to final generation.
+          </p>
+          <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:18px;">
+            <label style="display:flex; align-items:center; gap:10px; cursor:pointer; font-size:12.5px; font-weight:500;">
+              <input type="checkbox" id="sdlc-chk-verify" style="width:16px; height:16px;">
+              I certify that this comparison has been reviewed and approved by the Sub-Divisional Committee members.
+            </label>
+            <label style="display:flex; align-items:center; gap:10px; cursor:pointer; font-size:12.5px; font-weight:500;">
+              <input type="checkbox" id="sdlc-chk-replace" style="width:16px; height:16px;">
+              Reconciled values should be annotated alongside DSR project values.
+            </label>
+          </div>
+          <button class="btn btn-saffron" onclick="submitSdlcReconciliation()" style="font-weight:700; display:flex; align-items:center; gap:8px;">
+            <i data-lucide="check-circle" style="width:16px; height:16px;"></i> Commit & Reconcile SDLC Survey Data
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

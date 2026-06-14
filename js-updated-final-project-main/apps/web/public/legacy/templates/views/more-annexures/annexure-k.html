@@ -1,0 +1,169 @@
+<div id="view-annexure-k" class="view">
+  <div class="header-row">
+    <div>
+      <div class="page-title">Annexure K</div>
+      <div class="page-sub">Proforma auctioned sites and Annexure A source summary.</div>
+    </div>  </div>
+  <div class="g2 annexure-line-layout" style="grid-template-columns: minmax(0, 2fr) minmax(220px, 0.75fr);">
+    <div class="annexure-line-main">
+<div class="card">
+    <div class="card-bd">
+      <div class="anx-section">
+        <div class="anx-section-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+          <div>
+            <div class="anx-section-title" style="font-weight:bold; font-size:14px;">Supporting PDF / Image Upload:</div>
+            <div style="font-size:12px; color:var(--text-soft); margin-top:3px;">Uploaded PDF pages or images will be appended after the Annexure K tables in the final PDF.</div>
+          </div>
+          <label class="btn btn-pdf-upload btn-xs" style="cursor:pointer; margin-bottom:0; display:inline-flex; align-items:center; gap:6px;">
+            <i data-lucide="upload" style="width:12px; height:12px;"></i>
+            <span>Upload PDF/Image</span>
+            <input type="file" accept="application/pdf,image/*" hidden onchange="handleAttachmentUploadAnnexureK(event)">
+          </label>
+        </div>
+        <div id="annexure-k-attachment-info" style="margin-top:10px;"></div>
+      </div>
+      <div class="anx-section" style="margin-top:32px;">
+        <div class="anx-section-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+          <div class="anx-section-title" style="font-weight:bold; font-size:14px;">Proforma_Auctioned_Sites:</div>
+          <button class="btn btn-excel-template btn-xs" onclick="downloadSectionTemplateAnnexureK('PROFORMA')" style="display:inline-flex; align-items:center; gap:6px;">
+            <i data-lucide="file-spreadsheet" style="width:12px; height:12px;"></i>
+            <span>Excel Template (Proforma)</span>
+          </button>
+        </div>
+        <div id="annexure-k-proforma-container" class="annexure-k-table-container">
+          <div class="annexure-k-table-block" data-section-type="PROFORMA">
+            <div style="font-size:12px; font-weight:700; color:var(--text-soft); margin-bottom:8px;">Example input values from Proforma_Template_One_Example.xlsx</div>
+            <div class="tbl-wrap">
+              <table class="anx-tbl annexure-k-table" data-section-type="PROFORMA" id="annexure-k-proforma" style="min-width:1500px">
+                <thead>
+                  <tr>
+                    <th>Sr No.</th>
+                    <th>Site Name</th>
+                    <th>Type of Mine</th>
+                    <th>Date of Grant of EC</th>
+                    <th>Date of Start of Contract</th>
+                    <th>Quantity Allowed per annum</th>
+                    <th>Quantity Extracted</th>
+                    <th>Balance Quantity</th>
+                    <th>EC Status</th>
+                    <th>Reason For Not Operating Site</th>
+                    <th>Reason for not Applying EC</th>
+                    <th>Remarks</th>
+                    <th style="width:50px;">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td contenteditable="true">1</td>
+                    <td contenteditable="true">Sample_Site</td>
+                    <td contenteditable="true">PMS</td>
+                    <td contenteditable="true">01/01/2025</td>
+                    <td contenteditable="true">01/02/2025</td>
+                    <td contenteditable="true">1000</td>
+                    <td contenteditable="true">500</td>
+                    <td contenteditable="true">500</td>
+                    <td contenteditable="true">Granted</td>
+                    <td contenteditable="true">-</td>
+                    <td contenteditable="true">-</td>
+                    <td contenteditable="true">-</td>
+                    <td><button class="btn btn-xs btn-danger" onclick="delRowAnnexureK(this)" style="display:inline-flex; align-items:center; justify-content:center; padding:4px;"><i data-lucide="trash-2" style="width:12px; height:12px;"></i></button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="section-footer" style="margin-top:12px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+              <button class="btn btn-xs btn-outline" onclick="addRowAnnexureK('annexure-k-proforma',getAnnexureKEmptyRow('PROFORMA'))" style="display:inline-flex; align-items:center; gap:6px;">
+                <i data-lucide="plus" style="width:12px; height:12px;"></i>
+                <span>Add Auctioned Site</span>
+              </button>
+              <label class="btn btn-excel-upload btn-xs" style="cursor:pointer; display:inline-flex; align-items:center; gap:6px; margin-bottom:0;">
+                <i data-lucide="upload" style="width:12px; height:12px;"></i>
+                <span>Upload Excel (Proforma)</span>
+                <input type="file" accept=".xlsx,.xls,.csv" hidden onchange="handleSectionUploadAnnexureK(event, 'PROFORMA')">
+              </label>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:12px;">
+          <button class="btn btn-sm btn-pdf-upload" onclick="addAnnexureKTableBlock('PROFORMA')" style="display:inline-flex; align-items:center; gap:6px;">
+            <i data-lucide="plus-circle" style="width:14px; height:14px;"></i>
+            <span>Add Another Table / Section</span>
+          </button>
+        </div>
+      </div>
+      <div class="anx-section" style="margin-top:32px;">
+        <div class="anx-section-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+          <div class="anx-section-title" style="font-weight:bold; font-size:14px;">Annexure_A:</div>
+          <button class="btn btn-excel-template btn-xs" onclick="downloadSectionTemplateAnnexureK('ANNEXURE_A')" style="display:inline-flex; align-items:center; gap:6px;">
+            <i data-lucide="file-spreadsheet" style="width:12px; height:12px;"></i>
+            <span>Excel Template (Annexure A)</span>
+          </button>
+        </div>
+        <div id="annexure-k-annexure-a-container" class="annexure-k-table-container">
+          <div class="annexure-k-table-block" data-section-type="ANNEXURE_A">
+            <div style="font-size:12px; font-weight:700; color:var(--text-soft); margin-bottom:8px;">Example input values from Annexure_A_Template_One_Example.xlsx</div>
+            <div class="tbl-wrap">
+              <table class="anx-tbl annexure-k-table" data-section-type="ANNEXURE_A" id="annexure-k-annexure-a" style="min-width:1000px">
+                <thead>
+                  <tr>
+                    <th>Source</th>
+                    <th>No. of proposed sites</th>
+                    <th>Area (Ha)</th>
+                    <th>Total excavation in Tonnes</th>
+                    <th>Total excavation in Tonnes (Considering 60% as per EMGSM, 2020)</th>
+                    <th style="width:50px;">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td contenteditable="true">River bed (Existing)</td>
+                    <td contenteditable="true">1</td>
+                    <td contenteditable="true">100</td>
+                    <td contenteditable="true">100000</td>
+                    <td contenteditable="true">60000</td>
+                    <td><button class="btn btn-xs btn-danger" onclick="delRowAnnexureK(this)" style="display:inline-flex; align-items:center; justify-content:center; padding:4px;"><i data-lucide="trash-2" style="width:12px; height:12px;"></i></button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="section-footer" style="margin-top:12px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+              <button class="btn btn-xs btn-outline" onclick="addRowAnnexureK('annexure-k-annexure-a',getAnnexureKEmptyRow('ANNEXURE_A'))" style="display:inline-flex; align-items:center; gap:6px;">
+                <i data-lucide="plus" style="width:12px; height:12px;"></i>
+                <span>Add Annexure A Row</span>
+              </button>
+              <label class="btn btn-excel-upload btn-xs" style="cursor:pointer; display:inline-flex; align-items:center; gap:6px; margin-bottom:0;">
+                <i data-lucide="upload" style="width:12px; height:12px;"></i>
+                <span>Upload Excel (Annexure A)</span>
+                <input type="file" accept=".xlsx,.xls,.csv" hidden onchange="handleSectionUploadAnnexureK(event, 'ANNEXURE_A')">
+              </label>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:12px;">
+          <button class="btn btn-sm btn-pdf-upload" onclick="addAnnexureKTableBlock('ANNEXURE_A')" style="display:inline-flex; align-items:center; gap:6px;">
+            <i data-lucide="plus-circle" style="width:14px; height:14px;"></i>
+            <span>Add Another Table / Section</span>
+          </button>
+        </div>
+      </div>
+      <div class="final-actions" style="margin-top:32px; display:flex; justify-content:center;">
+        <button class="btn btn-pdf-upload btn-lg" onclick="exportAnnexureKPDF()" style="display:inline-flex; align-items:center; gap:8px;">
+          <i data-lucide="file-text" style="width:18px; height:18px;"></i>
+          <span>Download Final Annexure K PDF</span>
+        </button>
+      </div>
+    </div>
+  </div>
+    </div>
+    <div class="annexure-line-instructions">
+      <div class="card">
+        <div class="card-hd">
+          <div class="card-title">Instructions</div>
+        </div>
+        <div class="card-bd">
+          <p style="color:var(--text-soft); font-size:14px; line-height:1.6; margin:0;">Upload supporting PDF/image if required, then maintain Proforma Auctioned Sites and Annexure A tables. Use the right-side preview to verify the final merged Annexure K PDF.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

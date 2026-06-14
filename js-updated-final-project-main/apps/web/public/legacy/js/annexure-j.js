@@ -1,0 +1,1 @@
+registerSimpleAnnexure('J');

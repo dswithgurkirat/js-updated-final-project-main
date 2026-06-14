@@ -1,0 +1,423 @@
+        <div id="view-anx2" class="view">
+          <div class="header-row">
+            <div>
+              <div class="page-title">Annexure II â€” Mining Leases</div>
+              <div class="page-sub">Details of Mining Leases, Patta Lands, De-siltation & M-Sand Plants Â· EMGSM 2020
+              </div>
+            </div>
+            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+              <span id="anx2-uploaded-filename"
+                style="font-size:12px; color:var(--text-soft); font-weight:600; display:none; padding:4px 8px; background:var(--off); border-radius:var(--r-xs); border:1px solid var(--border);"></span>
+              <button id="anx2-preview-btn" class="btn btn-outline btn-sm"
+                style="display:none; align-items:center; gap:6px;" onclick="togglePDFPreviewAnx2()"><i data-lucide="eye"
+                  style="width:14px; height:14px;"></i> Preview PDF</button>
+              <button id="anx2-download-btn" class="btn btn-pdf-download btn-sm" style="display:none;"
+                onclick="downloadPdfAnx2()"><i data-lucide="download" style="width:14px; height:14px;"></i> Download
+                PDF</button>
+              <button id="anx2-delete-btn" class="btn btn-danger btn-sm"
+                style="display:none; align-items:center; gap:6px;" onclick="deletePdfAnx2()"><i data-lucide="trash-2"
+                  style="width:14px; height:14px;"></i> Delete PDF</button>
+              <label class="btn btn-pdf-upload btn-sm"
+                style="cursor:pointer; margin-bottom:0; display:inline-flex; align-items:center; gap:6px;">
+                <i data-lucide="upload" style="width:14px; height:14px;"></i>
+                <span>Upload PDF</span>
+                <input type="file" accept="application/pdf" id="anx2-pdf-input" hidden
+                  onchange="handlePDFUploadAnx2(event)">
+              </label>
+            </div>
+          </div>
+          <div class="notif notif-info" style="margin-bottom:16px">
+            Download the Excel template for each section below â†’ Fill values locally â†’ Upload at the bottom of the
+            section â†’ Click 'Download Final Annexure 2 PDF' when ready.
+          </div>
+          <div class="card">
+            <div class="card-bd">
+              <div id="section-a-wrapper">
+                <div class="anx-section section-a-block">
+                  <div class="anx-section-header"
+                    style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+                    <div class="anx-section-title" style="font-weight:bold; font-size:14px;">a) Potential Mining Leases
+                      (Existing & Proposed) Rivers:</div>
+                    <button class="btn btn-excel-template btn-xs" onclick="downloadSectionTemplateAnx2('A')"
+                      style="display:inline-flex; align-items:center; gap:6px;">
+                      <i data-lucide="file-spreadsheet" style="width:12px; height:12px;"></i>
+                      <span>Excel Template (Leases)</span>
+                    </button>
+                  </div>
+                  <div class="tbl-wrap">
+                    <table class="anx-tbl" id="anx2-leases" style="min-width:1400px">
+                      <thead>
+                        <tr>
+                          <th style="width: 50px;">Sl. No.</th>
+                          <th>River Details</th>
+                          <th>Sand Bar Code</th>
+                          <th>Lease Details</th>
+                          <th>Area (Ha)</th>
+                          <th>Latitude</th>
+                          <th>Longitude</th>
+                          <th>Distance from PA/WC (KM)</th>
+                          <th>Within 500m? (Cluster Area)</th>
+                          <th>Bulk Density (gm/cc)</th>
+                          <th>Depth of Deposit (m)</th>
+                          <th>Total Excavation (MT/YR)</th>
+                          <th>Total Excavation (Net 60%)</th>
+                          <th>Mineral</th>
+                          <th>Existing/Proposed</th>
+                          <th>Remarks</th>
+                          <th style="width: 50px;">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td contenteditable="true">1</td>
+                          <td contenteditable="true">Sutlej</td>
+                          <td contenteditable="true" class="coord-input">PO_JL_PL_ST_1B</td>
+                          <td contenteditable="true">Jalandhar Sutlej-1 Vill- Kadiana, Block- Phillaur</td>
+                          <td contenteditable="true" oninput="calcLeaseRow(this)">4.8</td>
+                          <td contenteditable="true" class="coord-input" style="white-space: pre-line;">31Â° 0' 48.886" N
+                            31Â° 0' 48.121" N
+                            31Â° 0' 47.214" N
+                            31Â° 0' 45.964" N
+                            31Â° 0' 45.741" N
+                            31Â° 0' 46.434" N
+                            31Â° 0' 47.331" N
+                            31Â° 0' 48.358" N
+                            31Â° 0' 48.535" N
+                            31Â° 0' 48.236" N
+                            31Â° 0' 48.619" N
+                            31Â° 0' 49.516" N
+                            31Â° 0' 50.244" N
+                            31Â° 0' 50.792" N
+                            31Â° 0' 51.774" N
+                            31Â° 0' 51.969" N
+                            31Â° 0' 51.527" N
+                            31Â° 0' 51.049" N
+                            31Â° 0' 49.961" N</td>
+                          <td contenteditable="true" class="coord-input" style="white-space: pre-line;">75Â° 53' 39.686"
+                            E
+                            75Â° 53' 37.489" E
+                            75Â° 53' 34.086" E
+                            75Â° 53' 31.294" E
+                            75Â° 53' 29.392" E
+                            75Â° 53' 27.465" E
+                            75Â° 53' 24.967" E
+                            75Â° 53' 23.655" E
+                            75Â° 53' 25.161" E
+                            75Â° 53' 27.351" E
+                            75Â° 53' 28.831" E
+                            75Â° 53' 26.493" E
+                            75Â° 53' 29.310" E
+                            75Â° 53' 31.822" E
+                            75Â° 53' 35.033" E
+                            75Â° 53' 38.541" E
+                            75Â° 53' 41.834" E
+                            75Â° 53' 42.609" E
+                            75Â° 53' 40.684" E</td>
+                          <td contenteditable="true">NA</td>
+                          <td contenteditable="true">Yes, Area: 25.27 Ha.</td>
+                          <td contenteditable="true" oninput="calcLeaseRow(this)">1.54</td>
+                          <td contenteditable="true" oninput="calcLeaseRow(this)">1.74</td>
+                          <td class="calc-total">128620.80</td>
+                          <td class="calc-net">77172.48</td>
+                          <td contenteditable="true">Sand</td>
+                          <td>
+                            <select>
+                              <option selected>Existing</option>
+                              <option>Proposed</option>
+                            </select>
+                          </td>
+                          <td contenteditable="true">EC Granted Area 4.8 Ha (whole)</td>
+                          <td>
+                            <button class="btn btn-xs btn-danger" onclick="delRowAnx2(this)"
+                              style="display:inline-flex; align-items:center; justify-content:center; padding:4px;">
+                              <i data-lucide="trash-2" style="width:12px; height:12px;"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="section-footer"
+                    style="margin-top:12px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                    <button class="btn btn-xs btn-outline" onclick="addNewLeaseRow(this)"
+                      style="display:inline-flex; align-items:center; gap:6px;">
+                      <i data-lucide="plus" style="width:12px; height:12px;"></i>
+                      <span>Add Lease</span>
+                    </button>
+                    <label class="btn btn-excel-upload btn-xs"
+                      style="cursor:pointer; display:inline-flex; align-items:center; gap:6px; margin-bottom:0;">
+                      <i data-lucide="upload" style="width:12px; height:12px;"></i>
+                      <span>Upload Excel (Leases)</span>
+                      <input type="file" accept=".xlsx,.xls,.csv" hidden onchange="handleSectionUploadAnx2(event, 'A')">
+                    </label>
+                    <button class="btn btn-xs btn-danger rm-sec-a-btn"
+                      onclick="this.closest('.section-a-block').remove()"
+                      style="display:none; align-items:center; gap:6px;">
+                      <i data-lucide="trash-2" style="width:12px; height:12px;"></i>
+                      <span>Remove This Table</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-bottom:30px; margin-top:12px;">
+                <button class="btn btn-sm btn-pdf-upload" onclick="addSectionABlock()"
+                  style="display:inline-flex; align-items:center; gap:6px;">
+                  <i data-lucide="plus-circle" style="width:14px; height:14px;"></i>
+                  <span>Add Another Section A Page/Table</span>
+                </button>
+              </div>
+              <div class="anx-section" style="margin-top:32px;">
+                <div class="anx-section-header"
+                  style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+                  <div class="anx-section-title" style="font-weight:bold; font-size:14px;">b) Patta lands/Khatedari land
+                    (Existing & Proposed):</div>
+                  <button class="btn btn-excel-template btn-xs" onclick="downloadSectionTemplateAnx2('B')"
+                    style="display:inline-flex; align-items:center; gap:6px;">
+                    <i data-lucide="file-spreadsheet" style="width:12px; height:12px;"></i>
+                    <span>Excel Template (Patta Lands)</span>
+                  </button>
+                </div>
+                <div class="tbl-wrap">
+                  <table class="anx-tbl" id="anx2-patta" style="min-width:1200px">
+                    <thead>
+                      <tr>
+                        <th style="width: 40px;">Sl.no</th>
+                        <th>Owner</th>
+                        <th>Sy.No (Khasra No)</th>
+                        <th>Area (Ha)</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                        <th>District</th>
+                        <th>Tehsil</th>
+                        <th>Village</th>
+                        <th>Total Reserve (MT)</th>
+                        <th>Total Mineral (60% MT)</th>
+                        <th>Existing/Proposed</th>
+                        <th>Remarks</th>
+                        <th style="width: 50px;">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td contenteditable="true">1</td>
+                        <td contenteditable="true" style="font-weight: bold;">Raj Kumar, S/O Divan Chand</td>
+                        <td contenteditable="true" style="white-space: pre-line;">8//21, 8//22, 8//23
+                          8//24, 15//1, 15//2</td>
+                        <td contenteditable="true" oninput="calcPattaRow(this)">2.77</td>
+                        <td contenteditable="true" class="coord-input" style="white-space: pre-line;">30Â°59'37.61"N
+                          30Â°59'37.53"N
+                          30Â°59'35.72"N
+                          30Â°59'35.71"N
+                          30Â°59'35.61"N
+                          30Â°59'35.57"N
+                          30Â°59'33.63"N
+                          30Â°59'33.62"N</td>
+                        <td contenteditable="true" class="coord-input" style="white-space: pre-line;">75Â°27'9.08"E
+                          75Â°27'21.44"E
+                          75Â°27'21.44"E
+                          75Â°27'19.03"E
+                          75Â°27'19.03"E
+                          75Â°27'14.06"E
+                          75Â°27'14.05"E
+                          75Â°27'9.10"E</td>
+                        <td contenteditable="true">Jalandhar</td>
+                        <td contenteditable="true">Shahkot</td>
+                        <td contenteditable="true">Bangiwal</td>
+                        <td class="p-reserve" contenteditable="true" oninput="updatePattaTotals()">126312</td>
+                        <td class="p-min" contenteditable="true" oninput="updatePattaTotals()">60630</td>
+                        <td>
+                          <select>
+                            <option selected>Existing</option>
+                            <option>Proposed</option>
+                          </select>
+                        </td>
+                        <td contenteditable="true">EC Granted area 2.77 ha (whole)</td>
+                        <td>
+                          <button class="btn btn-xs btn-danger" onclick="delRowAnx2(this)"
+                            style="display:inline-flex; align-items:center; justify-content:center; padding:4px;">
+                            <i data-lucide="trash-2" style="width:12px; height:12px;"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr class="total-row" style="font-weight: bold; background-color: #e5e7eb; text-align: center;">
+                        <td colspan="3">Total</td>
+                        <td id="patta-sum-area">2.77</td>
+                        <td colspan="5"></td>
+                        <td id="patta-sum-reserve">126312</td>
+                        <td id="patta-sum-mineral">60630.00</td>
+                        <td colspan="2"></td>
+                        <td></td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+                <div class="section-footer"
+                  style="margin-top:12px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                  <button class="btn btn-xs btn-outline"
+                    onclick="addRowAnx2('anx2-patta',['','','','0','','','Jalandhar','','','0','0','<select><option>Existing</option><option>Proposed</option></select>','','<button class=\'btn btn-xs btn-danger\' onclick=\'delRowAnx2(this)\' style=\'display:inline-flex;align-items:center;justify-content:center;padding:4px;\'><i data-lucide=\'trash-2\' style=\'width:12px;height:12px;\'></i></button>']); updatePattaTotals();"
+                    style="display:inline-flex; align-items:center; gap:6px;">
+                    <i data-lucide="plus" style="width:12px; height:12px;"></i>
+                    <span>Add Patta Land</span>
+                  </button>
+                  <label class="btn btn-excel-upload btn-xs"
+                    style="cursor:pointer; display:inline-flex; align-items:center; gap:6px; margin-bottom:0;">
+                    <i data-lucide="upload" style="width:12px; height:12px;"></i>
+                    <span>Upload Excel (Patta Lands)</span>
+                    <input type="file" accept=".xlsx,.xls,.csv" hidden onchange="handleSectionUploadAnx2(event, 'B')">
+                  </label>
+                </div>
+              </div>
+              <div class="anx-section" style="margin-top:32px;">
+                <div class="anx-section-header"
+                  style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+                  <div class="anx-section-title" style="font-weight:bold; font-size:14px;">c) De-Siltation Location
+                    (Lakes/Ponds/Dams etc.) (Existing & Proposed):</div>
+                  <button class="btn btn-excel-template btn-xs" onclick="downloadSectionTemplateAnx2('C')"
+                    style="display:inline-flex; align-items:center; gap:6px;">
+                    <i data-lucide="file-spreadsheet" style="width:12px; height:12px;"></i>
+                    <span>Excel Template (De-Siltation)</span>
+                  </button>
+                </div>
+                <div class="tbl-wrap">
+                  <table class="anx-tbl" id="anx2-desilt" style="min-width:1000px">
+                    <thead>
+                      <tr>
+                        <th>Name of Reservoir/Dams</th>
+                        <th>Maintain/Controlled by State Govt./PSU etc.</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                        <th>District</th>
+                        <th>Tehsil</th>
+                        <th>Village</th>
+                        <th>Size (Ha)</th>
+                        <th>Quantity MT/Year</th>
+                        <th>Existing/Proposed</th>
+                        <th style="width: 50px;">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td contenteditable="true" style="font-weight: bold;">Sutlej</td>
+                        <td contenteditable="true">State Govt.</td>
+                        <td contenteditable="true" class="coord-input">31Â°00'56"N</td>
+                        <td contenteditable="true" class="coord-input">75Â°54'59"E</td>
+                        <td contenteditable="true">Jalandhar</td>
+                        <td contenteditable="true">Phillaur</td>
+                        <td contenteditable="true">Powari</td>
+                        <td contenteditable="true" oninput="updateDesiltTotals()">10.93</td>
+                        <td contenteditable="true">-</td>
+                        <td><select>
+                            <option selected>Existing</option>
+                            <option>Proposed</option>
+                          </select></td>
+                        <td>
+                          <button class="btn btn-xs btn-danger" onclick="delRowAnx2(this)"
+                            style="display:inline-flex; align-items:center; justify-content:center; padding:4px;">
+                            <i data-lucide="trash-2" style="width:12px; height:12px;"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr class="total-row" style="font-weight: bold; background-color: #e5e7eb; text-align: center;">
+                        <td colspan="7">Total</td>
+                        <td id="desilt-sum-size">10.93</td>
+                        <td colspan="2"></td>
+                        <td></td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+                <div class="section-footer"
+                  style="margin-top:12px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                  <button class="btn btn-xs btn-outline"
+                    onclick="addRowAnx2('anx2-desilt',['','','','','Jalandhar','','','0.00','-','<select><option>Existing</option><option>Proposed</option></select>','<button class=\'btn btn-xs btn-danger\' onclick=\'delRowAnx2(this)\' style=\'display:inline-flex;align-items:center;justify-content:center;padding:4px;\'><i data-lucide=\'trash-2\' style=\'width:12px;height:12px;\'></i></button>']); updateDesiltTotals();"
+                    style="display:inline-flex; align-items:center; gap:6px;">
+                    <i data-lucide="plus" style="width:12px; height:12px;"></i>
+                    <span>Add Location</span>
+                  </button>
+                  <label class="btn btn-excel-upload btn-xs"
+                    style="cursor:pointer; display:inline-flex; align-items:center; gap:6px; margin-bottom:0;">
+                    <i data-lucide="upload" style="width:12px; height:12px;"></i>
+                    <span>Upload Excel (De-Siltation)</span>
+                    <input type="file" accept=".xlsx,.xls,.csv" hidden onchange="handleSectionUploadAnx2(event, 'C')">
+                  </label>
+                </div>
+              </div>
+              <div class="anx-section" style="margin-top:32px;">
+                <div class="anx-section-header"
+                  style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+                  <div class="anx-section-title" style="font-weight:bold; font-size:14px;">d) M-Sand Plants (Existing &
+                    Proposed):</div>
+                  <button class="btn btn-excel-template btn-xs" onclick="downloadSectionTemplateAnx2('D')"
+                    style="display:inline-flex; align-items:center; gap:6px;">
+                    <i data-lucide="file-spreadsheet" style="width:12px; height:12px;"></i>
+                    <span>Excel Template (M-Sand)</span>
+                  </button>
+                </div>
+                <div class="tbl-wrap">
+                  <table class="anx-tbl" id="anx2-msand" style="min-width:1000px">
+                    <thead>
+                      <tr>
+                        <th>Plant Name</th>
+                        <th>Owner</th>
+                        <th>District</th>
+                        <th>Tehsil</th>
+                        <th>Village</th>
+                        <th>Geo-location</th>
+                        <th>Quantity Tonnes/Annum</th>
+                        <th>Existing/Proposed</th>
+                        <th style="width: 50px;">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td contenteditable="true" style="font-weight: bold;">Not Available</td>
+                        <td contenteditable="true">Not Available</td>
+                        <td contenteditable="true">Jalandhar</td>
+                        <td contenteditable="true">Phillaur</td>
+                        <td contenteditable="true">Not Available</td>
+                        <td contenteditable="true" class="coord-input">Not Available</td>
+                        <td contenteditable="true">Not Available</td>
+                        <td><select>
+                            <option selected>Existing</option>
+                            <option>Proposed</option>
+                          </select></td>
+                        <td>
+                          <button class="btn btn-xs btn-danger" onclick="delRowAnx2(this)"
+                            style="display:inline-flex; align-items:center; justify-content:center; padding:4px;">
+                            <i data-lucide="trash-2" style="width:12px; height:12px;"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="section-footer"
+                  style="margin-top:12px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                  <button class="btn btn-xs btn-outline"
+                    onclick="addRowAnx2('anx2-msand',['','','Jalandhar','','','','','<select><option>Existing</option><option>Proposed</option></select>','<button class=\'btn btn-xs btn-danger\' onclick=\'delRowAnx2(this)\' style=\'display:inline-flex;align-items:center;justify-content:center;padding:4px;\'><i data-lucide=\'trash-2\' style=\'width:12px;height:12px;\'></i></button>'])"
+                    style="display:inline-flex; align-items:center; gap:6px;">
+                    <i data-lucide="plus" style="width:12px; height:12px;"></i>
+                    <span>Add M-Sand Plant</span>
+                  </button>
+                  <label class="btn btn-excel-upload btn-xs"
+                    style="cursor:pointer; display:inline-flex; align-items:center; gap:6px; margin-bottom:0;">
+                    <i data-lucide="upload" style="width:12px; height:12px;"></i>
+                    <span>Upload Excel (M-Sand)</span>
+                    <input type="file" accept=".xlsx,.xls,.csv" hidden onchange="handleSectionUploadAnx2(event, 'D')">
+                  </label>
+                </div>
+              </div>
+              <div class="final-actions" style="margin-top:32px; display:flex; justify-content:center;">
+                <button class="btn btn-pdf-upload btn-lg" onclick="exportAnx2PDF(this)"
+                  style="display:inline-flex; align-items:center; gap:8px;">
+                  <i data-lucide="file-text" style="width:18px; height:18px;"></i>
+                  <span>Download Final Annexure 2 PDF</span>
+                </button>
+              </div>
+                      </div>
+          </div>
+        </div>

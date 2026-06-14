@@ -1,0 +1,315 @@
+        <div id="view-anx1" class="view">
+          <div class="header-row">
+            <div>
+              <div class="page-title">Annexure I â€” Sand Sources</div>
+              <div class="page-sub">Details of Sand/M-Sand Sources Â· EMGSM 2020</div>
+            </div>
+            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+              <span id="anx1-uploaded-filename"
+                style="font-size:12px; color:var(--text-soft); font-weight:600; display:none; padding:4px 8px; background:var(--off); border-radius:var(--r-xs); border:1px solid var(--border);"></span>
+              <button id="anx1-preview-btn" class="btn btn-outline btn-sm"
+                style="display:none; align-items:center; gap:6px;" onclick="togglePDFPreviewAnx1()"><i data-lucide="eye"
+                  style="width:14px; height:14px;"></i> Preview PDF</button>
+              <button id="anx1-download-btn" class="btn btn-pdf-download btn-sm" style="display:none;"
+                onclick="downloadPdfAnx1()"><i data-lucide="download" style="width:14px; height:14px;"></i> Download
+                PDF</button>
+              <button id="anx1-delete-btn" class="btn btn-danger btn-sm"
+                style="display:none; align-items:center; gap:6px;" onclick="deletePdfAnx1()"><i data-lucide="trash-2"
+                  style="width:14px; height:14px;"></i> Delete PDF</button>
+              <label class="btn btn-pdf-upload btn-sm"
+                style="cursor:pointer; margin-bottom:0; display:inline-flex; align-items:center; gap:6px;">
+                <i data-lucide="upload" style="width:14px; height:14px;"></i>
+                <span>Upload PDF</span>
+                <input type="file" accept="application/pdf" id="anx1-pdf-input" hidden
+                  onchange="handlePDFUpload(event)">
+              </label>
+            </div>
+          </div>
+          <div class="notif notif-info" style="margin-bottom:16px">
+            Download the Excel template for each section below â†’ Fill values locally â†’ Upload at the bottom of the
+            section â†’ Click 'Download Final Annexure 1 PDF' when ready.
+          </div>
+          <div class="card">
+                <div class="card-bd">
+              <div class="anx-section">
+                <div class="anx-section-header"
+                  style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+                  <div class="anx-section-title" style="font-weight:bold; font-size:14px;">a) Rivers:</div>
+                  <button class="btn btn-excel-template btn-xs" onclick="downloadSectionTemplate('A')"
+                    style="display:inline-flex; align-items:center; gap:6px;">
+                    <i data-lucide="file-spreadsheet" style="width:12px; height:12px;"></i>
+                    <span>Excel Template (Rivers)</span>
+                  </button>
+                </div>
+                <div class="tbl-wrap">
+                  <table class="anx-tbl" id="anx1-rivers">
+                    <thead>
+                      <tr>
+                        <th>River Name/M-Sand Plant</th>
+                        <th>Total Stretch of River (in KM)</th>
+                        <th>Type of River (Perennial or Non Perennial)</th>
+                        <th style="width:50px;">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td contenteditable="true">Sutlej</td>
+                        <td contenteditable="true">90.66</td>
+                        <td><select>
+                            <option>Perennial</option>
+                            <option>Non-Perennial</option>
+                          </select></td>
+                        <td>
+                          <button class="btn btn-xs btn-danger" onclick="delRow(this)"
+                            style="display:inline-flex; align-items:center; justify-content:center; padding:4px;">
+                            <i data-lucide="trash-2" style="width:12px; height:12px;"></i>
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td contenteditable="true">Beas</td>
+                        <td contenteditable="true">65.20</td>
+                        <td><select>
+                            <option>Perennial</option>
+                            <option>Non-Perennial</option>
+                          </select></td>
+                        <td>
+                          <button class="btn btn-xs btn-danger" onclick="delRow(this)"
+                            style="display:inline-flex; align-items:center; justify-content:center; padding:4px;">
+                            <i data-lucide="trash-2" style="width:12px; height:12px;"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="section-footer"
+                  style="margin-top:12px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                  <button class="btn btn-xs btn-outline"
+                    onclick="addRowAnx1('anx1-rivers',['','','<select><option>Perennial</option><option>Non-Perennial</option></select>','<button class=\'btn btn-xs btn-danger\' onclick=\'delRow(this)\' style=\'display:inline-flex;align-items:center;justify-content:center;padding:4px;\'><i data-lucide=\'trash-2\' style=\'width:12px;height:12px;\'></i></button>'])"
+                    style="display:inline-flex; align-items:center; gap:6px;">
+                    <i data-lucide="plus" style="width:12px; height:12px;"></i>
+                    <span>Add River</span>
+                  </button>
+                  <label class="btn btn-excel-upload btn-xs"
+                    style="cursor:pointer; display:inline-flex; align-items:center; gap:6px; margin-bottom:0;">
+                    <i data-lucide="upload" style="width:12px; height:12px;"></i>
+                    <span>Upload Excel (Rivers)</span>
+                    <input type="file" accept=".xlsx,.xls,.csv" hidden onchange="handleSectionUpload(event, 'A')">
+                  </label>
+                </div>
+              </div>
+              <div class="anx-section" style="margin-top:32px;">
+                <div class="anx-section-header"
+                  style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+                  <div class="anx-section-title" style="font-weight:bold; font-size:14px;">b) De-Siltation Location
+                    (Lakes/Ponds/Dams etc.):</div>
+                  <button class="btn btn-excel-template btn-xs" onclick="downloadSectionTemplate('B')"
+                    style="display:inline-flex; align-items:center; gap:6px;">
+                    <i data-lucide="file-spreadsheet" style="width:12px; height:12px;"></i>
+                    <span>Excel Template (De-Siltation)</span>
+                  </button>
+                </div>
+                <div class="tbl-wrap">
+                  <table class="anx-tbl" id="anx1-desilt">
+                    <thead>
+                      <tr>
+                        <th>Name of Reservoir/Dams</th>
+                        <th>Maintain/Controlled by State Govt./PSU etc.</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                        <th>District</th>
+                        <th>Tehsil</th>
+                        <th>Village</th>
+                        <th>Size (Ha)</th>
+                        <th style="width:50px;">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td contenteditable="true">Sutlej</td>
+                        <td contenteditable="true">State Govt.</td>
+                        <td contenteditable="true" class="coord-input">31Â°00'56"N</td>
+                        <td contenteditable="true" class="coord-input">75Â°54'59"E</td>
+                        <td contenteditable="true">Jalandhar</td>
+                        <td contenteditable="true">Phillaur</td>
+                        <td contenteditable="true">Powari</td>
+                        <td contenteditable="true">10.93</td>
+                        <td>
+                          <button class="btn btn-xs btn-danger" onclick="delRow(this)"
+                            style="display:inline-flex; align-items:center; justify-content:center; padding:4px;">
+                            <i data-lucide="trash-2" style="width:12px; height:12px;"></i>
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td contenteditable="true">Sutlej</td>
+                        <td contenteditable="true">State Govt.</td>
+                        <td contenteditable="true" class="coord-input">31Â°00'35"N</td>
+                        <td contenteditable="true" class="coord-input">75Â°52'49"E</td>
+                        <td contenteditable="true">Jalandhar</td>
+                        <td contenteditable="true">Phillaur</td>
+                        <td contenteditable="true">Kadiana</td>
+                        <td contenteditable="true">12.42</td>
+                        <td>
+                          <button class="btn btn-xs btn-danger" onclick="delRow(this)"
+                            style="display:inline-flex; align-items:center; justify-content:center; padding:4px;">
+                            <i data-lucide="trash-2" style="width:12px; height:12px;"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="section-footer"
+                  style="margin-top:12px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                  <button class="btn btn-xs btn-outline"
+                    onclick="addRowAnx1('anx1-desilt',['','','','','','','','','<button class=\'btn btn-xs btn-danger\' onclick=\'delRow(this)\' style=\'display:inline-flex;align-items:center;justify-content:center;padding:4px;\'><i data-lucide=\'trash-2\' style=\'width:12px;height:12px;\'></i></button>'])"
+                    style="display:inline-flex; align-items:center; gap:6px;">
+                    <i data-lucide="plus" style="width:12px; height:12px;"></i>
+                    <span>Add Location</span>
+                  </button>
+                  <label class="btn btn-excel-upload btn-xs"
+                    style="cursor:pointer; display:inline-flex; align-items:center; gap:6px; margin-bottom:0;">
+                    <i data-lucide="upload" style="width:12px; height:12px;"></i>
+                    <span>Upload Excel (De-Siltation)</span>
+                    <input type="file" accept=".xlsx,.xls,.csv" hidden onchange="handleSectionUpload(event, 'B')">
+                  </label>
+                </div>
+              </div>
+              <div class="anx-section" style="margin-top:32px;">
+                <div class="anx-section-header"
+                  style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+                  <div class="anx-section-title" style="font-weight:bold; font-size:14px;">c) Patta lands/Khatedari
+                    land:</div>
+                  <button class="btn btn-excel-template btn-xs" onclick="downloadSectionTemplate('C')"
+                    style="display:inline-flex; align-items:center; gap:6px;">
+                    <i data-lucide="file-spreadsheet" style="width:12px; height:12px;"></i>
+                    <span>Excel Template (Patta Lands)</span>
+                  </button>
+                </div>
+                <div class="tbl-wrap">
+                  <table class="anx-tbl" id="anx1-patta">
+                    <thead>
+                      <tr>
+                        <th>Owner</th>
+                        <th>SL. No</th>
+                        <th>Area (Ha)</th>
+                        <th>District</th>
+                        <th>Tehsil</th>
+                        <th>Village</th>
+                        <th>Agricultural Land (Yes/No)</th>
+                        <th style="width:50px;">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td contenteditable="true">Jaswinder Singh</td>
+                        <td contenteditable="true">123/1</td>
+                        <td contenteditable="true">2.50</td>
+                        <td contenteditable="true">Jalandhar</td>
+                        <td contenteditable="true">Phillaur</td>
+                        <td contenteditable="true">Kadiana</td>
+                        <td><select>
+                            <option>Yes</option>
+                            <option>No</option>
+                          </select></td>
+                        <td>
+                          <button class="btn btn-xs btn-danger" onclick="delRow(this)"
+                            style="display:inline-flex; align-items:center; justify-content:center; padding:4px;">
+                            <i data-lucide="trash-2" style="width:12px; height:12px;"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="section-footer"
+                  style="margin-top:12px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                  <button class="btn btn-xs btn-outline"
+                    onclick="addRowAnx1('anx1-patta',['','','','','','','<select><option>Yes</option><option>No</option></select>','<button class=\'btn btn-xs btn-danger\' onclick=\'delRow(this)\' style=\'display:inline-flex;align-items:center;justify-content:center;padding:4px;\'><i data-lucide=\'trash-2\' style=\'width:12px;height:12px;\'></i></button>'])"
+                    style="display:inline-flex; align-items:center; gap:6px;">
+                    <i data-lucide="plus" style="width:12px; height:12px;"></i>
+                    <span>Add Patta Land</span>
+                  </button>
+                  <label class="btn btn-excel-upload btn-xs"
+                    style="cursor:pointer; display:inline-flex; align-items:center; gap:6px; margin-bottom:0;">
+                    <i data-lucide="upload" style="width:12px; height:12px;"></i>
+                    <span>Upload Excel (Patta Lands)</span>
+                    <input type="file" accept=".xlsx,.xls,.csv" hidden onchange="handleSectionUpload(event, 'C')">
+                  </label>
+                </div>
+              </div>
+              <div class="anx-section" style="margin-top:32px;">
+                <div class="anx-section-header"
+                  style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+                  <div class="anx-section-title" style="font-weight:bold; font-size:14px;">d) M-Sand Plants:</div>
+                  <button class="btn btn-excel-template btn-xs" onclick="downloadSectionTemplate('D')"
+                    style="display:inline-flex; align-items:center; gap:6px;">
+                    <i data-lucide="file-spreadsheet" style="width:12px; height:12px;"></i>
+                    <span>Excel Template (M-Sand)</span>
+                  </button>
+                </div>
+                <div class="tbl-wrap">
+                  <table class="anx-tbl" id="anx1-msand">
+                    <thead>
+                      <tr>
+                        <th>Plant Name</th>
+                        <th>Owner</th>
+                        <th>District</th>
+                        <th>Tehsil</th>
+                        <th>Village</th>
+                        <th>Geo-location</th>
+                        <th>Quantity Tonnes/Annum</th>
+                        <th style="width:50px;">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td contenteditable="true">Not Available</td>
+                        <td contenteditable="true">Not Available</td>
+                        <td contenteditable="true">Jalandhar</td>
+                        <td contenteditable="true">Phillaur</td>
+                        <td contenteditable="true">Not Available</td>
+                        <td contenteditable="true" class="coord-input">Not Available</td>
+                        <td contenteditable="true">Not Available</td>
+                        <td>
+                          <button class="btn btn-xs btn-danger" onclick="delRow(this)"
+                            style="display:inline-flex; align-items:center; justify-content:center; padding:4px;">
+                            <i data-lucide="trash-2" style="width:12px; height:12px;"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="section-footer"
+                  style="margin-top:12px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                  <button class="btn btn-xs btn-outline"
+                    onclick="addRowAnx1('anx1-msand',['','','','','','','','<button class=\'btn btn-xs btn-danger\' onclick=\'delRow(this)\' style=\'display:inline-flex;align-items:center;justify-content:center;padding:4px;\'><i data-lucide=\'trash-2\' style=\'width:12px;height:12px;\'></i></button>'])"
+                    style="display:inline-flex; align-items:center; gap:6px;">
+                    <i data-lucide="plus" style="width:12px; height:12px;"></i>
+                    <span>Add M-Sand Plant</span>
+                  </button>
+                  <label class="btn btn-excel-upload btn-xs"
+                    style="cursor:pointer; display:inline-flex; align-items:center; gap:6px; margin-bottom:0;">
+                    <i data-lucide="upload" style="width:12px; height:12px;"></i>
+                    <span>Upload Excel (M-Sand)</span>
+                    <input type="file" accept=".xlsx,.xls,.csv" hidden onchange="handleSectionUpload(event, 'D')">
+                  </label>
+                </div>
+              </div>
+                <div class="final-actions" style="margin-top:32px; display:flex; justify-content:center;">
+                  <button class="btn btn-pdf-upload btn-lg" onclick="exportAnx1PDF(this, false)"
+                    style="display:inline-flex; align-items:center; gap:8px;">
+                    <i data-lucide="file-text" style="width:18px; height:18px;"></i>
+                    <span>Download Final Annexure 1 PDF</span>
+                  </button>
+                  <button class="btn btn-outline btn-lg" onclick="exportAnx1PDF(this, true)"
+                    style="display:inline-flex; align-items:center; gap:8px; margin-left:12px;">
+                    <i data-lucide="eye" style="width:18px; height:18px;"></i>
+                    <span>Update Live Preview</span>
+                  </button>
+                </div>
+              </div></div>
+</div>

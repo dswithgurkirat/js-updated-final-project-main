@@ -1,0 +1,37 @@
+        <div id="view-auction-table" class="view">
+          <div class="header-row">
+            <div>
+              <div class="page-title">Proforma for Auctioned Sites — District Jalandhar</div>
+              <div class="page-sub">Mining sites auctioned as per DPR guidelines</div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-outline btn-sm" onclick="addAuctionRow()">+ Add Row</button>
+              <button class="btn btn-teal btn-sm" onclick="toast('Excel downloaded','success')">⬇ Excel</button>
+              <button class="btn btn-saffron btn-sm" onclick="exportAuctionPDF()">📄 PDF</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-bd" style="overflow-x:auto">
+              <table class="tbl" id="auction-tbl" style="min-width:1300px">
+                <thead>
+                  <tr>
+                    <th>Sr No.</th>
+                    <th>Site Name</th>
+                    <th>Type of Mine</th>
+                    <th>Date of Grant</th>
+                    <th>Date of Start</th>
+                    <th>Qty Allowed EC (MT/yr)</th>
+                    <th>Qty Extracted (MT) till 30-Jun-2025</th>
+                    <th>Balance Qty (1-Dec-2025)</th>
+                    <th>EC Status</th>
+                    <th>Reason Not Operated</th>
+                    <th>Reason No EC Applied</th>
+                    <th>Remarks</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="auction-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>

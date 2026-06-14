@@ -1,0 +1,42 @@
+        <div id="view-summary-table" class="view">
+          <div class="header-row">
+            <div>
+              <div class="page-title">Source-wise Summary of Excavation Quantity</div>
+              <div class="page-sub">District-wise summary for all mining sources</div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-outline btn-sm" onclick="addSummaryRow()">+ Add Row</button>
+              <button class="btn btn-teal btn-sm" onclick="toast('Excel downloaded','success')">⬇ Excel</button>
+              <button class="btn btn-saffron btn-sm" onclick="exportSummaryPDF()">📄 PDF</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-bd">
+              <div class="tbl-wrap">
+                <table class="tbl" id="summary-tbl" style="min-width:900px">
+                  <thead>
+                    <tr>
+                      <th>Source</th>
+                      <th>No. of Proposed Sites</th>
+                      <th>Area (Ha)</th>
+                      <th>Total Excav. (Tonnes)</th>
+                      <th>Total Excav. @60% EMGSM 2020 (Tonnes)</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="summary-tbody"></tbody>
+                  <tfoot>
+                    <tr class="total-row">
+                      <td><strong>TOTAL</strong></td>
+                      <td id="sum-sites">0</td>
+                      <td id="sum-area">0</td>
+                      <td id="sum-excav">0</td>
+                      <td id="sum-excav60">0</td>
+                      <td></td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>

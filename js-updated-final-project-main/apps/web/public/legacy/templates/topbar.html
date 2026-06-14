@@ -1,0 +1,161 @@
+<div class="topbar dash-global-topbar">
+  <div class="dash-switcher-bar">
+    <div class="dash-switcher-tabs">
+      <a href="home.html" class="dash-switcher-tab inactive">
+        <i data-lucide="home" style="width: 12px; height: 12px; stroke-width: 2.5;"></i> Home Page
+      </a>
+      <a href="#" class="dash-switcher-tab active" onclick="return false;">
+        <i data-lucide="lock" style="width: 12px; height: 12px; stroke-width: 2.5;"></i> Login Page
+      </a>
+    </div>
+    <div class="dash-switcher-info">
+      <i data-lucide="info" style="width: 12px; height: 12px;"></i> Click tabs to switch...
+    </div>
+  </div>
+  <div class="dash-gov-utility-strip">
+    <div class="dash-gov-left">
+      <span class="dash-badge-in">IN</span>
+      <span style="font-weight: 700; color: #E2E8F0;">Government of Punjab | DSR Portal</span>
+    </div>
+    <div class="dash-gov-right">
+      <button class="dash-lang-btn" data-lang="en" onclick="applyPortalLanguage('en')">English</button>
+      <span style="color: rgba(255,255,255,0.2);">|</span>
+      <button class="dash-lang-btn" data-lang="hi" onclick="applyPortalLanguage('hi')">Hindi</button>
+      <span style="color: rgba(255,255,255,0.2);">|</span>
+      <button class="dash-lang-btn" data-lang="pa" onclick="applyPortalLanguage('pa')">Punjabi</button>
+      <span style="color: rgba(255,255,255,0.2);">|</span>
+      <button onclick="dashPortalToast('Screen reader mode is ready. Use browser accessibility tools to continue.')" style="display: inline-flex; align-items: center; gap: 4px;">
+        <i data-lucide="eye" style="width:13px; height:13px;"></i> <span data-i18n="screenReader">Screen Reader</span>
+      </button>
+      <span style="color: rgba(255,255,255,0.2);">|</span>
+      <div class="dash-font-btns">
+        <button class="dash-font-btn" onclick="changeFontSize(-1)">A-</button>
+        <button class="dash-font-btn" onclick="changeFontSize(0)">A</button>
+        <button class="dash-font-btn" onclick="changeFontSize(1)">A+</button>
+      </div>
+      <span style="color: rgba(255,255,255,0.2);">|</span>
+      <button onclick="document.querySelector('.view.active')?.scrollIntoView({behavior:'smooth', block:'start'})" data-i18n="skipContent">Skip to Content</button>
+    </div>
+  </div>
+  <div class="dash-gov-brand-row">
+    <div class="dash-brand-left">
+      <button id="tb-sidebar-toggle" type="button" class="dash-action-icon-btn" onclick="return toggleSidebar(event)" title="Toggle sidebar" aria-label="Toggle sidebar" aria-expanded="false">
+        <i data-lucide="menu" style="width:16px; height:16px;"></i>
+      </button>
+      <svg viewBox="0 0 100 100" width="54" height="54" style="flex-shrink:0;">
+        <circle cx="50" cy="50" r="46" fill="#17324D" stroke="#C49A58" stroke-width="3"/>
+        <path d="M50 20 L25 40 L75 40 Z" fill="#ffffff"/>
+        <rect x="30" y="40" width="40" height="35" fill="#ffffff"/>
+        <rect x="44" y="52" width="12" height="23" fill="#17324D"/>
+        <line x1="35" y1="45" x2="65" y2="45" stroke="#17324D" stroke-width="2"/>
+        <line x1="35" y1="50" x2="65" y2="50" stroke="#17324D" stroke-width="2"/>
+      </svg>
+      <div class="dash-brand-texts" onclick="clearActiveProject(); showView('dashboard', null);">
+        <span class="dash-brand-bilingual" data-i18n="brandBilingual">Government of Punjab - IIT Ropar Research Cell - EMGSM 2020</span>
+        <h1 class="dash-brand-title" data-i18n="brandTitle">District Survey Report Automation Portal</h1>
+        <span class="dash-brand-subtitle" data-i18n="brandSubtitle">DSR Automation for Sand Mining</span>
+      </div>
+    </div>
+    <div class="dash-brand-right">
+      <button class="dash-gov-badge dash-badge-emgsm" onclick="showView('workflow', null)">
+        <i data-lucide="leaf" style="width:13px; height:13px;"></i> EMGSM 2020
+      </button>
+      <div class="tb-nav-dropdown">
+        <button type="button" class="dash-action-icon-btn" onclick="toggleNotificationDropdown()" title="Notifications" aria-label="Notifications">
+          <i data-lucide="bell" style="width:16px; height:16px;"></i>
+          <span id="tb-notif-dot"></span>
+        </button>
+        <div class="tb-dropdown-menu" id="tb-notif-dropdown">
+          <div class="tb-dropdown-title">Notifications</div>
+          <div id="tb-notif-list" class="tb-empty-note">No new notifications</div>
+        </div>
+      </div>
+      <button class="dash-action-icon-btn" onclick="dashFocusSearch()" title="Search portal" aria-label="Search portal">
+        <i data-lucide="search" style="width:16px; height:16px;"></i>
+      </button>
+      <button class="dash-action-icon-btn" onclick="showView('sdlc-portal', null)" title="Help" aria-label="Help">
+        <i data-lucide="help-circle" style="width:16px; height:16px;"></i>
+      </button>
+      <button class="dash-action-icon-btn" onclick="dashSharePortal()" title="Copy portal link" aria-label="Copy portal link">
+        <i data-lucide="share-2" style="width:16px; height:16px;"></i>
+      </button>
+      <button class="dash-action-icon-btn dash-theme-toggle tb-theme-toggle" onclick="toggleDarkMode()" title="Toggle dark mode" aria-label="Toggle dark mode" data-theme-toggle>
+        <i data-lucide="moon" style="width:16px; height:16px;"></i>
+      </button>
+      <button id="tb-btn-new-project" class="dash-btn-logout dash-btn-new-project" onclick="newProjectModal()">
+        <i data-lucide="plus-circle" style="width:15px; height:15px; stroke-width: 2.5;"></i> New Project
+      </button>
+      <button onclick="doLogout()" class="dash-btn-logout">
+        <i data-lucide="log-out" style="width:15px; height:15px; stroke-width: 2.5;"></i> Logout
+      </button>
+    </div>
+  </div>
+  <div class="dash-gov-menu-bar">
+    <ul class="dash-menu-links">
+      <li class="dash-menu-link-item">
+        <button class="tb-sub-nav-btn" onclick="clearActiveProject(); showView('dashboard', this)">
+          <i data-lucide="home" style="width:15px; height:15px; opacity:0.8;"></i> <span data-i18n="navHome">Home</span>
+        </button>
+      </li>
+      <li class="dash-menu-link-item">
+        <button class="tb-sub-nav-btn" onclick="openAboutDsr(this)">
+          <i data-lucide="info" style="width:15px; height:15px; opacity:0.8;"></i> <span data-i18n="navAbout">About DSR</span>
+        </button>
+      </li>
+      <li class="dash-menu-link-item tb-nav-dropdown">
+        <button class="tb-sub-nav-btn" onclick="showView('projects', this)">
+          <i data-lucide="folder" style="width:15px; height:15px; opacity:0.8;"></i> <span data-i18n="navProjects">Projects</span>
+        </button>
+        <div class="tb-dropdown-menu" id="tb-projects-dropdown">
+          <a href="#" onclick="showView('projects', null); return false;">View All Projects</a>
+          <a href="#" onclick="newProjectModal(); return false;">Add New Project</a>
+        </div>
+      </li>
+      <li class="dash-menu-link-item">
+        <button class="tb-sub-nav-btn" onclick="newProjectModal()">
+          <i data-lucide="plus-circle" style="width:15px; height:15px; opacity:0.8;"></i> <span data-i18n="navNewProject">+ New Project</span>
+        </button>
+      </li>
+      <li class="dash-menu-link-item">
+        <button class="tb-sub-nav-btn" onclick="showView('workflow', this)">
+          <i data-lucide="activity" style="width:15px; height:15px; opacity:0.8;"></i> <span data-i18n="navWorkflow">Workflow</span>
+        </button>
+      </li>
+      <li class="dash-menu-link-item" id="tb-nav-audit-logs">
+        <button class="tb-sub-nav-btn" onclick="showView('audit-logs', this)">
+          <i data-lucide="clipboard-list" style="width:15px; height:15px; opacity:0.8;"></i> <span data-i18n="navAudit">Audit Logs</span>
+        </button>
+      </li>
+      <li class="dash-menu-link-item" id="tb-nav-users" style="display:none">
+        <button class="tb-sub-nav-btn" onclick="showView('users', this)">
+          <i data-lucide="users" style="width:15px; height:15px; opacity:0.8;"></i> <span>User Management</span>
+        </button>
+      </li>
+      <li class="dash-menu-link-item">
+        <button class="tb-sub-nav-btn" onclick="openDistrictMap(this)">
+          <i data-lucide="map-pin" style="width:15px; height:15px; opacity:0.8;"></i> <span data-i18n="navDistricts">Districts</span>
+        </button>
+      </li>
+      <li class="dash-menu-link-item">
+        <button class="tb-sub-nav-btn" onclick="clearActiveProject(); showView('dashboard', this); setTimeout(()=>document.getElementById('dash-contact-section')?.scrollIntoView({behavior:'smooth', block:'start'}), 80);">
+          <i data-lucide="phone" style="width:15px; height:15px; opacity:0.8;"></i> <span data-i18n="navContact">Contact</span>
+        </button>
+      </li>
+    </ul>
+    <div class="dash-menu-search">
+      <i data-lucide="search" style="width: 14px; height: 14px;"></i>
+      <input id="tb-portal-search" type="text" placeholder="Search portal..." data-i18n-placeholder="searchPlaceholder" onkeydown="dashRunSearch(event)" aria-label="Search portal">
+    </div>
+  </div>
+  <div class="dash-gov-notice-ticker">
+    <div class="dash-notice-label">
+      <i data-lucide="megaphone" style="width:12px; height:12px; stroke-width: 2.5;"></i> <span data-i18n="noticeLabel">Notice</span>
+    </div>
+    <div class="dash-notice-marquee-container">
+      <div class="dash-notice-marquee-text">
+        <span data-i18n="noticeText">DSR submissions for Punjab districts 2025-26 are now open - Deadline: 30 September 2026 - New: Digital E-Sign integration live for all districts - EMGSM 2020 compliance mandatory</span>
+      </div>
+    </div>
+    <span class="tb-district" id="tb-district-badge">Punjab</span>
+  </div>
+</div>

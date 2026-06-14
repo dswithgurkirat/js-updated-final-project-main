@@ -1,0 +1,66 @@
+<div id="view-anx7" class="view">
+  <div class="header-row">
+    <div>
+      <div class="page-title">Annexure VII - Transportation Routes</div>
+      <div class="page-sub">Transportation routes for individual leases and leases in clusters</div>
+    </div>
+    <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+      <span id="anx7-uploaded-filename"
+        style="font-size:12px; color:var(--text-soft); font-weight:600; display:none; padding:4px 8px; background:var(--off); border-radius:var(--r-xs); border:1px solid var(--border);"></span>
+      <button id="anx7-preview-btn" class="btn btn-outline btn-sm" style="display:none; align-items:center; gap:6px;"
+        onclick="togglePDFPreviewAnx7()"><i data-lucide="eye" style="width:14px; height:14px;"></i> Preview PDF</button>
+      <button id="anx7-download-btn" class="btn btn-pdf-download btn-sm" style="display:none;"
+        onclick="downloadPdfAnx7()"><i data-lucide="download" style="width:14px; height:14px;"></i> Download
+        PDF</button>
+      <button id="anx7-delete-btn" class="btn btn-danger btn-sm" style="display:none; align-items:center; gap:6px;"
+        onclick="deletePdfAnx7()"><i data-lucide="trash-2" style="width:14px; height:14px;"></i> Delete PDF</button>
+      <label class="btn btn-pdf-upload btn-sm"
+        style="cursor:pointer; margin-bottom:0; display:inline-flex; align-items:center; gap:6px;">
+        <i data-lucide="upload" style="width:14px; height:14px;"></i>
+        <span>Upload PDF</span>
+        <input type="file" accept="application/pdf" id="anx7-pdf-input" hidden onchange="handlePDFUploadAnx7(event)">
+      </label>
+    </div>
+  </div>
+  <div class="g2 annexure-line-layout" style="grid-template-columns: minmax(0, 2fr) minmax(220px, 0.75fr);">
+    <div class="annexure-line-main">
+      <div id="anx7-individual-routes-container">
+      </div>
+      <div style="margin-bottom:30px; margin-top:12px;">
+        <button class="btn btn-sm btn-pdf-upload" onclick="addRouteTableBlockAnx7()"
+          style="display:inline-flex; align-items:center; gap:6px;">
+          <i data-lucide="plus-circle" style="width:14px; height:14px;"></i>
+          <span>Add Another Table / Section</span>
+        </button>
+      </div>
+      <div id="anx7-cluster-routes-container">
+      </div>
+      <div style="margin-bottom:30px; margin-top:12px;">
+        <button class="btn btn-sm btn-pdf-upload" onclick="addClusterTableBlockAnx7()"
+          style="display:inline-flex; align-items:center; gap:6px;">
+          <i data-lucide="plus-circle" style="width:14px; height:14px;"></i>
+          <span>Add Another Table / Section</span>
+        </button>
+      </div>
+      <div class="final-actions" style="margin-top:32px; display:flex; justify-content:center;">
+        <button class="btn btn-pdf-upload btn-lg" onclick="exportAnx7PDF()"
+          style="display:inline-flex; align-items:center; gap:8px;">
+          <i data-lucide="file-text" style="width:18px; height:18px;"></i>
+          <span>Download Final Annexure 7 PDF</span>
+        </button>
+      </div>
+    </div>
+    <div class="annexure-line-instructions">
+      <div class="card">
+        <div class="card-hd">
+          <div class="card-title">Instructions</div>
+        </div>
+        <div class="card-bd">
+          <p style="color:var(--text-soft); font-size:14px; line-height:1.6; margin:0;">
+            Maintain individual route tables first, then cluster route tables. Use the right-side preview to verify the generated Annexure VII PDF before downloading.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

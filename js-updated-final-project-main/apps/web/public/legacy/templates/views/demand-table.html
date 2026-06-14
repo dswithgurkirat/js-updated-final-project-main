@@ -1,0 +1,43 @@
+        <div id="view-demand-table" class="view">
+          <div class="header-row">
+            <div>
+              <div class="page-title">Projected Demand of Gravel (in MT) District Wise</div>
+              <div class="page-sub">Year-wise demand projections for all Punjab districts</div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-outline btn-sm" onclick="addDemandRow()">+ Add District</button>
+              <button class="btn btn-teal btn-sm" onclick="exportDemandExcel()">⬇ Excel</button>
+              <button class="btn btn-saffron btn-sm" onclick="exportDemandPDF()">📄 PDF</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-bd" style="overflow-x:auto">
+              <table class="demand-tbl" id="demand-tbl" style="min-width:900px">
+                <thead>
+                  <tr>
+                    <th style="text-align:left">Sr. No.</th>
+                    <th style="text-align:left">District Name</th>
+                    <th>2022-23</th>
+                    <th>2023-24</th>
+                    <th>2024-25</th>
+                    <th>2025-26</th>
+                    <th>2026-27</th>
+                    <th>2027-28</th>
+                  </tr>
+                </thead>
+                <tbody id="demand-tbody"></tbody>
+                <tfoot>
+                  <tr class="total-row" id="demand-total">
+                    <td colspan="2">TOTAL</td>
+                    <td id="dt-0">0</td>
+                    <td id="dt-1">0</td>
+                    <td id="dt-2">0</td>
+                    <td id="dt-3">0</td>
+                    <td id="dt-4">0</td>
+                    <td id="dt-5">0</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>

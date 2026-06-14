@@ -1,0 +1,102 @@
+<div id="view-front-matter" class="view">
+  <div class="header-row">
+    <div>
+      <div class="page-title">Front Matter</div>
+      <div class="page-sub">Cover page, preface, content page, certificate of compliance & acknowledgements</div>
+    </div><span class="section-status ss-active"></span>
+  </div>
+  <div class="g2">
+    <div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-hd">
+          <div class="card-title">Cover Page</div>
+          <div class="card-sub">Upload PDF or fill template</div>
+        </div>
+        <div class="card-bd">
+          <div class="upload-zone" style="margin-bottom:12px" onclick="trigUp('fm-cover-up')">
+            <input type="file" id="fm-cover-up" accept=".pdf" hidden onchange="handleFMUpload(event,'cover')">
+            <span class="upload-icon">📄</span>
+            <div class="upload-title">Upload Cover Page PDF</div>
+            <div class="upload-hint">PDF only · Replaces template in final report</div>
+          </div>
+          <div id="fm-cover-file"></div>
+          <div class="divider"></div>
+          <div class="field-group">
+            <div class="field"><label>Report Title</label><input id="fm-title"
+                value="District Survey Report for Sand Mining"></div>
+            <div class="field-row">
+              <div class="field"><label>District</label><input id="fm-district" value="Jalandhar"></div>
+              <div class="field"><label>State</label><input id="fm-state" value="Punjab"></div>
+            </div>
+            <div class="field-row">
+              <div class="field"><label>Year</label><input id="fm-year" value="2025-26"></div>
+              <div class="field"><label>Version</label><input id="fm-version" value="Final Draft"></div>
+            </div>
+            <div class="field"><label>Prepared By</label><input id="fm-prepared-by" value="Sub-Divisional Committee, Jalandhar District">
+            </div>
+            <div class="field"><label>Assisted By</label><input id="fm-assisted-by"
+                value="RSP Green Development and Laboratories Pvt. Ltd."></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hd">
+          <div class="card-title">Certificate of Compliance</div>
+        </div>
+        <div class="card-bd">
+          <div class="upload-zone" onclick="trigUp('fm-cert-up')">
+            <input type="file" id="fm-cert-up" accept=".pdf" hidden onchange="handleFMUpload(event,'cert')">
+            <span class="upload-icon">🏅</span>
+            <div class="upload-title">Upload Certificate PDF</div>
+            <div class="upload-hint">EMGSM 2020 compliance certificate</div>
+          </div>
+          <div id="fm-cert-file"></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-hd">
+          <div class="card-title">Content Page</div>
+          <div class="card-sub">Table of contents template</div>
+        </div>
+        <div class="card-bd">
+          <div class="upload-zone" style="margin-bottom:12px" onclick="trigUp('fm-toc-up')">
+            <input type="file" id="fm-toc-up" accept=".pdf" hidden onchange="handleFMUpload(event,'toc')">
+            <span class="upload-icon">📑</span>
+            <div class="upload-title">Upload Content Page PDF</div>
+            <div class="upload-hint">Or use auto-generated template</div>
+          </div>
+          <div id="fm-toc-file"></div>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-hd">
+          <div class="card-title">Preface</div>
+        </div>
+        <div class="card-bd">
+          <div class="upload-zone" style="margin-bottom:12px" onclick="trigUp('fm-pref-up')">
+            <input type="file" id="fm-pref-up" accept=".pdf" hidden onchange="handleFMUpload(event,'pref')">
+            <span class="upload-icon">📝</span>
+            <div class="upload-title">Upload Preface PDF</div>
+            <div class="upload-hint">Or fill template below</div>
+          </div>
+          <div id="fm-pref-file"></div>
+          <div class="field"><label>Preface Text</label><textarea id="fm-preface"
+              rows="5">This District Survey Report (DSR) for Jalandhar District has been prepared in compliance with the Enforcement and Monitoring Guidelines for Sand Mining (EMGSM) 2020. The report provides a comprehensive assessment of sand mining activities, river morphology, mineral deposits, replenishment studies, and transportation routes within the district.</textarea>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hd">
+          <div class="card-title">Acknowledgement</div>
+        </div>
+        <div class="card-bd">
+          <div class="field"><label>Acknowledgement Text</label><textarea id="fm-acknowledgement"
+              rows="4">The Sub-Divisional Committee of Jalandhar District acknowledges the support of the Punjab State Government, Department of Geology and Mining, and all field surveyors who contributed to this report.</textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

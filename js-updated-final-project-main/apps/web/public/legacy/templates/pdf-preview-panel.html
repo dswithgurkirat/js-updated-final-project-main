@@ -1,0 +1,73 @@
+<aside id="pdf-preview-panel" class="pdf-preview-panel" aria-label="PDF Preview" hidden>
+  <div class="pdf-preview-card">
+    <div class="pdf-preview-actions">
+      <div class="pdf-preview-actions-left">
+        <button type="button" id="pdf-preview-zoom-out" class="pdf-preview-action-btn" title="Zoom Out" aria-label="Zoom Out">
+          <span class="pdf-preview-action-icon"><i data-lucide="minus"></i></span>
+          <span class="pdf-preview-action-label">Zoom Out</span>
+        </button>
+        <button type="button" id="pdf-preview-zoom-in" class="pdf-preview-action-btn" title="Zoom In" aria-label="Zoom In">
+          <span class="pdf-preview-action-icon"><i data-lucide="plus"></i></span>
+          <span class="pdf-preview-action-label">Zoom In</span>
+        </button>
+        <button type="button" id="pdf-preview-refresh" class="pdf-preview-action-btn" title="Refresh" aria-label="Refresh">
+          <span class="pdf-preview-action-icon"><i data-lucide="refresh-cw"></i></span>
+          <span class="pdf-preview-action-label">Refresh</span>
+        </button>
+        <button type="button" id="pdf-preview-fullscreen" class="pdf-preview-action-btn" title="Fullscreen" aria-label="Fullscreen">
+          <span class="pdf-preview-action-icon"><i data-lucide="maximize"></i></span>
+          <span class="pdf-preview-action-label">Fullscreen</span>
+        </button>
+      </div>
+      <div class="pdf-preview-actions-center">
+        <h2 id="pdf-preview-title" class="pdf-preview-header-title">PDF Preview</h2>
+        <span class="pdf-preview-live-badge">Live Preview</span>
+      </div>
+      <button type="button" id="pdf-preview-download" class="pdf-preview-action-btn pdf-preview-action-btn-dl" title="Download Merged PDF" aria-label="Download Merged PDF">
+        <span class="pdf-preview-action-icon pdf-preview-action-icon-dl"><i data-lucide="download"></i></span>
+        <span class="pdf-preview-action-label pdf-preview-action-label-dl">Download</span>
+      </button>
+    </div>
+    <div id="pdf-preview-viewer" class="pdf-preview-viewer">
+      <div class="pdf-preview-inner-bar">
+        <div class="pdf-preview-inner-left">
+          <button type="button" class="pdf-preview-inner-btn" id="pdf-preview-menu-btn" title="Pages" aria-label="Pages menu" disabled>
+            <i data-lucide="menu"></i>
+          </button>
+          <span id="pdf-preview-page-indicator" class="pdf-preview-page-indicator">0 / 0</span>
+        </div>
+        <div class="pdf-preview-inner-center">
+          <button type="button" id="pdf-preview-inner-zoom-out" class="pdf-preview-inner-btn" title="Zoom Out" aria-label="Zoom Out">
+            <i data-lucide="minus"></i>
+          </button>
+          <span id="pdf-preview-zoom-lbl" class="pdf-preview-inner-zoom">100%</span>
+          <button type="button" id="pdf-preview-inner-zoom-in" class="pdf-preview-inner-btn" title="Zoom In" aria-label="Zoom In">
+            <i data-lucide="plus"></i>
+          </button>
+          <span class="pdf-preview-inner-divider" aria-hidden="true"></span>
+          <button type="button" id="pdf-preview-inner-fullscreen" class="pdf-preview-inner-btn" title="Fullscreen" aria-label="Fullscreen">
+            <i data-lucide="maximize"></i>
+          </button>
+        </div>
+        <div class="pdf-preview-inner-right">
+          <button type="button" class="pdf-preview-inner-btn" title="More" aria-label="More options" disabled>
+            <i data-lucide="more-vertical"></i>
+          </button>
+        </div>
+      </div>
+      <div id="pdf-preview-scroll" class="pdf-preview-scroll pdf-preview-body">
+      </div>
+      <iframe src="about:blank" id="pdf-preview-iframe" style="display: none; border: none; width: 100%; height: 100%; flex: 1; background: #fff;"></iframe>
+      <div class="pdf-preview-float-zoom" aria-label="Zoom controls">
+        <button type="button" id="pdf-preview-float-zoom-in" class="pdf-preview-float-btn" title="Zoom In" aria-label="Zoom In">
+          <i data-lucide="plus"></i>
+        </button>
+        <span id="pdf-preview-float-zoom-lbl" class="pdf-preview-float-zoom-lbl">100%</span>
+        <button type="button" id="pdf-preview-float-zoom-out" class="pdf-preview-float-btn" title="Zoom Out" aria-label="Zoom Out">
+          <i data-lucide="minus"></i>
+        </button>
+      </div>
+      <div id="pdf-preview-float-page" class="pdf-preview-float-page" aria-live="polite">Page 0 of 0</div>
+    </div>
+  </div>
+</aside>

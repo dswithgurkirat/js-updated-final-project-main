@@ -1,0 +1,136 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  STATE_ADMIN
+  DISTRICT_OWNER
+  OFFICER
+  REVIEWER
+  IIT_ROPAR
+  SDLC
+  SDO
+  JE
+  AXEN
+  GIS
+  REVIEWER_1
+  REVIEWER_2
+}
+
+enum ProjectStatus {
+  ACTIVE
+  IN_PROGRESS
+  COMPLETED
+  ARCHIVED
+}
+
+enum ReportStatus {
+  DRAFT
+  SUBMITTED
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id          BigInt   @id @default(autoincrement())
+  fullName    String
+  username    String   @unique
+  email       String   @unique
+  password    String
+  role        Role
+  district    String?
+  blockName   String?
+  sectionName String?
+  accessScope String?
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Project {
+  id                BigInt        @id @default(autoincrement())
+  projectCode       String?       @unique
+  projectName       String
+  title             String?
+  district          String?
+  year              String?
+  mineral           String?
+  rivers            String?
+  description       String?
+  progress          Int           @default(0)
+  status            ProjectStatus @default(IN_PROGRESS)
+  signatures        Int           @default(0)
+  phaseNo           Int           @default(1)
+  parentPhaseId     BigInt?
+  phaseLocked       Boolean       @default(false)
+  phaseOrigin       String?       @db.Text
+  createdBy         BigInt?
+  projectState      String?       @db.Text
+  lastReviewedState String?       @db.Text
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  files             DsrFile[]
+  parentPhase       Project?      @relation("ProjectPhaseChain", fields: [parentPhaseId], references: [id])
+  childPhases       Project[]     @relation("ProjectPhaseChain")
+
+  @@index([parentPhaseId])
+  @@index([district, phaseNo])
+}
+
+model Report {
+  id           BigInt       @id @default(autoincrement())
+  reportNumber String?      @unique
+  projectId    BigInt?
+  title        String
+  description  String?
+  reportType   String?
+  status       ReportStatus @default(DRAFT)
+  submittedBy  BigInt?
+  reviewedBy   BigInt?
+  approvedBy   BigInt?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
+model WorkflowHistory {
+  id          BigInt   @id @default(autoincrement())
+  reportId    BigInt
+  action      String
+  remarks     String?
+  performedBy BigInt?
+  performedAt DateTime @default(now())
+}
+
+model AuditLog {
+  id        BigInt   @id @default(autoincrement())
+  userId    BigInt?
+  action    String
+  method    String
+  path      String
+  ip        String?
+  userAgent String?
+  status    Int?
+  metadata  Json?
+  createdAt DateTime @default(now())
+}
+
+model DsrFile {
+  id          BigInt   @id @default(autoincrement())
+  projectId   BigInt
+  annexureId  String
+  fileName    String
+  objectKey   String
+  contentType String   @default("application/pdf")
+  sizeBytes   Int
+  createdAt   DateTime @default(now())
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, annexureId])
+}

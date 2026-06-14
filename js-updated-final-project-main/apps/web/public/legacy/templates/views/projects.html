@@ -1,0 +1,312 @@
+        <div id="view-projects" class="view">
+          <style>
+            #view-projects {
+              min-height: 100vh;
+              padding: 0 !important;
+              margin: 0 !important;
+              background: var(--dash-page-bg, #ffffff);
+            }
+            #view-projects .projects-content-shell {
+              padding: 20px 24px 36px;
+            }
+            #view-projects .header-row {
+              margin-bottom: 24px;
+              align-items: center;
+              gap: 18px;
+              padding: 18px 22px;
+              border: 1px solid #E2E8F0;
+              border-left: 4px solid #C49A58;
+              border-radius: 8px;
+              background: #ffffff;
+              box-shadow: 0 8px 24px rgba(23, 50, 77, 0.07);
+            }
+            #view-projects .page-title {
+              color: #17324D !important;
+              font-size: 26px !important;
+              line-height: 1.15;
+            }
+            #view-projects .page-sub {
+              color: #64748B;
+              font-weight: 700;
+            }
+            .projects-header-actions {
+              display: flex;
+              align-items: center;
+              justify-content: flex-end;
+              gap: 10px;
+              flex-wrap: wrap;
+            }
+            .projects-dash-btn {
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              gap: 8px;
+              min-height: 36px;
+              padding: 0 14px;
+              border-radius: 6px;
+              border: 1px solid #E2E8F0;
+              background: #ffffff;
+              color: #17324D;
+              font-size: 12.5px;
+              font-weight: 800;
+              cursor: pointer;
+              transition: all 0.2s ease;
+              text-decoration: none;
+            }
+            .projects-dash-btn:hover {
+              border-color: #17324D;
+              box-shadow: 0 6px 16px rgba(23, 50, 77, 0.08);
+              transform: translateY(-1px);
+            }
+            .projects-dash-btn.primary {
+              background: #C49A58;
+              color: #17324D;
+              border-color: #C49A58;
+            }
+            #view-projects .proj-card {
+              border-radius: 8px;
+              border: 1px solid #E2E8F0;
+              box-shadow: 0 8px 24px rgba(23, 50, 77, 0.06);
+            }
+            #view-projects .proj-card-actions .btn {
+              border-radius: 6px !important;
+              min-height: 34px;
+              font-size: 12.5px;
+              font-weight: 800;
+            }
+            #view-projects .proj-card-actions .btn-outline {
+              background: #ffffff !important;
+              color: #17324D !important;
+              border-color: #E2E8F0 !important;
+            }
+            #view-projects .proj-card-actions .btn-outline:hover {
+              border-color: #17324D !important;
+              box-shadow: 0 6px 16px rgba(23, 50, 77, 0.08);
+            }
+            .projects-layout {
+              display: grid;
+              grid-template-columns: minmax(0, 1fr);
+              gap: 24px;
+              align-items: start;
+            }
+            #projects-grid { min-width: 0; align-content: start; }
+            #projects-grid.g2 { grid-template-columns: repeat(2, minmax(260px, 1fr)); }
+            .projects-empty-state {
+              grid-column: 1 / -1;
+              display: grid;
+              place-items: center;
+              min-height: 320px;
+              padding: 48px 28px;
+              text-align: center;
+              border: 1.5px dashed rgba(23, 50, 77, 0.24);
+              border-radius: 10px;
+              background: rgba(255, 255, 255, 0.76);
+              box-shadow: 0 10px 30px rgba(23, 50, 77, 0.06);
+            }
+            .projects-empty-state__inner { max-width: 460px; }
+            .projects-empty-state__icon {
+              width: 52px;
+              height: 52px;
+              border-radius: 8px;
+              margin: 0 auto 18px;
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              background: #17324D;
+              color: #C49A58;
+            }
+            .projects-empty-state h3 {
+              margin: 0 0 8px;
+              color: #17324D;
+              font-size: 18px;
+              font-weight: 800;
+            }
+            .projects-empty-state p {
+              margin: 0 0 18px;
+              color: var(--text-soft);
+              font-size: 13.5px;
+              line-height: 1.55;
+            }
+            #view-projects .dash-menu-link-item.active button {
+              background: rgba(196, 154, 88, 0.18);
+              color: #C49A58;
+            }
+            html.dark #view-projects,
+            html.dark #view-projects .dash-portal-wrapper {
+              background: #07111f;
+              color: #e5edf6;
+            }
+            html.dark #view-projects .dash-switcher-bar,
+            html.dark #view-projects .dash-gov-utility-strip {
+              background: #020817;
+            }
+            html.dark #view-projects .dash-gov-brand-row,
+            html.dark #view-projects .dash-gov-notice-ticker {
+              background: #0d1a2b;
+              border-color: rgba(148, 163, 184, 0.16);
+            }
+            html.dark #view-projects .dash-brand-bilingual,
+            html.dark #view-projects .dash-brand-subtitle {
+              color: #a9b8ca;
+            }
+            html.dark #view-projects .dash-brand-title {
+              color: #f8fafc;
+            }
+            html.dark #view-projects .header-row,
+            html.dark #view-projects .proj-card,
+            html.dark #view-projects .projects-empty-state {
+              background: rgba(13, 26, 43, 0.92) !important;
+              border-color: rgba(148, 163, 184, 0.22) !important;
+              color: #f8fafc !important;
+            }
+            html.dark #view-projects .page-title,
+            html.dark #view-projects .projects-empty-state h3 {
+              color: #f8fafc !important;
+            }
+            @media (max-width: 1150px) {
+              .projects-layout { grid-template-columns: 1fr; }
+            }
+            @media (max-width: 720px) {
+              #view-projects .header-row { flex-direction: column; }
+              .projects-header-actions,
+              .projects-dash-btn { width: 100%; }
+              #projects-grid.g2 { grid-template-columns: 1fr; }
+              .projects-empty-state { min-height: 260px; padding: 34px 18px; }
+            }
+          </style>
+          <div class="dash-portal-wrapper">
+            <div class="dash-switcher-bar">
+              <div class="dash-switcher-tabs">
+                <a href="home.html" class="dash-switcher-tab inactive">
+                  <i data-lucide="home" style="width: 12px; height: 12px; stroke-width: 2.5;"></i> Home Page
+                </a>
+                <a href="#" class="dash-switcher-tab active" onclick="return false;">
+                  <i data-lucide="lock" style="width: 12px; height: 12px; stroke-width: 2.5;"></i> Login Page
+                </a>
+              </div>
+              <div class="dash-switcher-info">
+                <i data-lucide="info" style="width: 12px; height: 12px;"></i> Click tabs to switch...
+              </div>
+            </div>
+            <div class="dash-gov-utility-strip">
+              <div class="dash-gov-left">
+                <span class="dash-badge-in">IN</span>
+                <span style="font-weight: 700; color: #E2E8F0;">Government of Punjab | DSR Portal</span>
+              </div>
+              <div class="dash-gov-right">
+                <button class="dash-lang-btn" data-lang="en" onclick="applyPortalLanguage('en')">English</button>
+                <span style="color: rgba(255,255,255,0.2);">|</span>
+                <button class="dash-lang-btn" data-lang="hi" onclick="applyPortalLanguage('hi')">Hindi</button>
+                <span style="color: rgba(255,255,255,0.2);">|</span>
+                <button class="dash-lang-btn" data-lang="pa" onclick="applyPortalLanguage('pa')">Punjabi</button>
+                <span style="color: rgba(255,255,255,0.2);">|</span>
+                <button onclick="dashPortalToast('Screen reader mode is ready. Use browser accessibility tools to continue.')" style="display: inline-flex; align-items: center; gap: 4px;"><i data-lucide="eye" style="width:13px; height:13px;"></i> <span data-i18n="screenReader">Screen Reader</span></button>
+                <span style="color: rgba(255,255,255,0.2);">|</span>
+                <div class="dash-font-btns">
+                  <button class="dash-font-btn" onclick="changeFontSize(-1)">A-</button>
+                  <button class="dash-font-btn" onclick="changeFontSize(0)">A</button>
+                  <button class="dash-font-btn" onclick="changeFontSize(1)">A+</button>
+                </div>
+                <span style="color: rgba(255,255,255,0.2);">|</span>
+                <button onclick="document.getElementById('projects-grid')?.scrollIntoView({behavior:'smooth', block:'start'})" data-i18n="skipContent">Skip to Content</button>
+              </div>
+            </div>
+            <div class="dash-gov-brand-row">
+              <div class="dash-brand-left">
+                <svg viewBox="0 0 100 100" width="54" height="54" style="flex-shrink:0;">
+                  <circle cx="50" cy="50" r="46" fill="#17324D" stroke="#C49A58" stroke-width="3"/>
+                  <path d="M50 20 L25 40 L75 40 Z" fill="#ffffff"/>
+                  <rect x="30" y="40" width="40" height="35" fill="#ffffff"/>
+                  <rect x="44" y="52" width="12" height="23" fill="#17324D"/>
+                  <line x1="35" y1="45" x2="65" y2="45" stroke="#17324D" stroke-width="2"/>
+                  <line x1="35" y1="50" x2="65" y2="50" stroke="#17324D" stroke-width="2"/>
+                </svg>
+                <div class="dash-brand-texts">
+                  <span class="dash-brand-bilingual" data-i18n="brandBilingual">Government of Punjab - IIT Ropar Research Cell - EMGSM 2020</span>
+                  <h1 class="dash-brand-title" data-i18n="brandTitle">District Survey Report Automation Portal</h1>
+                  <span class="dash-brand-subtitle" data-i18n="brandSubtitle">DSR Automation for Sand Mining</span>
+                </div>
+              </div>
+              <div class="dash-brand-right">
+                <button class="dash-gov-badge dash-badge-emgsm" onclick="showView('workflow', null)">
+                  <i data-lucide="leaf" style="width:13px; height:13px;"></i> EMGSM 2020
+                </button>
+                <button class="dash-action-icon-btn" onclick="dashFocusSearch()" title="Search portal"><i data-lucide="search" style="width:16px; height:16px;"></i></button>
+                <button class="dash-action-icon-btn" onclick="showView('sdlc-portal', null)"><i data-lucide="help-circle" style="width:16px; height:16px;"></i></button>
+                <button class="dash-action-icon-btn" onclick="dashSharePortal()" title="Copy portal link"><i data-lucide="share-2" style="width:16px; height:16px;"></i></button>
+                <button class="dash-action-icon-btn dash-theme-toggle" onclick="toggleDarkMode()" title="Toggle dark mode" aria-label="Toggle dark mode" data-theme-toggle><i data-lucide="moon" style="width:16px; height:16px;"></i></button>
+                <button onclick="doLogout()" class="dash-btn-logout">
+                  <i data-lucide="log-out" style="width:15px; height:15px; stroke-width: 2.5;"></i> Logout
+                </button>
+              </div>
+            </div>
+            <div class="dash-gov-menu-bar">
+              <ul class="dash-menu-links">
+                <li class="dash-menu-link-item">
+                  <button onclick="clearActiveProject(); showView('dashboard', null)"><i data-lucide="home" style="width:15px; height:15px; opacity:0.8;"></i> <span data-i18n="navHome">Home</span></button>
+                </li>
+                <li class="dash-menu-link-item">
+                  <button onclick="clearActiveProject(); showView('dashboard', null)"><i data-lucide="info" style="width:15px; height:15px; opacity:0.8;"></i> <span data-i18n="navAbout">About DSR</span></button>
+                </li>
+                <li class="dash-menu-link-item active">
+                  <button onclick="showView('projects', null)"><i data-lucide="folder" style="width:15px; height:15px; color: #C49A58;"></i> <span data-i18n="navProjects">Projects</span></button>
+                </li>
+                <li class="dash-menu-link-item">
+                  <button onclick="newProjectModal()"><i data-lucide="plus-circle" style="width:15px; height:15px; opacity:0.8;"></i> <span data-i18n="navNewProject">+ New Project</span></button>
+                </li>
+                <li class="dash-menu-link-item">
+                  <button onclick="showView('workflow', null)"><i data-lucide="activity" style="width:15px; height:15px; opacity:0.8;"></i> <span data-i18n="navWorkflow">Workflow</span></button>
+                </li>
+                <li class="dash-menu-link-item" id="projects-menu-audit-logs">
+                  <button onclick="showView('audit-logs', null)"><i data-lucide="clipboard-list" style="width:15px; height:15px; opacity:0.8;"></i> <span data-i18n="navAudit">Audit Logs</span></button>
+                </li>
+                <li class="dash-menu-link-item" id="projects-menu-users" style="display: none;">
+                  <button onclick="showView('users', null)"><i data-lucide="users" style="width:15px; height:15px; opacity:0.8;"></i> <span>User Management</span></button>
+                </li>
+                <li class="dash-menu-link-item">
+                  <button onclick="openDistrictMap(null)"><i data-lucide="map-pin" style="width:15px; height:15px; opacity:0.8;"></i> <span data-i18n="navDistricts">Districts</span></button>
+                </li>
+                <li class="dash-menu-link-item">
+                  <button onclick="clearActiveProject(); showView('dashboard', null); setTimeout(()=>document.getElementById('dash-contact-section')?.scrollIntoView({behavior:'smooth', block:'start'}), 80);"><i data-lucide="phone" style="width:15px; height:15px; opacity:0.8;"></i> <span data-i18n="navContact">Contact</span></button>
+                </li>
+              </ul>
+              <div class="dash-menu-search">
+                <i data-lucide="search" style="width: 14px; height: 14px;"></i>
+                <input id="projects-portal-search" type="text" placeholder="Search portal..." data-i18n-placeholder="searchPlaceholder" onkeydown="dashRunSearch(event)" aria-label="Search portal">
+              </div>
+            </div>
+            <div class="dash-gov-notice-ticker">
+              <div class="dash-notice-label">
+                <i data-lucide="megaphone" style="width:12px; height:12px; stroke-width: 2.5;"></i> <span data-i18n="noticeLabel">Notice</span>
+              </div>
+              <div class="dash-notice-marquee-container">
+                <div class="dash-notice-marquee-text">
+                  <span data-i18n="noticeText">DSR submissions for Punjab districts 2025-26 are now open - Deadline: 30 September 2026 - New: Digital E-Sign integration live for all districts - EMGSM 2020 compliance mandatory</span>
+                </div>
+              </div>
+            </div>
+            <div class="projects-content-shell">
+              <div class="header-row">
+                <div>
+                  <div class="page-title">My DSR Projects</div>
+                  <div class="page-sub">All district survey reports across Punjab</div>
+                  <div id="projects-load-status" style="margin-top:6px;font-size:12px;font-weight:800;color:var(--text-soft);"></div>
+                </div>
+                <div class="projects-header-actions">
+                  <button type="button" class="projects-dash-btn" onclick="clearActiveProject(); showView('dashboard', null)">
+                    <i data-lucide="layout-dashboard" style="width:14px; height:14px;"></i>Dashboard
+                  </button>
+                  <button type="button" class="projects-dash-btn" onclick="showView('workflow', null)">
+                    <i data-lucide="activity" style="width:14px; height:14px;"></i>Workflow
+                  </button>
+                  <button id="view-btn-new-project" type="button" class="projects-dash-btn primary" onclick="newProjectModal()">
+                    <i data-lucide="plus-circle" style="width:14px; height:14px;"></i>New Project
+                  </button>
+                </div>
+              </div>
+              <div class="projects-layout">
+                <div id="projects-grid" class="g2"></div>
+              </div>
+            </div>
+          </div>
+        </div>

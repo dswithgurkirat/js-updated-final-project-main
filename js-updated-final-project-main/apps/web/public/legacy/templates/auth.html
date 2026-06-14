@@ -1,0 +1,245 @@
+<body class="sidebar-hidden premium-body">
+
+  <!-- Interactive Live Grid Background -->
+  <div class="interactive-grid-bg"></div>
+
+  <!-- Ambient Gradient Glow Orbs -->
+  <div class="ambient-glow">
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+    <div class="glow-orb glow-orb-3"></div>
+  </div>
+
+  <!-- UNIVERSAL TRANSLUCENT BACKGROUND WATERMARK -->
+  <img class="global-watermark" src="logo/CoE-SEnSRS.jpeg" alt="Watermark" loading="lazy" decoding="async">
+
+  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     SCREEN 1 â€” AUTH
+ â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+
+  <div id="screen-auth" class="screen active" style="position:relative;">
+
+    <!-- Fixed Top Switcher Bar -->
+    <div class="top-switcher-bar" style="display: flex; justify-content: space-between; align-items: center; background: #0F1C2A; padding: 6px 24px; height: 38px; font-size: 12px; z-index: 10000; position: fixed; top: 0; left: 0; width: 100%; border-bottom: 1px solid #1a2a3a; color: #ffffff; font-family: 'Plus Jakarta Sans', sans-serif; box-sizing: border-box;">
+      <div class="switcher-tabs" style="display: flex; gap: 8px;">
+        <a href="home.html" class="switcher-tab inactive" style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 14px; border-radius: 4px; text-decoration: none; font-weight: 700; font-size: 11px; transition: all 0.2s; background: #233549; color: #ffffff;">
+          <i data-lucide="home" style="width: 12px; height: 12px; stroke-width: 2.5;"></i> Home Page
+        </a>
+        <a href="login.html" class="switcher-tab active" style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 14px; border-radius: 4px; text-decoration: none; font-weight: 700; font-size: 11px; transition: all 0.2s; background: #F2A123; color: #17324D;">
+          <i data-lucide="lock" style="width: 12px; height: 12px; stroke-width: 2.5;"></i> Login Page
+        </a>
+      </div>
+      <div class="switcher-info" style="color: #a0aec0; font-size: 11px; display: flex; align-items: center; gap: 4px;">
+        <i data-lucide="info" style="width: 12px; height: 12px;"></i> Click tabs to switch...
+      </div>
+    </div>
+
+    <!-- Theme Toggle Switch (Moved inside header nav) -->
+
+    <!-- Top Branding -->
+    <header
+      style="display:flex; justify-content:space-between; align-items:center; padding:25px 60px; background:var(--card); position:absolute; top:38px; left:0; width:100%; z-index:100; border-bottom:1px solid var(--border); box-shadow:0 4px 12px rgba(0,0,0,0.05); box-sizing:border-box;">
+      <div class="logo"
+        style="display:flex; align-items:center; gap:15px; font-size:52px; font-weight:800; color:var(--text);">
+        <img src="logo/CoE-SEnSRS.jpeg" alt="DSR Logo" decoding="async" fetchpriority="high"
+          style="width:70px; height:70px; object-fit:contain; border-radius:12px;">
+        <span>DSR REPORT</span>
+      </div>
+      <nav style="display:flex; align-items:center; gap:12px;">
+        <a href="home.html"
+          style="text-decoration:none; color:var(--text); padding:10px 18px; border:1px solid var(--border); border-radius:10px; background:var(--card); font-size:16px; font-weight:500; transition:all 0.2s;"
+          onmouseover="this.style.background='var(--off)'" onmouseout="this.style.background='var(--card)'">Home</a>
+        <a href="#"
+          style="text-decoration:none; color:var(--text); padding:10px 18px; border:1px solid var(--border); border-radius:10px; background:var(--card); font-size:16px; font-weight:500; transition:all 0.2s;"
+          onmouseover="this.style.background='var(--off)'" onmouseout="this.style.background='var(--card)'">Contact</a>
+        <button class="btn-premium-toggle" type="button" onclick="toggleDarkMode()" aria-label="Toggle theme" data-theme-toggle>
+          <i data-lucide="moon"></i>
+        </button>
+      </nav>
+    </header>
+
+    <!-- Background (Moved to body level) -->
+
+    <!-- Main Container -->
+    <div class="auth-wrap"
+      style="position:relative; z-index:10; justify-content: center; align-items: center; background: transparent; box-shadow: none; padding-top: 170px !important;">
+
+      <!-- CENTERED LOGIN CARD -->
+      <div class="auth-right"
+        style="width: 100%; max-width: 440px; margin: 0 auto; animation: fadeInUp 0.6s ease-out forwards; opacity: 0;">
+
+        <div class="auth-tabs">
+          <div id="tab-btn-faculty" class="auth-tab active" onclick="switchAuthMode('faculty')">
+            Faculty / Staff
+          </div>
+          <div id="tab-btn-authority" class="auth-tab" onclick="switchAuthMode('authority')">
+            Govt. Authority
+          </div>
+          <div id="tab-btn-sdlc" class="auth-tab" onclick="switchAuthMode('sdlc')">
+            SDLC Portal
+          </div>
+        </div>
+
+        <!-- Staff Login -->
+        <div id="auth-form-faculty" class="auth-form active">
+
+          <div class="auth-form-title">
+            Staff Portal
+          </div>
+
+          <div class="auth-form-sub">
+            Sign in to your DSR Coordinator / Reviewer account
+          </div>
+
+          <div class="f-field">
+            <label>Email Address</label>
+            <div class="input-wrap">
+              <input type="email" id="login-email" value="iit@demo.com">
+            </div>
+          </div>
+
+          <div class="f-field">
+            <label style="display:flex; justify-content:space-between; width:100%;">
+              <span>Password</span>
+              <a href="#" onclick="alert('Password reset link sent to your email.'); return false;"
+                style="font-size: 12px; color: #2563eb; text-decoration: none; font-weight: 600;">Forgot?</a>
+            </label>
+            <div class="input-wrap">
+              <input type="password" id="login-pass" value="password123">
+            </div>
+          </div>
+
+          <div class="f-field">
+            <label>Demo Account</label>
+
+            <select id="login-role" onchange="fillDemoLogin(this.value)">
+              <option value="iit@demo.com">IIT Ropar - Front Matter + Chapter 1-4 + Review</option>
+              <option value="sdo@demo.com">SDO - Chapter 5-10</option>
+              <option value="gis@demo.com">GIS - Plates + Graphs + Annexures + Review</option>
+              <option value="sdlc@demo.com">SDLC - District-level Data</option>
+              <option value="je@demo.com">JE - Field Data</option>
+              <option value="axen@demo.com">AXEN - Assigned Section</option>
+              <option value="reviewer1@gov.in">Reviewer 1 - Govt Review</option>
+              <option value="reviewer2@gov.in">Reviewer 2 - Govt Review</option>
+              <option value="admin@demo.com">Admin - Full Access</option>
+            </select>
+          </div>
+          <div class="form-err" id="login-error" style="display:none; color:red; font-size:12px; margin-bottom:10px;">
+          </div>
+
+          <button class="btn-primary" onclick="doLogin()">
+            Login to Portal â†’
+          </button>
+
+          <div style="text-align:center; margin-top: 24px; font-size: 14px; color: var(--text-soft);">
+            Don't have an account? <a href="#" onclick="toggleSignUp(true); return false;"
+              style="color: #2563eb; font-weight: 700; text-decoration: none;">Sign Up</a>
+          </div>
+        </div>
+
+        <!-- Authority Login -->
+        <div id="auth-form-authority" class="auth-form">
+          <div class="auth-form-title">Govt. Portal</div>
+          <div class="auth-form-sub">Sign in with your NIC credentials</div>
+
+          <div class="f-field">
+            <label>NIC ID</label>
+            <div class="input-wrap">
+              <input type="text" id="auth-nic-id" value="NIC-8821">
+            </div>
+          </div>
+
+          <div class="f-field">
+            <label style="display:flex; justify-content:space-between; width:100%;">
+              <span>Security PIN</span>
+              <a href="#" onclick="alert('Please contact NIC Admin for PIN reset.'); return false;"
+                style="font-size: 12px; color: #2563eb; text-decoration: none; font-weight: 600;">Forgot PIN?</a>
+            </label>
+            <div class="input-wrap">
+              <input type="password" id="auth-security-pin" value="123456">
+              <button type="button" class="btn-reveal" onclick="togglePinReveal()"
+                style="position:absolute; right:16px; top:12px; background:none; border:none; color:var(--text-soft); cursor:pointer;">
+                <i data-lucide="eye" style="width:18px;height:18px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-err" id="auth-error" style="display:none;"></div>
+
+          <button class="btn-primary" onclick="doAuthorityVerify()" style="margin-top: 10px;">
+            Verify & Login â†’
+          </button>
+        </div>
+
+        <!-- SDLC Login -->
+        <div id="auth-form-sdlc" class="auth-form">
+          <div class="auth-form-title">SDLC Portal</div>
+          <div class="auth-form-sub">Sign in to Sub-Divisional Committee account</div>
+
+          <div class="f-field">
+            <label>SDLC ID / Email</label>
+            <div class="input-wrap">
+              <input type="text" id="sdlc-email" value="sdlc@demo.com">
+            </div>
+          </div>
+
+          <div class="f-field">
+            <label>Password</label>
+            <div class="input-wrap">
+              <input type="password" id="sdlc-pass" value="password123">
+            </div>
+          </div>
+
+          <div class="form-err" id="sdlc-error" style="display:none; color:red; font-size:12px; margin-bottom:10px;"></div>
+
+          <button class="btn-primary" onclick="doSdlcLogin()">
+            Verify & Access Portal â†’
+          </button>
+        </div>
+
+        <!-- Sign Up Form -->
+        <div id="auth-form-signup" class="auth-form" style="display:none;">
+          <div class="auth-form-title">Create Account</div>
+          <div class="auth-form-sub">Register as a new Coordinator / Staff</div>
+
+          <div class="f-field">
+            <label>Full Name</label>
+            <div class="input-wrap">
+              <input type="text" id="signup-name" placeholder="Enter your full name">
+            </div>
+          </div>
+
+          <div class="f-field">
+            <label>Email Address</label>
+            <div class="input-wrap">
+              <input type="email" id="signup-email" placeholder="name@domain.gov.in">
+            </div>
+          </div>
+
+          <div class="f-field">
+            <label>Create Password</label>
+            <div class="input-wrap">
+              <input type="password" id="signup-pass" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢">
+            </div>
+          </div>
+
+          <div class="form-err" id="signup-error" style="display:none; color:red; font-size:12px; margin-bottom:10px;"></div>
+          <div class="form-err" id="signup-success" style="display:none; color:green; font-size:12px; margin-bottom:10px;"></div>
+
+          <button class="btn-primary"
+            onclick="doSignup()"
+            style="margin-top: 10px;">
+            Register â†’
+          </button>
+
+          <div style="text-align:center; margin-top: 24px; font-size: 14px; color: var(--text-soft);">
+            Already have an account? <a href="#" onclick="toggleSignUp(false); return false;"
+              style="color: #2563eb; font-weight: 700; text-decoration: none;">Login</a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
